@@ -24,8 +24,10 @@
              actionListener="#{consultarProdutoController.novo}"/>        
 		
 		</p:fieldset>
-			
-		<p:dataTable var="prod" value="#{consultarProdutoController.proutos}">  
+		
+		 <p:separator />  
+					
+		<p:dataTable var="prod" value="#{consultarProdutoController.produtos}">  
 		
 	        <p:column headerText="Produto">  
 	            <h:outputText value="#{prod.descricao}" />  

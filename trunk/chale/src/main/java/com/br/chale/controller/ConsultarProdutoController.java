@@ -4,10 +4,14 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 
 import com.br.chale.dao.Produto;
+import com.br.chale.facade.Facade;
+import com.br.chale.ifacade.IFacade;
 
 @ManagedBean
 @ViewScoped
@@ -15,19 +19,27 @@ public class ConsultarProdutoController implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	private String nome;
-	private String codigo;
-	private List<Produto> proutos;
+	//TODO passar a inicialização dos objetos para o metodo initialize
+	private String nome = "";
+	private Integer codigo= 0;
+	private List<Produto> produtos = new  ArrayList<Produto>();
 	
+	//TODO verificar o problema do facade
+	//IFacade facade = Facade.getInstance();
+	
+	//TODO verificar como inicializar os objetos
 	public void initialize(){
 		nome = "";
-		codigo = "";
-		proutos = new ArrayList<Produto>();
+		codigo = new Integer(0);
+		produtos = new ArrayList<Produto>();
 		
 	}
 	
 	public void pesquisar(){
 		initialize();
+		
+		//TODO descomentar caso tiver 
+		//produtos = facade.pesquisar(nome, codigo);
 		
 		for(int i= 0; i< 3; i++){
 			Produto p = new Produto();
@@ -38,13 +50,17 @@ public class ConsultarProdutoController implements Serializable{
 			p.setQtdMinEstoque(i);
 			p.setTipoServico(true);
 			
-			proutos.add(p);
+			produtos.add(p);
 		}
-		proutos.size();
+		
+		 
+		produtos.size();
 	}
 	
 	public void novo(){
-	//TODO verificar como alternar entre telas	
+	//TODO verificar como alternar entre telas	no faces config navagiton rule
+		FacesMessage msg = new FacesMessage("novo");  
+	    FacesContext.getCurrentInstance().addMessage(null, msg);  
 	}
 
 	public String getNome() {
@@ -55,20 +71,21 @@ public class ConsultarProdutoController implements Serializable{
 		this.nome = nome;
 	}
 
-	public String getCodigo() {
+
+	public Integer getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(String codigo) {
+	public void setCodigo(Integer codigo) {
 		this.codigo = codigo;
 	}
 
-	public List<Produto> getProutos() {
-		return proutos;
+	public List<Produto> getProdutos() {
+		return produtos;
 	}
 
-	public void setProutos(List<Produto> proutos) {
-		this.proutos = proutos;
+	public void setProdutos(List<Produto> produtos) {
+		this.produtos = produtos;
 	}
-	
+
 }
