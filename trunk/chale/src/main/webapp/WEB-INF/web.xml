@@ -24,6 +24,7 @@
 	
 	<welcome-file-list>
 		<welcome-file>index.jsf</welcome-file>
+		<welcome-file>consultarProdutos.jsf</welcome-file>
 	</welcome-file-list>
 
 	<servlet>

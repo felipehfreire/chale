@@ -8,6 +8,7 @@
 	xmlns:c="http://java.sun.com/jsp/jstl/core"
 	template="template/ui.xhtml">
 	<ui:define name="body">
+	<p:fieldset legend="Simple FieldSet">  
 		<h3>Welcome to JSF Lab</h3>
 		<h4>Pure JSF</h4>
 		<h:form id="jsfForm">
@@ -32,5 +33,7 @@
 					rendered="#{not empty mainController.primeName}" />
 			</h:panelGroup>
 		</h:form>
+		</p:fieldset>  	
 	</ui:define>
+
 </ui:composition>
