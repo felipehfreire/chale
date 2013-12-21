@@ -39,8 +39,5 @@
 			<attribute name="owner.project.facets" value="jst.jsf"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="C:/project_java_EE/hibernate/hibernate3.jar"/>
-	<classpathentry kind="lib" path="C:/project_java_EE/hibernate/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
-	<classpathentry kind="lib" path="C:/project_java_EE/hibernate/hibernate-testing.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>
