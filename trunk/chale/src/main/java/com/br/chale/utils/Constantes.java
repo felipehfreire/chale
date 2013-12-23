@@ -15,5 +15,6 @@ public class Constantes {
 	public static final String CONFIRME = "Confirme!";
 	public static final String MASCARA_TELEFONE = "(##)####-####";
 	public static final String MASCARA_TEL_VALIDACAO = "(  )    -    ";
+	public static final String CADASTRO_PRODUTO = "novoProduto";
 	
 }
