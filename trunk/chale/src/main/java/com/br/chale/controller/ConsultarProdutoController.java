@@ -10,8 +10,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
 import com.br.chale.dao.Produto;
-import com.br.chale.facade.Facade;
-import com.br.chale.ifacade.IFacade;
+import com.br.chale.utils.Constantes;
 
 @ManagedBean
 @ViewScoped
@@ -57,10 +56,11 @@ public class ConsultarProdutoController implements Serializable{
 		produtos.size();
 	}
 	
-	public void novo(){
+	public String novo(){
 	//TODO verificar como alternar entre telas	no faces config navagiton rule
 		FacesMessage msg = new FacesMessage("novo");  
 	    FacesContext.getCurrentInstance().addMessage(null, msg);  
+	    return Constantes.CADASTRO_PRODUTO;
 	}
 
 	public String getNome() {
