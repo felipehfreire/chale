@@ -2,7 +2,7 @@ package com.br.chale.ifacade;
 
 import java.util.List;
 
-import com.br.chale.dao.Produto;
+import com.br.chale.entidades.Produto;
 
 public interface IFacade {
 

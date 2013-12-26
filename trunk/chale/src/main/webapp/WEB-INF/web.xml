@@ -50,11 +50,10 @@
 		<session-timeout>30</session-timeout>
 	</session-config>
 	
-<!-- deu erro  acho que falta referencia
 	<listener>
 	   <listener-class>org.jboss.weld.environment.servlet.Listener</listener-class>
 	</listener>
-  -->
+
  
 	<resource-env-ref>
 	   <resource-env-ref-name>BeanManager</resource-env-ref-name>

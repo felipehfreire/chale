@@ -2,8 +2,8 @@ package com.br.chale.facade;
 
 import java.util.List;
 
-import com.br.chale.dao.Produto;
 import com.br.chale.dao.ProdutoDAO;
+import com.br.chale.entidades.Produto;
 import com.br.chale.ifacade.IFacade;
 
 
