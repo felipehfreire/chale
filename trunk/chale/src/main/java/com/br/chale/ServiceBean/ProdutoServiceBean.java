@@ -3,8 +3,8 @@ package com.br.chale.ServiceBean;
 import java.util.List;
 
 import com.br.chale.Service.ProdutoService;
-import com.br.chale.dao.Produto;
 import com.br.chale.dao.ProdutoDAO;
+import com.br.chale.entidades.Produto;
 
 
 public class ProdutoServiceBean implements ProdutoService{

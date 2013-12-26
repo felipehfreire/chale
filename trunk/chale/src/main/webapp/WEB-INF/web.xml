@@ -24,7 +24,16 @@
 	
 	<welcome-file-list>
 		<welcome-file>index.jsf</welcome-file>
+		
 		<welcome-file>consultarProdutos.jsf</welcome-file>
+		<welcome-file>cadastrarProdutos.jsf</welcome-file>
+		
+		<welcome-file>consultarPedidos.jsf</welcome-file>
+		<welcome-file>cadastrarPedidos.jsf</welcome-file>
+		
+		<welcome-file>consultarCliente.jsf</welcome-file>
+		<welcome-file>cadastrarCliente.jsf</welcome-file>
+		
 	</welcome-file-list>
 
 	<servlet>

@@ -11,23 +11,21 @@
 	<h:form id="jsfForm">
 		<p:fieldset legend="Filtros">
 			<h:outputLabel value="Nome :" for="nome" /> 
-    		<p:inputText id="nome" value="#{consultarProdutoController.nome}"/> 
+    		<p:inputText id="nome" value="#{manterProdutoController.nome}"/> 
             
                     
             <h:outputLabel value="Código :" for="codigo" />  
-           <p:inputText id="codigo" value="#{consultarProdutoController.codigo}"/> 
+           <p:inputText id="codigo" value="#{manterProdutoController.codigo}"/> 
                     
-            <p:commandButton value="Pesquisar"  id="btnPesquisar"  
-             actionListener="#{consultarProdutoController.pesquisar}" />  
+            <p:commandButton value="Pesquisar"  id="btnPesquisar"  action="#{manterProdutoController.pesquisar}"/>  
              
-             <p:commandButton value="Novo" id="btnNovo"  
-             actionListener="#{consultarProdutoController.novo}"/>        
+             <p:commandButton value="Novo" id="btnNovo"  action="#{manterProdutoController.novoProduto}"/>        
 		
 		</p:fieldset>
 		
 		 <p:separator />  
 					
-		<p:dataTable var="prod" value="#{consultarProdutoController.produtos}">  
+		<p:dataTable var="prod" value="#{manterProdutoController.produtos}">  
 		
 	        <p:column headerText="Produto">  
 	            <h:outputText value="#{prod.descricao}" />  

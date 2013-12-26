@@ -15,6 +15,17 @@ public class Constantes {
 	public static final String CONFIRME = "Confirme!";
 	public static final String MASCARA_TELEFONE = "(##)####-####";
 	public static final String MASCARA_TEL_VALIDACAO = "(  )    -    ";
-	public static final String CADASTRO_PRODUTO = "novoProduto";
+	
+	
+	//retorno para navegação de telas
+	//produto
+	public static final String CADASTRO_PRODUTO = "cadastrarProdutos";
+	public static final String CONSULTAR_PRODUTO = "consultarProdutos";
+	//pedidos
+	public static final String CADASTRO_PEDIDO = "cadastrarPedidos";
+	public static final String CONSULTAR_PEDIDO = "consultarPedidos";
+	//clientes
+	public static final String CADASTRO_CLIENTE = "cadastrarClientes";
+	public static final String CONSULTAR_CLIENTE = "consultarClientes";
 	
 }
