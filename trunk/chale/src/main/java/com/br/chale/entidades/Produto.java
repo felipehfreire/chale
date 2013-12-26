@@ -1,6 +1,4 @@
-package com.br.chale.dao;
-
-
+package com.br.chale.entidades;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +10,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 import com.br.chale.utils.Util;
-
 
 
 @Entity
