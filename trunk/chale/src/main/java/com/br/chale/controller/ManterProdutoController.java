@@ -4,62 +4,66 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.faces.application.FacesMessage;
+import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
-import javax.faces.context.FacesContext;
 
-import com.br.chale.dao.Produto;
+import com.br.chale.Service.ProdutoService;
+import com.br.chale.ServiceBean.ProdutoServiceBean;
+import com.br.chale.entidades.Produto;
 import com.br.chale.utils.Constantes;
 
 @ManagedBean
 @ViewScoped
-public class ConsultarProdutoController implements Serializable{
+public class ManterProdutoController implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	
-	//TODO passar a inicialização dos objetos para o metodo initialize
-	private String nome = "";
-	private Integer codigo= 0;
-	private List<Produto> produtos = new  ArrayList<Produto>();
+	private String nome;
+	private Integer codigo;
+	private List<Produto> produtos;
 	
 	//TODO verificar o problema do facade
-	//IFacade facade = Facade.getInstance();
+	@javax.faces.view.ViewScoped
+	ProdutoService produtoService = ProdutoServiceBean.getInstance();
 	
-	//TODO verificar como inicializar os objetos
+	
+	//metódo para a incialização
+	@PostConstruct    			//essa anotação mostra qual o metod incializado quando cirado o bean
 	public void initialize(){
 		nome = "";
 		codigo = new Integer(0);
 		produtos = new ArrayList<Produto>();
+		pesquisar();
 		
 	}
 	
 	public void pesquisar(){
-		initialize();
+		//initialize();
 		
 		//TODO descomentar caso tiver 
-		//produtos = facade.pesquisar(nome, codigo);
+		produtos = produtoService.pesquisar(nome, codigo);
 		
-		for(int i= 0; i< 3; i++){
-			Produto p = new Produto();
-			p.setDescricao("Produto"+i);
-			p.setIdProd(i);
-			p.setPreco(Double.valueOf(i));
-			p.setQtdEstoque(i);
-			p.setQtdMinEstoque(i);
-			p.setTipoServico(true);
-			
-			produtos.add(p);
-		}
-		
+//		for(int i= 0; i< 3; i++){
+//			Produto p = new Produto();
+//			p.setDescricao("Produto"+i);
+//			p.setIdProd(i);
+//			p.setPreco(Double.valueOf(i));
+//			p.setQtdEstoque(i);
+//			p.setQtdMinEstoque(i);
+//			p.setTipoServico(true);
+//			
+//			produtos.add(p);
+//		}
+//		
 		 
 		produtos.size();
 	}
 	
-	public String novo(){
+	public String novoProduto(){
 	//TODO verificar como alternar entre telas	no faces config navagiton rule
-		FacesMessage msg = new FacesMessage("novo");  
-	    FacesContext.getCurrentInstance().addMessage(null, msg);  
+		//FacesMessage msg = new FacesMessage("novo");  
+	    //FacesContext.getCurrentInstance().addMessage(null, msg);  
 	    return Constantes.CADASTRO_PRODUTO;
 	}
 
