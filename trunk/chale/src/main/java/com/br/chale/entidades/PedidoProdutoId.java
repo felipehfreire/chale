@@ -1,17 +1,12 @@
 package com.br.chale.entidades;
 
 
-
-
-
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embeddable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-
-import com.br.chale.dao.Produto;
 
 @Embeddable
 public class PedidoProdutoId implements Serializable {

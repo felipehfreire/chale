@@ -2,20 +2,12 @@ package com.br.chale.entidades;
 
 
 
-
-
-
-
-
-
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-import com.br.chale.dao.Produto;
 
 @Entity
 @Table(name="produto_pedido")

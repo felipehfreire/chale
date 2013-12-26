@@ -1,7 +1,5 @@
 package com.br.chale.entidades;
 
-
-
 import java.util.Date;
 import java.util.List;
 
