@@ -7,6 +7,7 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
 
 import com.br.chale.Service.ProdutoService;
 import com.br.chale.ServiceBean.ProdutoServiceBean;
@@ -17,15 +18,15 @@ import com.br.chale.utils.Constantes;
 @ViewScoped
 public class ManterProdutoController implements Serializable{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	
 	private String nome;
 	private Integer codigo;
 	private List<Produto> produtos;
 	
 	//TODO verificar o problema do facade
-	@javax.faces.view.ViewScoped
-	ProdutoService produtoService = ProdutoServiceBean.getInstance();
+	//@Inject
+	//ProdutoService produtoService = ProdutoServiceBean.getInstance();
 	
 	
 	//metódo para a incialização
@@ -42,20 +43,20 @@ public class ManterProdutoController implements Serializable{
 		//initialize();
 		
 		//TODO descomentar caso tiver 
-		produtos = produtoService.pesquisar(nome, codigo);
+		//produtos = produtoService.pesquisar(nome, codigo);
 		
-//		for(int i= 0; i< 3; i++){
-//			Produto p = new Produto();
-//			p.setDescricao("Produto"+i);
-//			p.setIdProd(i);
-//			p.setPreco(Double.valueOf(i));
-//			p.setQtdEstoque(i);
-//			p.setQtdMinEstoque(i);
-//			p.setTipoServico(true);
-//			
-//			produtos.add(p);
-//		}
-//		
+		for(int i= 0; i< 3; i++){
+			Produto p = new Produto();
+			p.setDescricao("Produto"+(i + 1));
+			p.setIdProd(i);
+			p.setPreco(Double.valueOf(i+1));
+			p.setQtdEstoque(i+1);
+			p.setQtdMinEstoque(i+1);
+			p.setTipoServico(true);
+			
+			produtos.add(p);
+		}
+		
 		 
 		produtos.size();
 	}

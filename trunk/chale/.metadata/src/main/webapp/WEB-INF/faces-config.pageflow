@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf13875440720810" configfile="/chale/src/main/webapp/WEB-INF/faces-config.xml">
   <nodes xsi:type="pageflow:PFPage" name="*" id="pf13880578404565" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf13880580970158 pf138805809701512 pf138805828495715 pf138805828495717 pf138805830690121 pf138805832776823" path="/*"/>
-  <nodes xsi:type="pageflow:PFPage" name="cadastrarProdutos.xhtml" id="pf13880578404567" referenceLink="//@navigationRule.0/@navigationCase.5/@toViewId|" inlinks="pf13880580970158" path="/cadastrarProdutos.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="cadastrarProdutos.xhtml" id="pf13880578404567" referenceLink="//@navigationRule.0/@navigationCase.1/@toViewId|" inlinks="pf13880580970158" path="/cadastrarProdutos.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="consultarProdutos.xhtml" id="pf138805809701514" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf138805809701512" path="/consultarProdutos.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="cadastrarCliente.xhtml" id="pf138805828495718" referenceLink="//@navigationRule.0/@navigationCase.5/@toViewId|" inlinks="pf138805828495715" path="/cadastrarCliente.xhtml"/>
   <nodes xsi:type="pageflow:PFPage" name="cadastrarPedidos.xhtml" id="pf138805828495720" referenceLink="//@navigationRule.0/@navigationCase.3/@toViewId|" inlinks="pf138805828495717" path="/cadastrarPedidos.xhtml"/>
