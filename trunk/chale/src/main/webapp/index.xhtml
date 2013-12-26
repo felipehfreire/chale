@@ -32,6 +32,16 @@
 				<h:outputText value="Hi #{mainController.primeName}!!" 
 					rendered="#{not empty mainController.primeName}" />
 			</h:panelGroup>
+			<hr />
+			<p:commandButton value="cadastrar Produto" id="btnNovoProd"  action="cadastrarProdutos"/>
+			<p:commandButton value="consultar Produto" id="btnConstProd"  action="consultarProdutos"/>
+			<hr />
+			<p:commandButton value="cadastrar Pedido" id="btnNovoPedido"   action="cadastrarPedidos"/>
+			<p:commandButton value="consultar pedido" id="btnCOnstPedido"  action="consultarPedidos"/>
+			<hr />
+			<p:commandButton value="consultar cliente" id="btnNovoClient"   action="cadastrarClientes"/>
+			<p:commandButton value="cadastar Cliente" id="btnConstClient"   action="consultarClientes"/>
+			<hr />
 		</h:form>
 		</p:fieldset>  	
 	</ui:define>
