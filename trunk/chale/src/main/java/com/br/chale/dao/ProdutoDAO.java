@@ -5,6 +5,8 @@ package com.br.chale.dao;
 
 import java.util.List;
 
+import com.br.chale.entidades.Produto;
+
 public class ProdutoDAO extends GerenicDAO<Produto> {
 	
 	public List<Produto> pesquisar(String nome, Integer codigo) {
