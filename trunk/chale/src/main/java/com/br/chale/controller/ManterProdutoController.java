@@ -14,7 +14,7 @@ import com.br.chale.ServiceBean.ProdutoServiceBean;
 import com.br.chale.entidades.Produto;
 import com.br.chale.utils.Constantes;
 
-@ManagedBean
+@ManagedBean(name="produtoController")
 @ViewScoped
 public class ManterProdutoController implements Serializable{
 
@@ -25,8 +25,8 @@ public class ManterProdutoController implements Serializable{
 	private List<Produto> produtos;
 	
 	//TODO verificar o problema do facade
-	//@Inject
-	//ProdutoService produtoService = ProdutoServiceBean.getInstance();
+	@Inject
+	ProdutoService produtoService= new ProdutoServiceBean();
 	
 	
 	//metódo para a incialização
@@ -43,22 +43,23 @@ public class ManterProdutoController implements Serializable{
 		//initialize();
 		
 		//TODO descomentar caso tiver 
-		//produtos = produtoService.pesquisar(nome, codigo);
 		
-		for(int i= 0; i< 3; i++){
-			Produto p = new Produto();
-			p.setDescricao("Produto"+(i + 1));
-			p.setIdProd(i);
-			p.setPreco(Double.valueOf(i+1));
-			p.setQtdEstoque(i+1);
-			p.setQtdMinEstoque(i+1);
-			p.setTipoServico(true);
-			
-			produtos.add(p);
-		}
+		produtos = produtoService.pesquisar(nome, codigo);
 		
-		 
-		produtos.size();
+//		for(int i= 0; i< 3; i++){
+//			Produto p = new Produto();
+//			p.setDescricao("Produto"+(i + 1));
+//			p.setIdProd(i);
+//			p.setPreco(Double.valueOf(i+1));
+//			p.setQtdEstoque(i+1);
+//			p.setQtdMinEstoque(i+1);
+//			p.setTipoServico(true);
+//			
+//			produtos.add(p);
+//		}
+//		
+//		 
+//		produtos.size();
 	}
 	
 	public String novoProduto(){
@@ -66,6 +67,10 @@ public class ManterProdutoController implements Serializable{
 		//FacesMessage msg = new FacesMessage("novo");  
 	    //FacesContext.getCurrentInstance().addMessage(null, msg);  
 	    return Constantes.CADASTRO_PRODUTO;
+	}
+	
+	public String a() {
+		 return Constantes.CADASTRO_PRODUTO;
 	}
 
 	public String getNome() {

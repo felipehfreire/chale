@@ -11,20 +11,20 @@ import com.br.chale.entidades.Produto;
 
 public class ProdutoServiceBean implements ProdutoService{
 
-	private static ProdutoServiceBean instance;
+	//private static ProdutoServiceBean instance;
 	
 	
 	@Inject
-	ProdutoDAO produtoDAO = new ProdutoDAO(); 
+	ProdutoDAO produtoDAO =new ProdutoDAO();
 	
-	 public static ProdutoServiceBean getInstance() {
-	
-	        if (instance == null) 
-	        		instance = new ProdutoServiceBean();
-	
-	           
-	       return instance;
-	    }
+//	 public static ProdutoServiceBean getInstance() {
+//	
+//	        if (instance == null) 
+//	        		instance = new ProdutoServiceBean();
+//	
+//	           
+//	       return instance;
+//	    }
 
 	@Override
 	public List<Produto> pesquisar(String nome, Integer codigo) {
