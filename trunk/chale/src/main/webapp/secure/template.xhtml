@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Chalé</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<!-- Bootstrap -->
+	<h:outputStylesheet library="theme" name="css/bootstrap.min.css" />
+
+	<h:outputStylesheet library="theme" name="css/messages.css" />
+
+	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	<script src="https://code.jquery.com/jquery.js"></script>
+
+	<!-- Include all compiled plugins (below), or include individual files as needed -->
+	<h:outputScript library="theme" name="js/bootstrap.min.js" />
+
+	<h:panelGrid id="test2343" width="80%">
+		<p:messages id="messages" showDetail="true" autoUpdate="true"
+			closable="true" globalOnly="true" />
+	</h:panelGrid>
+</h:head>
+
+<h:body>
+	<p:menubar>
+		<p:submenu label="File" icon="ui-icon-document">
+			<p:menuitem value="Produtos" url="/consultarProduto.jsf?faces-redirect=true" />
+			<p:separator />
+			<p:menuitem value="Quit" url="#" />
+		</p:submenu>
+
+		<p:submenu label="Edit" icon="ui-icon-pencil">
+			<p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w" />
+			<p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e" />
+		</p:submenu>
+		
+		<f:facet name="options">  
+            <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />  
+        </f:facet>
+	</p:menubar>
+
+	<ui:insert name="content">
+
+	</ui:insert>
+</h:body>
+
+
+</html>
