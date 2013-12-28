@@ -42,9 +42,9 @@ public class PedidoProdutoId implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result
-				+ ((pedido.getCodVenda() == null) ? 0 : pedido.getCodVenda().hashCode());
+				+ ((pedido.getId() == null) ? 0 : pedido.getId().hashCode());
 		result = prime * result
-				+ ((produto.getIdProd() == null) ? 0 : produto.getIdProd().hashCode());
+				+ ((produto.getId() == null) ? 0 : produto.getId().hashCode());
 		return result;
 	}
 
@@ -57,15 +57,15 @@ public class PedidoProdutoId implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		PedidoProdutoId other = (PedidoProdutoId) obj;
-		if (pedido.getCodVenda() == null) {
-			if (other.getPedido().getCodVenda() != null)
+		if (pedido.getId() == null) {
+			if (other.getPedido().getId() != null)
 				return false;
-		} else if (!pedido.getCodVenda().equals(other.getPedido().getCodVenda()))
+		} else if (!pedido.getId().equals(other.getPedido().getId()))
 			return false;
-		if (produto.getIdProd() == null) {
-			if (other.getProduto().getIdProd() != null)
+		if (produto.getId() == null) {
+			if (other.getProduto().getId() != null)
 				return false;
-		} else if (!produto.getIdProd().equals(other.getProduto().getIdProd()))
+		} else if (!produto.getId().equals(other.getProduto().getId()))
 			return false;
 		return true;
 	}
