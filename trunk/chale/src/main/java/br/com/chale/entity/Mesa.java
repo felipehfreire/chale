@@ -5,42 +5,25 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="mesa")
-
-@NamedQueries({
-
-		@NamedQuery(name=Mesa.CONSULTAR_TODAS_MESAS, query="Select m from Mesa m"),
-		@NamedQuery(name=Mesa.CONSULTAR_MESAS_LIVRES, query="Select m from Mesa m where m.usada = false"),
-		@NamedQuery(name=Mesa.CONSULTAR_MESA_POR_ID, query="select m from Mesa m where numeroMesa = ?1"),
-		@NamedQuery(name=Mesa.CONSULTAR_MESA_POR_PEDIDO, query="select m from Pedido p inner join p.mesa m where m.numeroMesa = ?1")
-		
-		
-})
 public class Mesa {
 	
-	public static final String CONSULTAR_TODAS_MESAS = "consultarTodasMesas";
-	public static final String CONSULTAR_MESAS_LIVRES = "consultarMesasLivres";
-	public static final String CONSULTAR_MESA_POR_ID = "consultarMesaPorId";
-	public static final String CONSULTAR_MESA_POR_PEDIDO = "consultarMesaPorPedido";
-
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="codMesa")
-	private Integer numeroMesa;
+	private Long numeroMesa;
 	
 	@Column(name="usada")
 	private Boolean usada;
 
-	public Integer getNumeroMesa() {
+	public Long getNumeroMesa() {
 		return numeroMesa;
 	}
 
-	public void setNumeroMesa(Integer numeroMesa) {
+	public void setNumeroMesa(Long numeroMesa) {
 		this.numeroMesa = numeroMesa;
 	}
 

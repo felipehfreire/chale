@@ -13,13 +13,19 @@
 	<h:outputStylesheet library="theme" name="css/bootstrap.min.css" />
 
 	<h:outputStylesheet library="theme" name="css/messages.css" />
+	
+	<h:outputStylesheet library="theme" name="css/theme.css" />
 
 	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 	<script src="https://code.jquery.com/jquery.js"></script>
-
+		
 	<!-- Include all compiled plugins (below), or include individual files as needed -->
 	<h:outputScript library="theme" name="js/bootstrap.min.js" />
-
+	
+	<h:outputScript library="theme" name="js/jasny-bootstrap.min.js"/>
+	
+	<h:outputScript library="theme" name="js/jquery.maskMoney.min.js"/>
+	
 	<h:panelGrid id="test2343" width="80%">
 		<p:messages id="messages" showDetail="true" autoUpdate="true"
 			closable="true" globalOnly="true" />
@@ -47,6 +53,7 @@
 	<ui:insert name="content">
 
 	</ui:insert>
+	<h:outputScript library="theme" name="js/masks.js"/>
 </h:body>
 
 

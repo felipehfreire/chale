@@ -10,8 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -19,26 +17,13 @@ import javax.persistence.Table;
 @Entity
 @Table(name="pedido")
 
-@NamedQueries({
-	
-	@NamedQuery(name=Pedido.CONSULTAR_PEDIDOS, query="select p from Pedido p" +
-			" where (p.mesa.numeroMesa = ?1 or ?1 is null)"),
-	
-	@NamedQuery(name=Pedido.CONSULTAR_PEDIDO_POR_ID, query="select p from Pedido p" +
-			" where codVenda = ?1")
-	
-})
-
 //TODO mudar nome da entidade para venda (banco tbm)
 public class Pedido {
-	
-	public static final String CONSULTAR_PEDIDOS = "consultarPedidos";
-	public static final String CONSULTAR_PEDIDO_POR_ID = "consultarPedidoPorId";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="codVenda")
-	private Integer codVenda;
+	private Long id;
 	
 	@Column(name="dataVenda")
 	private Date dataVenda = new Date();
@@ -60,12 +45,8 @@ public class Pedido {
 	@OneToOne()
 	private Mesa mesa;
 
-	public Integer getCodVenda() {
-		return codVenda;
-	}
-
-	public void setCodVenda(Integer codVenda) {
-		this.codVenda = codVenda;
+	public Long getId() {
+		return id;
 	}
 
 	public Date getDataVenda() {
@@ -115,15 +96,5 @@ public class Pedido {
 	public void setMesa(Mesa mesa) {
 		this.mesa = mesa;
 	}
-	
-//	public String getTotalPedido() {
-//		Double valor = 0D;
-//		if (getPedidosProdutos() != null) {
-//			for (PedidoProduto pedProd : getPedidosProdutos()) {
-//				valor = valor + pedProd.getProduto().getPreco();
-//			}
-//		}
-//		return valor.toString();
-//	}
 	
 }

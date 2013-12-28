@@ -1,10 +1,12 @@
 package br.com.chale.service;
 
 import java.io.Serializable;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import br.com.chale.dao.ProdutoDAO;
+import br.com.chale.entity.Produto;
 
 public class ProdutoServiceBean implements ProdutoService, Serializable {
 
@@ -14,8 +16,20 @@ public class ProdutoServiceBean implements ProdutoService, Serializable {
 	private ProdutoDAO produtoDAO;
 	
 	@Override
-	public void pesquisar() {
-		produtoDAO.pesquisar();
+	public List<Produto> pesquisar(String termo) {
+		return produtoDAO.pesquisar(termo);
 	}
 
+	@Override
+	public void persistir(Produto produto) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void atualizar(Produto produto) {
+		// TODO Auto-generated method stub
+		
+	}
+	
 }

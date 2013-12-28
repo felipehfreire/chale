@@ -11,7 +11,18 @@
 	
 	<ui:define name="content">
 		<h:form>
+			<h:inputText value="#{produtoController.termo}"/>
 			<h:commandButton value="Pesquisar" action="#{produtoController.pesquisar}" class="btn btn-defaut" ajax="false"/>
+			
+			<h:commandButton value="Novo" action="#{produtoController.novo}" class="btn btn-primary" ajax="false"/>
+			
+			<p:dataTable value="#{produtoController.listagem}" var="item">
+			
+				<p:column headerText="Nome">
+					<h:outputText value="#{item.descricao}"/>
+				</p:column>
+			
+			</p:dataTable>
 		</h:form>
 	
 	</ui:define>

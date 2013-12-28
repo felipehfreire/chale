@@ -13,36 +13,18 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "produto")
 @NamedQueries({
-
-	@NamedQuery(name = Produto.CONSULTAR_PRODUTOS, query = "select p from Produto p"
-		+ " where (?1 is null or length(trim(?1)) = 0 or "
-		+ " upper(p.descricao) like '%' || Upper(?1) || '%')"
-		+ " and (p.idProd = ?2 or ?2 is null)"),
-		
-	@NamedQuery(name=Produto.CONSULTAR_PRODUTO_POR_ID, query="select p from Produto p" +
-			" where idProd = ?1"),
-			
-	@NamedQuery(name=Produto.CONSULTAR_TODOS_PRODUTOS, query="select p from Produto p" ),
 	
-	@NamedQuery(name=Produto.CONSULTAR_PRODUTOS_DUPLICADOS, 
-			query="select p from Produto p where p.descricao = ?1 " +
-					" and (p.idProd = ?2 or ?2 is null)")
-			
+	@NamedQuery(name=Produto.QUERY_CONSULTAR_POR_NOME, query="select p from Produto p where descricao like '%' || Upper(?1) || '%' or ?1 is null")
+	
 })
 public class Produto {
 
-	public static final String CONSULTAR_PRODUTOS = "consultarProdutos";
+	public static final String QUERY_CONSULTAR_POR_NOME = "consultarPorNome";
 
-	public static final String CONSULTAR_PRODUTO_POR_ID = "consultarProdutoPorId";
-	
-	public static final String CONSULTAR_TODOS_PRODUTOS = "consultarTodosProdutos";
-
-	public static final String CONSULTAR_PRODUTOS_DUPLICADOS = "consultarProdutosDuplicados";
-	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "codProd")
-	private Integer idProd;
+	private Long id;
 
 	@Column(name = "descricao", length = 200)
 	private String descricao;
@@ -63,13 +45,10 @@ public class Produto {
 		return getDescricao().toString();
 	}
 
-	public Integer getIdProd() {
-		return idProd;
+	public Long getId() {
+		return id;
 	}
 
-	public void setIdProd(Integer idProd) {
-		this.idProd = idProd;
-	}
 
 	public String getDescricao() {
 		return descricao;
@@ -89,6 +68,10 @@ public class Produto {
 
 	public Double getPreco() {
 		return preco;
+	}
+	
+	public void setPreco(String preco) {
+		
 	}
 
 	public void setPreco(Double preco) {
@@ -115,7 +98,7 @@ public class Produto {
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((idProd == null) ? 0 : idProd.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		return result;
 	}
 
@@ -128,10 +111,10 @@ public class Produto {
 		if (!(obj instanceof Produto)) 
 			return false;
 		Produto other = (Produto) obj;
-		if (idProd == null) {
-			if (other.getIdProd() != null)
+		if (id == null) {
+			if (other.getId() != null)
 				return false;
-		} else if (!idProd.equals(other.getIdProd()))
+		} else if (!id.equals(other.getId()))
 			return false;
 		return true;
 	}
