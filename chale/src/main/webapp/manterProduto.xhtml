@@ -10,7 +10,7 @@
 <ui:composition template="secure/template.xhtml">
 
 	<ui:define name="content">
-		<h:form class="bs-example form-horizontal">
+		<h:form id="submitForm" class="bs-example form-horizontal">
 			<div class="page-header"></div>
 			<div class="row container-center">
 				<div class="col-lg-6 div-center">
@@ -19,39 +19,60 @@
 						<div class="form-group">
 							<h:outputLabel value="Nome" class="col-lg-2 control-label" for="nome" />
 							<div class="col-lg-10">
-								<h:inputText class="form-control" name="nome" id="nome" value="#{produtoController.produto.descricao}" />
+								<h:inputText class="form-control" name="nome" id="nome" value="#{produtoController.produto.descricao}"
+								required="true" requiredMessage="Insira o nome!" />
+								<p:message for="nome" styleClass="error" />
 							</div>
 						</div>
 						
 						<div class="form-group">
 							<h:outputLabel value="Preço" class="col-lg-2 control-label" for="preco" />
 							<div class="col-lg-10">
-								<h:inputText class="form-control money" name="preco" id="preco" value="#{produtoController.produto.preco}" />
+								<h:inputText class="form-control money" name="preco" id="preco" value="#{produtoController.produto.preco}" 
+									converter="bigDecimalConverter" required="true" requiredMessage="Insira o Preço!"/>
+								<p:message for="preco" styleClass="error" />
 							</div>
 						</div>
 						
-						quantidade Estoque
+						<div class="form-group">
+							<h:outputLabel value="Quantidade em Estoque" class="col-lg-2 control-label" for="qtdEstoque" />
+							<div class="col-lg-10">
+								<h:inputText class="form-control" name="qtdEstoque" id="qtdEstoque" value="#{produtoController.produto.qtdEstoque}"
+									converter="javax.faces.Long" required="true" requiredMessage="Insira a Quantidade em Estoque!" />
+									<p:message for="qtdEstoque" styleClass="error" />
+							</div>
+						</div>
 						
-						Quantidade Minima Estoque
+						<div class="form-group">
+							<h:outputLabel value="Quantidade Mínima de Estoque" class="col-lg-2 control-label" for="qtdEstoqueMin" />
+							<div class="col-lg-10">
+								<h:inputText class="form-control" name="qtdEstoqueMin" id="qtdEstoqueMin" value="#{produtoController.produto.qtdMinEstoque}"
+									converter="javax.faces.Long" required="true" requiredMessage="Insira a quantidade Mínima de estoque!"/>
+								<p:message for="qtdEstoqueMin" styleClass="error" />
+							</div>
+						</div>
 						
-						Servico
+						<div class="form-group">
+							<h:outputLabel value="Serviço" class="col-lg-2 control-label" for="servico" />
+							<div class="col-lg-10">
+								<h:selectBooleanCheckbox class="form-control" name="servico" id="servico" value="#{produtoController.produto.tipoServico}" />
+							</div>
+						</div>
 						
 						<div class="form-group">
 							<div class="col-lg-10 col-lg-offset-2">
 								<h:commandButton value="Voltar"	action="#{produtoController.voltar}" 
-									class="btn btn-defaut" ajax="false" />
+									class="btn btn-defaut" ajax="false" immediate="true" />
 									
 								<h:commandButton value="Salvar"	action="#{produtoController.salvar}" 
-									class="btn btn-primary"	ajax="false" />
+									class="btn btn-primary"	ajax="false" onclick="submitForm();" />
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
 		</h:form>
-
 	</ui:define>
-	<!--  cada uc tem seu js, para validação e funções específicas -->
-	<h:outputScript library="theme" name="custom/produto.js"/>
+	
 </ui:composition>
 </html>

@@ -14,11 +14,11 @@ public class PedidoProdutoId implements Serializable {
 	private static final long serialVersionUID = 4852833738314674659L;
 
 	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
-	@JoinColumn(name="codVenda")
+	@JoinColumn(name="codVenda",nullable=false)
 	private Pedido pedido;
 	
 	@ManyToOne
-	@JoinColumn(name="codProd")
+	@JoinColumn(name="codProd", nullable=false)
 	private Produto produto;
 
 	public Pedido getPedido() {

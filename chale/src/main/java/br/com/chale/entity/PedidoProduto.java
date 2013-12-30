@@ -24,7 +24,7 @@ public class PedidoProduto {
 	@JoinColumn(name="codProd", insertable=false,updatable=false)
 	private Produto produto;
 	
-	@Column(name="quantidade")
+	@Column(name="quantidade", nullable=false)
 	private Long quantidade;
 
 	public PedidoProdutoId getId() {

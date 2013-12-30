@@ -22,14 +22,13 @@ public class ProdutoServiceBean implements ProdutoService, Serializable {
 
 	@Override
 	public void persistir(Produto produto) {
-		// TODO Auto-generated method stub
+		produtoDAO.insert(produto);
 		
 	}
 
 	@Override
 	public void atualizar(Produto produto) {
-		// TODO Auto-generated method stub
-		
+		produtoDAO.update(produto);
 	}
 	
 }

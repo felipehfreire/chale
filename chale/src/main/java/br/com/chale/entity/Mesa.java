@@ -13,7 +13,7 @@ public class Mesa {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="codMesa")
+	@Column(name="codMesa", nullable=false)
 	private Long numeroMesa;
 	
 	@Column(name="usada")

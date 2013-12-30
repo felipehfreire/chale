@@ -7,7 +7,9 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -48,14 +50,20 @@ public class ProdutoController implements Serializable {
 		return "/manterProduto.jsf?faces-redirect=true";
 	}
 	
-	public String salvar() {
+	public String editar() {
+		return "/manterProduto.jsf?faces-redirect=true";
+	}
+	
+	public void salvar() {
 		if (produto.getId() == null) {
 			produtoService.persistir(produto);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Inserido com sucesso!"));
 		} else {
 			produtoService.atualizar(produto);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Alterado com sucesso!"));
 		}
 		ConversationUtil.terminarConversacao(conversation);
-		return "/consultarProduto.jsf?faces-redirect=true";
+		novo();
 	}
 	
 	public String voltar() {
@@ -91,5 +99,5 @@ public class ProdutoController implements Serializable {
 	public void setProduto(Produto produto) {
 		this.produto = produto;
 	}
-	
+
 }

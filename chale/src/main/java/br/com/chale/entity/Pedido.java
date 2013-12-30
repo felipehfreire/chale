@@ -22,10 +22,10 @@ public class Pedido {
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="codVenda")
+	@Column(name="codVenda", nullable=false)
 	private Long id;
 	
-	@Column(name="dataVenda")
+	@Column(name="dataVenda", nullable=false)
 	private Date dataVenda = new Date();
 	
 	@Column(name="finalizada")
