@@ -38,7 +38,7 @@
 							<h:outputLabel value="Quantidade em Estoque" class="col-lg-2 control-label" for="qtdEstoque" />
 							<div class="col-lg-10">
 								<h:inputText class="form-control" name="qtdEstoque" id="qtdEstoque" value="#{produtoController.produto.qtdEstoque}"
-									converter="javax.faces.Long" required="true" requiredMessage="Insira a Quantidade em Estoque!" />
+									converter="javax.faces.Number" required="true" requiredMessage="Insira a Quantidade em Estoque!" />
 									<p:message for="qtdEstoque" styleClass="error" />
 							</div>
 						</div>

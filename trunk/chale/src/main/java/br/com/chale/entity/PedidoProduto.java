@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="produto_pedido")
@@ -27,6 +28,9 @@ public class PedidoProduto {
 	@Column(name="quantidade", nullable=false)
 	private Long quantidade;
 
+	@Transient
+	private Double precoTotal;
+	
 	public PedidoProdutoId getId() {
 		return id;
 	}
@@ -57,6 +61,17 @@ public class PedidoProduto {
 
 	public void setQuantidade(Long quantidade) {
 		this.quantidade = quantidade;
+	}
+
+	public Double getPrecoTotal() {
+		if(produto!= null){
+			return (quantidade * produto.getPreco());
+		}
+		return null;
+	}
+
+	public void setPrecoTotal(Double precoTotal) {
+		this.precoTotal = precoTotal;
 	}
 	
 }
