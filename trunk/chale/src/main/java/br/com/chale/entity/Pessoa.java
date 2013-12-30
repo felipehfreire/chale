@@ -13,13 +13,13 @@ public class Pessoa {
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="codPessoa")
+	@Column(name="codPessoa", nullable=false)
 	private Long id;
 	
-	@Column(name="nome", length= 100)
+	@Column(name="nome", length= 100, nullable=false)
 	private String nome;
 	
-	@Column(name="telefone", length= 20)
+	@Column(name="telefone", length= 20, nullable=false)
 	private String telefone;
 
 	public Long getId() {

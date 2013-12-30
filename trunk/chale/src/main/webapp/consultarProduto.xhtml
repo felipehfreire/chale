@@ -21,6 +21,17 @@
 				<p:column headerText="Nome">
 					<h:outputText value="#{item.descricao}"/>
 				</p:column>
+				
+				<p:column headerText="Qtd Estoque">
+					<h:outputText value="#{item.qtdEstoque}"/>
+				</p:column>
+				
+				<p:column headerText="Editar">
+					<h:commandButton class="btn btn-primary" ajax="false" value="Editar" action="#{produtoController.editar}">
+						<f:setPropertyActionListener value="#{item}"
+                        	target="#{produtoController.produto}" />
+                    </h:commandButton>
+				</p:column>
 			
 			</p:dataTable>
 		</h:form>

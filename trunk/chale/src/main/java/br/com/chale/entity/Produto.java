@@ -23,23 +23,23 @@ public class Produto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "codProd")
+	@Column(name = "codProd", nullable=false)
 	private Long id;
 
-	@Column(name = "descricao", length = 200)
+	@Column(name = "descricao", length = 500, nullable=false)
 	private String descricao;
 
-	@Column(name = "qtdEstoque")
-	private Integer qtdEstoque;
+	@Column(name = "qtdEstoque", nullable=false)
+	private Long qtdEstoque;
 
-	@Column(name = "preco")
+	@Column(name = "preco", precision=10, scale=2, nullable=false)
 	private Double preco;
 
 	@Column(name = "tipoServico")
 	private Boolean tipoServico;
 
-	@Column(name = "qtdMinEstoque")
-	private Integer qtdMinEstoque;
+	@Column(name = "qtdMinEstoque", nullable=false)
+	private Long qtdMinEstoque;
 	
 	public String toString() {
 		return getDescricao().toString();
@@ -58,11 +58,11 @@ public class Produto {
 		this.descricao = descricao;
 	}
 
-	public Integer getQtdEstoque() {
+	public Long getQtdEstoque() {
 		return qtdEstoque;
 	}
 
-	public void setQtdEstoque(Integer qtdEstoque) {
+	public void setQtdEstoque(Long qtdEstoque) {
 		this.qtdEstoque = qtdEstoque;
 	}
 
@@ -86,11 +86,11 @@ public class Produto {
 		this.tipoServico = tipoServico;
 	}
 
-	public Integer getQtdMinEstoque() {
+	public Long getQtdMinEstoque() {
 		return qtdMinEstoque;
 	}
 
-	public void setQtdMinEstoque(Integer qtdMinEstoque) {
+	public void setQtdMinEstoque(Long qtdMinEstoque) {
 		this.qtdMinEstoque = qtdMinEstoque;
 	}
 
