@@ -9,6 +9,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import br.com.chale.converter.BaseEntity;
+
 
 @Entity
 @Table(name = "produto")
@@ -17,7 +19,7 @@ import javax.persistence.Table;
 	@NamedQuery(name=Produto.QUERY_CONSULTAR_POR_NOME, query="select p from Produto p where descricao like '%' || Upper(?1) || '%' or ?1 is null")
 	
 })
-public class Produto {
+public class Produto implements BaseEntity {
 
 	public static final String QUERY_CONSULTAR_POR_NOME = "consultarPorNome";
 
@@ -49,6 +51,10 @@ public class Produto {
 		return id;
 	}
 
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getDescricao() {
 		return descricao;

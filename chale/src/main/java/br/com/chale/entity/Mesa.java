@@ -5,11 +5,23 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
+
+import br.com.chale.converter.BaseEntity;
 
 @Entity
 @Table(name="mesa")
-public class Mesa {
+@NamedQueries({
+
+	@NamedQuery(name=Mesa.CONSULTAR_TODAS_MESAS, query="Select m from Mesa m"),
+	
+	
+})
+public class Mesa implements BaseEntity{
+	
+	public static final String CONSULTAR_TODAS_MESAS = "consultarTodasMesas";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -63,6 +75,11 @@ public class Mesa {
 		} else if (!numeroMesa.equals(other.getNumeroMesa()))
 			return false;
 		return true;
+	}
+
+	@Override
+	public Long getId() {
+		return getNumeroMesa();
 	}
 	
 	

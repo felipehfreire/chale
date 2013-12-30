@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	
+	<ui:composition template="secure/template.xhtml">
+	
+	<ui:define name="content">
+		<h:form id="submitForm" class="bs-example form-horizontal">
+			<div class="page-header"></div>
+			<div class="row container-center">
+				<div class="col-lg-6 div-center">
+					<div class="well">
+						<div class="form-group">
+				            <h:selectOneMenu id="mesa" label="mesas"   
+				             	value="#{pedidoController.mesaSelecionada}"  
+				                converter="simpleEntityConverter" required="true">  
+				                <f:selectItem itemValue="" itemLabel="Selecione uma Mesa"/>  
+				                <f:selectItems value="#{pedidoController.mesas}" 
+				                	var="mesa" 
+				                	itemLabel="#{mesa.numeroMesa}" 
+				                	itemValue="#{mesa}"/>  
+				            </h:selectOneMenu> 
+			             </div>
+			         	 <div class="well">    
+			             	<h:commandButton value="Pesquisar" action="#{pedidoController.pesquisar}" class="btn btn-defaut" ajax="false"/>
+							<h:commandButton value="Novo" action="#{pedidoController.novo}" class="btn btn-primary" ajax="false"/> 
+							<h:commandButton value="Voltar" action="#{pedidoController.voltar}" class="btn btn-primary" ajax="false"/>
+			          	</div>   
+			          
+			          	<div class="well">
+			          		<p:dataTable value="#{pedidoController.pedidosProdutos}" var="pedProd">
+			
+								<p:column headerText="Número da mesa">
+									<h:outputText value="#{pedProd.pedido.mesa.numeroMesa}"/>
+								</p:column>
+								
+								<p:column headerText="Número do pedido">
+									<h:outputText value="#{pedProd.pedido.id}"/>
+								</p:column>
+								
+								<p:column headerText="Total">
+									<h:outputText value="#{pedProd.precoTotal}"/>
+								</p:column>
+							
+							</p:dataTable>
+			          	</div>
+			          
+		             </div>
+	             </div>
+             </div>
+		</h:form>
+	</ui:define>
+	</ui:composition>	
+</html>

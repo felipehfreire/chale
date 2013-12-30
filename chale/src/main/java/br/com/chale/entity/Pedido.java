@@ -14,11 +14,13 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import br.com.chale.converter.BaseEntity;
+
 @Entity
 @Table(name="pedido")
 
 //TODO mudar nome da entidade para venda (banco tbm)
-public class Pedido {
+public class Pedido implements BaseEntity{
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -48,6 +50,14 @@ public class Pedido {
 	public Long getId() {
 		return id;
 	}
+	
+	
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
 
 	public Date getDataVenda() {
 		return dataVenda;
