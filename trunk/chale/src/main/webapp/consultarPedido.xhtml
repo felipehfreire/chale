@@ -46,6 +46,13 @@
 								<p:column headerText="Total">
 									<h:outputText value="#{pedProd.precoTotal}"/>
 								</p:column>
+								
+								<p:column headerText="Editar">
+									<h:commandButton class="btn btn-primary" ajax="false" value="Editar" action="#{pedidoController.editar}">
+										<f:setPropertyActionListener value="#{pedProd}"
+                        					target="#{pedidoController.pedidoProduto}" />
+                    				</h:commandButton>
+								</p:column>
 							
 							</p:dataTable>
 			          	</div>

@@ -16,12 +16,15 @@ import br.com.chale.converter.BaseEntity;
 @Table(name = "produto")
 @NamedQueries({
 	
-	@NamedQuery(name=Produto.QUERY_CONSULTAR_POR_NOME, query="select p from Produto p where descricao like '%' || Upper(?1) || '%' or ?1 is null")
+	@NamedQuery(name=Produto.QUERY_CONSULTAR_POR_NOME, query="select p from Produto p where descricao like '%' || Upper(?1) || '%' or ?1 is null"),
+	
+	@NamedQuery(name=Produto.QUERY_CONSULTAR_TODOS, query="select p from Produto p "),
 	
 })
 public class Produto implements BaseEntity {
 
 	public static final String QUERY_CONSULTAR_POR_NOME = "consultarPorNome";
+	public static final String QUERY_CONSULTAR_TODOS = "consultarTodos";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

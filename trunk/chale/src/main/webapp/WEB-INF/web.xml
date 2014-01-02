@@ -33,5 +33,10 @@
               javax.enterprise.inject.spi.BeanManager
            </resource-env-ref-type>
         </resource-env-ref>
+       
+       <context-param>  
+  			<param-name>javax.faces.PROJECT_STAGE</param-name>  
+  			<param-value>Development</param-value>  
+		</context-param>   
   
 </web-app>

@@ -7,12 +7,31 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
 @Table(name="produto_pedido")
+@NamedQueries({
+	
+	@NamedQuery(name=PedidoProduto.QUERY_CONSULTAR_TODOS_PEDIDOS, query="select pp from PedidoProduto pp "),
+			
+	@NamedQuery(name=PedidoProduto.CONSULTAR_PEDIDOS_POR_MESA, query="select pp from PedidoProduto pp" +
+			" inner join pp.pedido p " +
+			" where p.mesa = ?1"),
+	
+	@NamedQuery(name=PedidoProduto.CONSULTAR_PEDIDO_PROD_POR_ID, query="select pp from PedidoProduto pp" +
+			" where id = ?1")
+	
+})
 public class PedidoProduto {
+	
+
+	public static final String QUERY_CONSULTAR_TODOS_PEDIDOS = "consultarTodosPedidos";
+	public static final String CONSULTAR_PEDIDOS_POR_MESA = "consultarPedidosPorMesa";
+	public static final String CONSULTAR_PEDIDO_PROD_POR_ID = "consultarPedidosProdutoPorMesa";
 	
 	@EmbeddedId
 	private PedidoProdutoId id;
