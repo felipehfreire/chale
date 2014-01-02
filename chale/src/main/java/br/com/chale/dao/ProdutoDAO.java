@@ -16,4 +16,8 @@ public class ProdutoDAO extends GenericDAO<Produto> {
 		
 	}
 
+	public List<Produto> pesquisarTodos() {
+		return executeQueryListResult(Produto.QUERY_CONSULTAR_TODOS);
+	}
+
 }

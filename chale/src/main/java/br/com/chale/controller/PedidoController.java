@@ -13,11 +13,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.chale.entity.Mesa;
-import br.com.chale.entity.Pedido;
 import br.com.chale.entity.PedidoProduto;
-import br.com.chale.entity.PedidoProdutoId;
 import br.com.chale.entity.Produto;
+import br.com.chale.service.PedidoProdutoService;
 import br.com.chale.service.PedidoService;
+import br.com.chale.service.ProdutoService;
 import br.com.chale.util.ConversationUtil;
 
 @Named
@@ -25,102 +25,113 @@ import br.com.chale.util.ConversationUtil;
 @ConversationScoped
 public class PedidoController implements Serializable {
 	private static final long serialVersionUID = 2847517553472907222L;
+
+	@Inject
+	private PedidoProdutoService pedidoProdutoService;
 	
 	@Inject
 	private PedidoService pedidoService;
 	
 	@Inject
+	private ProdutoService produtoService;
+
+	@Inject
 	private Conversation conversation;
-	
+
 	private List<Mesa> mesas;
 	private List<PedidoProduto> pedidosProdutos;
 	private Mesa mesaSelecionada;
+	private PedidoProduto pedidoProduto;
+	private List<Produto> produtosInseridos;
+	private List<Produto> produtosSelect;
+	private Produto produtoSelecionado;
+	private Produto produto;
+	private Date dataAtual;
+	private boolean aVista;
 	
+	
+
 	@PostConstruct
 	public void iniciar() {
 		ConversationUtil.terminarConversacao(conversation);
 		limpar();
 		PreencherMesas();
+		PreencherProdutos();
 		pesquisar();
 	}
 	
+	public String reiniciar() {  
+//       produto = new Produto();
+          
+        return null;  
+    }  
+
 	private void PreencherMesas() {
 		mesas = pedidoService.consultarTodasMesas();
-		
+
+	}
+	
+	private void PreencherProdutos() {
+		produtosSelect = produtoService.pesquisarTodos();
+
 	}
 
 	public void pesquisar() {
-		//ConversationUtil.iniciarConversacao(conversation);
-		//listagem = produtoService.pesquisar(me);
+		ConversationUtil.iniciarConversacao(conversation);
 		
-		for(int i=0;i<5; i++){
-			Produto p = new Produto();
-			p.setDescricao("prod"+(i+1));
-			p.setPreco(Double.valueOf(i+1));
-			p.setQtdEstoque(Long.valueOf(i));
-			p.setQtdMinEstoque(Long.valueOf(i));
-			p.setTipoServico(false);
-			p.setId(Long.valueOf(i));
-		
-			Mesa m = new Mesa();
-			m.setNumeroMesa(Long.valueOf(i+1));
-			m.setUsada(false);
-			
-			Pedido ped = new Pedido();
-			ped.setDataVenda(new Date());
-			ped.setFinalizada(false);
-			ped.setVendaPrazo(false);
-			ped.setMesa(m);
-			ped.setId((Long.valueOf(i+1)));
-		
-			
-			
-			PedidoProduto pp = new PedidoProduto();
-			pp.setId(new PedidoProdutoId());
-			pp.setPedido(ped);
-			pp.setProduto(p);
-			pp.getId().setProduto(p);
-			pp.setQuantidade(Long.valueOf(i+4));
-			
-			pedidosProdutos.add(pp);
-			
-			
+		if(mesaSelecionada.getNumeroMesa() != null){
+			pedidosProdutos = pedidoProdutoService.pesquisarPedidos(mesaSelecionada);
+		}else{
+			pedidosProdutos = pedidoProdutoService.pesquisarPedidos();
 		}
 		
 	}
-	
+
 	public String novo() {
 		ConversationUtil.iniciarConversacao(conversation);
 		limpar();
-		return "/manterProduto.jsf?faces-redirect=true";
+		return "/manterPedido.jsf?faces-redirect=true";
 	}
+
+	 public String editar() {
+		 return "/manterPedido.jsf?faces-redirect=true";
+	 }
 	
-	
-//	public String editar() {
-//		return "/manterProduto.jsf?faces-redirect=true";
-//	}
-//	
-//	public void salvar() {
-//		if (produto.getId() == null) {
-//			produtoService.persistir(produto);
-//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Inserido com sucesso!"));
-//		} else {
-//			produtoService.atualizar(produto);
-//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Alterado com sucesso!"));
-//		}
-//		ConversationUtil.terminarConversacao(conversation);
-//		novo();
-//	}
-//	
-	
+	// public void salvar() {
+	// if (produto.getId() == null) {
+	// produtoService.persistir(produto);
+	// FacesContext.getCurrentInstance().addMessage(null, new
+	// FacesMessage(FacesMessage.SEVERITY_INFO, "",
+	// "Registro Inserido com sucesso!"));
+	// } else {
+	// produtoService.atualizar(produto);
+	// FacesContext.getCurrentInstance().addMessage(null, new
+	// FacesMessage(FacesMessage.SEVERITY_INFO, "",
+	// "Registro Alterado com sucesso!"));
+	// }
+	// ConversationUtil.terminarConversacao(conversation);
+	// novo();
+	// }
+	//
+
 	public String voltar() {
 		return "/?faces-redirect=true";
 	}
-	
+
 	public void limpar() {
 		mesas = new ArrayList<Mesa>();
 		mesaSelecionada = new Mesa();
 		pedidosProdutos = new ArrayList<PedidoProduto>();
+		
+		//produto = new Produto();
+		dataAtual =new Date();
+		produtoSelecionado = new Produto();
+		produtosInseridos = new ArrayList<Produto>();
+		produtosSelect = new ArrayList<Produto>();
+	}
+	
+	public void atualizarSelect(Produto p){
+		setProdutoSelecionado(p);
 	}
 
 	public List<Mesa> getMesas() {
@@ -145,6 +156,62 @@ public class PedidoController implements Serializable {
 
 	public void setPedidosProdutos(List<PedidoProduto> pedidosProdutos) {
 		this.pedidosProdutos = pedidosProdutos;
+	}
+
+	public PedidoProduto getPedidoProduto() {
+		return pedidoProduto;
+	}
+
+	public void setPedidoProduto(PedidoProduto pedidoProduto) {
+		this.pedidoProduto = pedidoProduto;
+	}
+
+	public List<Produto> getProdutosInseridos() {
+		return produtosInseridos;
+	}
+
+	public void setProdutosInseridos(List<Produto> produtosInseridos) {
+		this.produtosInseridos = produtosInseridos;
+	}
+
+	public List<Produto> getProdutosSelect() {
+		return produtosSelect;
+	}
+
+	public void setProdutosSelect(List<Produto> produtosSelect) {
+		this.produtosSelect = produtosSelect;
+	}
+
+	public Date getDataAtual() {
+		return dataAtual;
+	}
+
+	public void setDataAtual(Date dataAtual) {
+		this.dataAtual = dataAtual;
+	}
+
+	public boolean isaVista() {
+		return aVista;
+	}
+
+	public void setaVista(boolean aVista) {
+		this.aVista = aVista;
+	}
+
+	public Produto getProduto() {
+		return produto;
+	}
+
+	public void setProduto(Produto produto) {
+		this.produto = produto;
+	}
+
+	public Produto getProdutoSelecionado() {
+		return produtoSelecionado;
+	}
+
+	public void setProdutoSelecionado(Produto produtoSelecionado) {
+		this.produtoSelecionado = produtoSelecionado;
 	}
 
 }

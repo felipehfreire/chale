@@ -12,4 +12,6 @@ public interface ProdutoService {
 
 	void atualizar(Produto produto);
 
+	List<Produto> pesquisarTodos();
+
 }

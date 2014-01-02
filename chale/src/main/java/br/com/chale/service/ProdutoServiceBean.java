@@ -30,5 +30,11 @@ public class ProdutoServiceBean implements ProdutoService, Serializable {
 	public void atualizar(Produto produto) {
 		produtoDAO.update(produto);
 	}
+
+	@Override
+	public List<Produto> pesquisarTodos() {
+		
+		return produtoDAO.pesquisarTodos();
+	}
 	
 }
