@@ -1,5 +1,7 @@
 package br.com.chale.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,8 +21,10 @@ import br.com.chale.converter.BaseEntity;
 	
 	
 })
-public class Mesa implements BaseEntity{
+public class Mesa implements BaseEntity,Serializable{
 	
+	private static final long serialVersionUID = 1L;
+
 	public static final String CONSULTAR_TODAS_MESAS = "consultarTodasMesas";
 	
 	@Id

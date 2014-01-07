@@ -1,5 +1,7 @@
 package br.com.chale.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -21,8 +23,10 @@ import br.com.chale.converter.BaseEntity;
 	@NamedQuery(name=Produto.QUERY_CONSULTAR_TODOS, query="select p from Produto p "),
 	
 })
-public class Produto implements BaseEntity {
-
+public class Produto implements BaseEntity,Serializable {
+	
+	private static final long serialVersionUID = 5130446222776884014L;
+	
 	public static final String QUERY_CONSULTAR_POR_NOME = "consultarPorNome";
 	public static final String QUERY_CONSULTAR_TODOS = "consultarTodos";
 

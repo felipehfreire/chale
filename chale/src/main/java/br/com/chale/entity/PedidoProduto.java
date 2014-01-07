@@ -2,6 +2,8 @@ package br.com.chale.entity;
 
 
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -11,6 +13,8 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+
+import br.com.chale.converter.BaseEntity;
 
 @Entity
 @Table(name="produto_pedido")
@@ -26,9 +30,10 @@ import javax.persistence.Transient;
 			" where id = ?1")
 	
 })
-public class PedidoProduto {
+public class PedidoProduto implements Serializable{
 	
-
+	private static final long serialVersionUID = 2080039836842714937L;
+	
 	public static final String QUERY_CONSULTAR_TODOS_PEDIDOS = "consultarTodosPedidos";
 	public static final String CONSULTAR_PEDIDOS_POR_MESA = "consultarPedidosPorMesa";
 	public static final String CONSULTAR_PEDIDO_PROD_POR_ID = "consultarPedidosProdutoPorMesa";
