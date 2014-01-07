@@ -9,6 +9,7 @@ import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
 import javax.faces.bean.ManagedBean;
+import javax.faces.event.ValueChangeEvent;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -68,13 +69,35 @@ public class PedidoController implements Serializable {
 
 	private void PreencherMesas() {
 		mesas = pedidoService.consultarTodasMesas();
-
 	}
 	
 	private void PreencherProdutos() {
 		produtosSelect = produtoService.pesquisarTodos();
-
 	}
+	
+	public void changeMesa(ValueChangeEvent e){
+		Mesa m = (Mesa) e.getNewValue();
+		mesaSelecionada = m;
+	}
+	
+	public void changeProd(ValueChangeEvent e){
+		Produto p = (Produto) e.getNewValue();
+		produtoSelecionado = p;
+	}
+	
+	public void changeCodProd(ValueChangeEvent e){
+		Produto p = new Produto();
+		
+		for (Produto prod : produtosSelect) {
+			if(prod.getId() != null){
+				if(prod.getId().equals(e.getNewValue())){
+					p=prod;
+				}
+			}
+		}
+		produtoSelecionado = p;
+	}
+	
 
 	public void pesquisar() {
 		ConversationUtil.iniciarConversacao(conversation);
@@ -115,7 +138,7 @@ public class PedidoController implements Serializable {
 	//
 
 	public String voltar() {
-		return "/?faces-redirect=true";
+		return "/index.jsf?faces-redirect=true";
 	}
 
 	public void limpar() {

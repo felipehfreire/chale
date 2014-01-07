@@ -1,5 +1,6 @@
 package br.com.chale.entity;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -20,7 +21,10 @@ import br.com.chale.converter.BaseEntity;
 @Table(name="pedido")
 
 //TODO mudar nome da entidade para venda (banco tbm)
-public class Pedido implements BaseEntity{
+public class Pedido implements BaseEntity,Serializable{
+	
+
+	private static final long serialVersionUID = -5412811770343143282L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

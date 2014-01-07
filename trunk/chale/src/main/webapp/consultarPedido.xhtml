@@ -13,17 +13,22 @@
 		<h:form id="submitForm" class="bs-example form-horizontal">
 			<div class="page-header"></div>
 			<div class="row container-center">
-				<div class="col-lg-6 div-center">
+				<div class="col-lg-7 div-center">
 					<div class="well">
 						<div class="form-group">
+						
 				            <h:selectOneMenu id="mesa" label="mesas"   
-				             	value="#{pedidoController.mesaSelecionada}"  
-				                converter="simpleEntityConverter" required="true">  
+				             	value="#{pedidoController.mesaSelecionada}" 
+			             	   	onchange="submit()"  
+               					immediate="true"  
+				                converter="simpleEntityConverter"
+				                valueChangeListener="#{pedidoController.changeMesa}"> Mesa 
 				                <f:selectItem itemValue="" itemLabel="Selecione uma Mesa"/>  
 				                <f:selectItems value="#{pedidoController.mesas}" 
 				                	var="mesa" 
 				                	itemLabel="#{mesa.numeroMesa}" 
 				                	itemValue="#{mesa}"/>  
+				                      
 				            </h:selectOneMenu> 
 			             </div>
 			         	 <div class="well">    

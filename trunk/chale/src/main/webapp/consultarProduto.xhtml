@@ -11,31 +11,39 @@
 	
 	<ui:define name="content">
 		<h:form>
-			<h:inputText value="#{produtoController.termo}"/>
-			<h:commandButton value="Pesquisar" action="#{produtoController.pesquisar}" class="btn btn-defaut" ajax="false"/>
-			
-			<h:commandButton value="Novo" action="#{produtoController.novo}" class="btn btn-primary" ajax="false"/>
-			
-			<p:dataTable value="#{produtoController.listagem}" var="item">
-			
-				<p:column headerText="Nome">
-					<h:outputText value="#{item.descricao}"/>
-				</p:column>
-				
-				<p:column headerText="Qtd Estoque">
-					<h:outputText value="#{item.qtdEstoque}"/>
-				</p:column>
-				
-				<p:column headerText="Editar">
-					<h:commandButton class="btn btn-primary" ajax="false" value="Editar" action="#{produtoController.editar}">
-						<f:setPropertyActionListener value="#{item}"
-                        	target="#{produtoController.produto}" />
-                    </h:commandButton>
-				</p:column>
-			
-			</p:dataTable>
+		<div class="page-header"></div>
+			<div class="row container-center">
+				<div class="col-lg-7 div-center">
+					<div class="well">
+						<div class="form-group">
+							<h:inputText value="#{produtoController.termo}"/>
+							<h:commandButton value="Pesquisar" action="#{produtoController.pesquisar}" class="btn btn-defaut" ajax="false"/>
+							
+							<h:commandButton value="Novo" action="#{produtoController.novo}" class="btn btn-primary" ajax="false"/>
+							
+							<p:dataTable value="#{produtoController.listagem}" var="item">
+							
+								<p:column headerText="Nome">
+									<h:outputText value="#{item.descricao}"/>
+								</p:column>
+								
+								<p:column headerText="Qtd Estoque">
+									<h:outputText value="#{item.qtdEstoque}"/>
+								</p:column>
+								
+								<p:column headerText="Editar">
+									<h:commandButton class="btn btn-primary" ajax="false" value="Editar" action="#{produtoController.editar}">
+										<f:setPropertyActionListener value="#{item}"
+				                        	target="#{produtoController.produto}" />
+				                    </h:commandButton>
+								</p:column>
+							</p:dataTable>
+						</div>
+					</div>
+				</div>
+			</div>			
 		</h:form>
-	
+					
 	</ui:define>
 	</ui:composition>	
 </html>
