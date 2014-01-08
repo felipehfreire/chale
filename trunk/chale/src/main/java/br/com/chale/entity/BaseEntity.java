@@ -1,4 +1,4 @@
-package br.com.chale.converter;
+package br.com.chale.entity;
 
 public interface BaseEntity {
 	

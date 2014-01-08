@@ -15,8 +15,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import br.com.chale.converter.BaseEntity;
-
 @Entity
 @Table(name="pedido")
 
@@ -55,14 +53,6 @@ public class Pedido implements BaseEntity,Serializable{
 		return id;
 	}
 	
-	
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-
-
 	public Date getDataVenda() {
 		return dataVenda;
 	}

@@ -7,6 +7,8 @@ import javax.faces.context.FacesContext;
 import javax.faces.convert.Converter;
 import javax.faces.convert.FacesConverter;
 
+import br.com.chale.entity.BaseEntity;
+
 
 
 @FacesConverter(value="simpleEntityConverter")

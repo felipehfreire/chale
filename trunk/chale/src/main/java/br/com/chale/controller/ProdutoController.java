@@ -39,6 +39,7 @@ public class ProdutoController implements Serializable {
 		limpar();
 	}
 	
+	
 	public void pesquisar() {
 		ConversationUtil.iniciarConversacao(conversation);
 		listagem = produtoService.pesquisar(termo);
