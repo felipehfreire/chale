@@ -39,6 +39,7 @@ public class PedidoController implements Serializable {
 	@Inject
 	private Conversation conversation;
 
+	//pesquisa
 	private List<Mesa> mesas;
 	private List<PedidoProduto> pedidosProdutos;
 	private Mesa mesaSelecionada;
@@ -46,6 +47,8 @@ public class PedidoController implements Serializable {
 	private List<Produto> produtosInseridos;
 	private List<Produto> produtosSelect;
 	private Produto produtoSelecionado;
+	
+	private PedidoProduto pedProd;
 	private Produto produto;
 	private Date dataAtual;
 	private boolean aVista;
@@ -58,7 +61,6 @@ public class PedidoController implements Serializable {
 		limpar();
 		PreencherMesas();
 		PreencherProdutos();
-		pesquisar();
 	}
 	
 	public String reiniciar() {  
@@ -146,7 +148,8 @@ public class PedidoController implements Serializable {
 		mesaSelecionada = new Mesa();
 		pedidosProdutos = new ArrayList<PedidoProduto>();
 		
-		//produto = new Produto();
+		produto = new Produto();
+		pedidoProduto  = new PedidoProduto();
 		dataAtual =new Date();
 		produtoSelecionado = new Produto();
 		produtosInseridos = new ArrayList<Produto>();
@@ -237,4 +240,12 @@ public class PedidoController implements Serializable {
 		this.produtoSelecionado = produtoSelecionado;
 	}
 
+	public PedidoProduto getPedProd() {
+		return pedProd;
+	}
+
+	public void setPedProd(PedidoProduto pedProd) {
+		this.pedProd = pedProd;
+	}
+	
 }

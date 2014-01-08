@@ -11,8 +11,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import br.com.chale.converter.BaseEntity;
-
 
 @Entity
 @Table(name = "produto")
@@ -56,11 +54,6 @@ public class Produto implements BaseEntity,Serializable {
 
 	public Long getId() {
 		return id;
-	}
-
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getDescricao() {

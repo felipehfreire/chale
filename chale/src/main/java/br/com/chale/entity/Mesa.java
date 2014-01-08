@@ -11,8 +11,6 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
-import br.com.chale.converter.BaseEntity;
-
 @Entity
 @Table(name="mesa")
 @NamedQueries({
@@ -37,10 +35,6 @@ public class Mesa implements BaseEntity,Serializable{
 
 	public Long getNumeroMesa() {
 		return numeroMesa;
-	}
-
-	public void setNumeroMesa(Long numeroMesa) {
-		this.numeroMesa = numeroMesa;
 	}
 
 	public Boolean getUsada() {

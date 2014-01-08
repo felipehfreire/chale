@@ -9,8 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import br.com.chale.converter.BaseEntity;
-
 @Entity
 @Table(name="pessoa")
 public class Pessoa implements BaseEntity, Serializable{

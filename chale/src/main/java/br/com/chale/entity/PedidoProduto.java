@@ -14,8 +14,6 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import br.com.chale.converter.BaseEntity;
-
 @Entity
 @Table(name="produto_pedido")
 @NamedQueries({
@@ -57,10 +55,6 @@ public class PedidoProduto implements Serializable{
 	
 	public PedidoProdutoId getId() {
 		return id;
-	}
-
-	public void setId(PedidoProdutoId id) {
-		this.id = id;
 	}
 
 	public Pedido getPedido() {

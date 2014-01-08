@@ -17,7 +17,6 @@ public class PedidoServiceBean implements PedidoService, Serializable {
 
 	@Override
 	public List<Mesa> consultarTodasMesas() {
-		// TODO Auto-generated method stub
 		return (List<Mesa>) mesaDAO.consultarTodasMesas();
 	}
 	
