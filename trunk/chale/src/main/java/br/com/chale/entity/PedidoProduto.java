@@ -56,6 +56,10 @@ public class PedidoProduto implements Serializable{
 	public PedidoProdutoId getId() {
 		return id;
 	}
+	
+	public void setId(PedidoProdutoId id) {
+		this.id = id;
+	}
 
 	public Pedido getPedido() {
 		return pedido;

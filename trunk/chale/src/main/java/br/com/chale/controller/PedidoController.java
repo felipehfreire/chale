@@ -8,13 +8,16 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.event.ValueChangeEvent;
+import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.chale.entity.Mesa;
+import br.com.chale.entity.Pedido;
 import br.com.chale.entity.PedidoProduto;
+import br.com.chale.entity.PedidoProdutoId;
 import br.com.chale.entity.Produto;
 import br.com.chale.service.PedidoProdutoService;
 import br.com.chale.service.PedidoService;
@@ -42,17 +45,19 @@ public class PedidoController implements Serializable {
 	//pesquisa
 	private List<Mesa> mesas;
 	private List<PedidoProduto> pedidosProdutos;
-	private Mesa mesaSelecionada;
 	private PedidoProduto pedidoProduto;
 	private List<Produto> produtosInseridos;
 	private List<Produto> produtosSelect;
+	
+	private Mesa mesaSelecionada;
 	private Produto produtoSelecionado;
 	
-	private PedidoProduto pedProd;
 	private Produto produto;
 	private Date dataAtual;
 	private boolean aVista;
-	
+	//Jhonatan
+	private Long idProd;
+	private Pedido pedido;
 	
 
 	@PostConstruct
@@ -63,9 +68,34 @@ public class PedidoController implements Serializable {
 		PreencherProdutos();
 	}
 	
+	public void reRenderProduto() {
+		produto = produtoService.getById(idProd);
+		pedidoProduto.setProduto(produto);
+		pedidoProduto.getId().setProduto(produto);
+	}
+	
+	public void reRenderIdProduto() {
+		idProd = pedidoProduto.getProduto().getId();
+		pedidoProduto.setProduto(pedidoProduto.getProduto());
+		pedidoProduto.getId().setProduto(pedidoProduto.getProduto());
+	}
+	
 	public void add() {  
-//       produto = new Produto();
-          
+		//TODO validar quantidade no estoque
+		 //TODO diminuir do estoque
+		pedidoProduto.getId().setPedido(pedido);
+		pedidoProduto.setPedido(pedido);
+		pedido.getPedidosProdutos().add(pedidoProduto);
+		
+		if (pedido.getId() == null) {
+			 pedidoService.persistir(pedido);
+		 } else {
+			 pedidoService.atualizar(pedido);
+		 }
+		FacesContext.getCurrentInstance().addMessage(null, new
+				 FacesMessage(FacesMessage.SEVERITY_INFO, "",
+						 "Registro Inserido com sucesso!"));
+		
     }  
 
 	private void PreencherMesas() {
@@ -76,34 +106,10 @@ public class PedidoController implements Serializable {
 		produtosSelect = produtoService.pesquisarTodos();
 	}
 	
-	public void changeMesa(ValueChangeEvent e){
-		Mesa m = (Mesa) e.getNewValue();
-		mesaSelecionada = m;
-	}
-	
-//	public void changeProd(ValueChangeEvent e){
-//		Produto p = (Produto) e.getNewValue();
-//		produtoSelecionado = p;
-//	}
-	
-	public void changeCodProd(ValueChangeEvent e){
-		Produto p = new Produto();
-		
-		for (Produto prod : produtosSelect) {
-			if(prod.getId() != null){
-				if(prod.getId().equals(e.getNewValue())){
-					p=prod;
-				}
-			}
-		}
-		produtoSelecionado = p;
-	}
-	
-
 	public void pesquisar() {
 		ConversationUtil.iniciarConversacao(conversation);
 		
-		if(mesaSelecionada.getNumeroMesa() != null){
+		if(mesaSelecionada != null && mesaSelecionada.getNumeroMesa() != null){
 			pedidosProdutos = pedidoProdutoService.pesquisarPedidos(mesaSelecionada);
 		}else{
 			pedidosProdutos = pedidoProdutoService.pesquisarPedidos();
@@ -113,7 +119,6 @@ public class PedidoController implements Serializable {
 
 	public String novo() {
 		ConversationUtil.iniciarConversacao(conversation);
-		limpar();
 		return "/manterPedido.jsf?faces-redirect=true";
 	}
 
@@ -121,38 +126,35 @@ public class PedidoController implements Serializable {
 		 return "/manterPedido.jsf?faces-redirect=true";
 	 }
 	
-	// public void salvar() {
-	// if (produto.getId() == null) {
-	// produtoService.persistir(produto);
-	// FacesContext.getCurrentInstance().addMessage(null, new
-	// FacesMessage(FacesMessage.SEVERITY_INFO, "",
-	// "Registro Inserido com sucesso!"));
-	// } else {
-	// produtoService.atualizar(produto);
-	// FacesContext.getCurrentInstance().addMessage(null, new
-	// FacesMessage(FacesMessage.SEVERITY_INFO, "",
-	// "Registro Alterado com sucesso!"));
-	// }
-	// ConversationUtil.terminarConversacao(conversation);
-	// novo();
-	// }
-	//
+	 public void finalizar() {
+		 //TODO validar quantidade de produtos adicionados
+		 //TODO adicionar lista de pessoas caso for a prazo
+		 pedido.setFinalizada(true);
+		 pedidoService.atualizar(pedido);
+		 FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Alterado com sucesso!"));
+		 ConversationUtil.terminarConversacao(conversation);
+	 }
+	
 
 	public String voltar() {
 		return "/index.jsf?faces-redirect=true";
 	}
 
 	public void limpar() {
-		mesas = new ArrayList<Mesa>();
 		mesaSelecionada = new Mesa();
 		pedidosProdutos = new ArrayList<PedidoProduto>();
 		
 		produto = new Produto();
 		pedidoProduto  = new PedidoProduto();
+		pedidoProduto.setId(new PedidoProdutoId());
+		pedidoProduto.setPedido(pedido);
+		pedidoProduto.getId().setPedido(pedido);
 		dataAtual =new Date();
 		produtoSelecionado = new Produto();
 		produtosInseridos = new ArrayList<Produto>();
-		produtosSelect = new ArrayList<Produto>();
+		
+		pedido = new Pedido();
+		pedido.setPedidosProdutos(new ArrayList<PedidoProduto>());
 	}
 	
 	public void atualizarSelect(Produto p){
@@ -239,12 +241,21 @@ public class PedidoController implements Serializable {
 		this.produtoSelecionado = produtoSelecionado;
 	}
 
-	public PedidoProduto getPedProd() {
-		return pedProd;
+	public Long getIdProd() {
+		return idProd;
 	}
 
-	public void setPedProd(PedidoProduto pedProd) {
-		this.pedProd = pedProd;
+	public void setIdProd(Long idProd) {
+		this.idProd = idProd;
 	}
+
+	public Pedido getPedido() {
+		return pedido;
+	}
+
+	public void setPedido(Pedido pedido) {
+		this.pedido = pedido;
+	}
+	
 	
 }
