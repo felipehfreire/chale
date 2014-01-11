@@ -63,10 +63,9 @@ public class PedidoController implements Serializable {
 		PreencherProdutos();
 	}
 	
-	public String reiniciar() {  
+	public void add() {  
 //       produto = new Produto();
           
-        return null;  
     }  
 
 	private void PreencherMesas() {
@@ -82,10 +81,10 @@ public class PedidoController implements Serializable {
 		mesaSelecionada = m;
 	}
 	
-	public void changeProd(ValueChangeEvent e){
-		Produto p = (Produto) e.getNewValue();
-		produtoSelecionado = p;
-	}
+//	public void changeProd(ValueChangeEvent e){
+//		Produto p = (Produto) e.getNewValue();
+//		produtoSelecionado = p;
+//	}
 	
 	public void changeCodProd(ValueChangeEvent e){
 		Produto p = new Produto();
