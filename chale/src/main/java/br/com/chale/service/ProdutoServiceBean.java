@@ -36,5 +36,13 @@ public class ProdutoServiceBean implements ProdutoService, Serializable {
 		
 		return produtoDAO.pesquisarTodos();
 	}
+
+	@Override
+	public Produto getById(Long idProd) {
+		return produtoDAO.manager.find(Produto.class, idProd);
+		
+	}
+	
+	
 	
 }

@@ -14,4 +14,6 @@ public interface ProdutoService {
 
 	List<Produto> pesquisarTodos();
 
+	Produto getById(Long idProd);
+
 }

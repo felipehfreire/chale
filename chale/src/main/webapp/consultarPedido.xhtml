@@ -19,10 +19,7 @@
 						
 				            <h:selectOneMenu id="mesa" label="mesas"   
 				             	value="#{pedidoController.mesaSelecionada}" 
-			             	   	onchange="submit()"  
-               					immediate="true"  
-				                converter="simpleEntityConverter"
-				                valueChangeListener="#{pedidoController.changeMesa}"> Mesa 
+				                converter="simpleEntityConverter"> Mesa 
 				                <f:selectItem itemValue="" itemLabel="Selecione uma Mesa"/>  
 				                <f:selectItems value="#{pedidoController.mesas}" 
 				                	var="mesa" 

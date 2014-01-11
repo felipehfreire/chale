@@ -3,10 +3,15 @@ package br.com.chale.service;
 import java.util.List;
 
 import br.com.chale.entity.Mesa;
+import br.com.chale.entity.Pedido;
 
 
 public interface PedidoService {
 
 	List<Mesa> consultarTodasMesas();
+
+	void persistir(Pedido pedido);
+
+	void atualizar(Pedido pedido);
 
 }
