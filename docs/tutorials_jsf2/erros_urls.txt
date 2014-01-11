@@ -1,0 +1,8 @@
+||||||||||||ERROS  SOLUÇÕES|||||||||||||||||
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+erro do eclipse quando chamado o metodo action no xhtml 
+	http://stackoverflow.com/questions/8083469/validation-error-on-valid-facelet-when-calling-action-method-with-parameter
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+	
