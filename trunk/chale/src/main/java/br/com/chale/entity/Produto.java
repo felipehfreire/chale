@@ -26,7 +26,7 @@ public class Produto implements BaseEntity,Serializable {
 	private static final long serialVersionUID = 5130446222776884014L;
 	
 	public static final String QUERY_CONSULTAR_POR_NOME = "consultarPorNome";
-	public static final String QUERY_CONSULTAR_TODOS = "consultarTodos";
+	public static final String QUERY_CONSULTAR_TODOS = "produto.consultarTodos";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
