@@ -14,7 +14,6 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.chale.entity.Pessoa;
-import br.com.chale.entity.Produto;
 import br.com.chale.service.ClienteService;
 import br.com.chale.util.ConversationUtil;
 
@@ -50,7 +49,7 @@ public class ClienteController implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Alterado com sucesso!"));
 		}
 		ConversationUtil.terminarConversacao(conversation);
-		//novo();
+		novo();
 	}
 	
 	public void pesquisar(){

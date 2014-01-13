@@ -52,17 +52,17 @@
     						 <h:form id="submitForm2" class="bs-example form-horizontal">
        						  <div class="well">
        						     <p:outputPanel id="pedidos">
-       						     	<p:dataTable  value="#{pedidoController.pedido.pedidosProdutos}" var="pedProdIn">
+       						     	<p:dataTable  value="#{pedidoController.pedido.pedidosProdutos}" var="pedProdIn" sortMode="multiple" rows="10"  paginator="true">
 								
-									<p:column headerText="Código">
+									<p:column sortBy="#{pedProdIn.produto.id}" headerText="Código">
 										<h:outputText value="#{pedProdIn.produto.id}"/>
 									</p:column>
 									
-									<p:column headerText="Produto">
+									<p:column  sortBy="#{pedProdIn.produto.descricao}" headerText="Produto">
 										<h:outputText value="#{pedProdIn.produto.descricao}"/>
 									</p:column>
 									
-									<p:column headerText="Quantidade">
+									<p:column sortBy="#{pedProdIn.quantidade}" headerText="Quantidade">
 										<h:outputText value="#{pedProdIn.quantidade}"/>
 									</p:column>
 									
