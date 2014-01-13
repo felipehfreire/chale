@@ -34,13 +34,13 @@
 			          	</div>   
 			          
 			          	<div class="well">
-			          		<p:dataTable value="#{pedidoController.pedidosProdutos}" var="pedProd">
+			          		<p:dataTable value="#{pedidoController.pedidosProdutos}" var="pedProd"  sortMode="multiple" rows="10"  paginator="true">
 			
-								<p:column headerText="Número da mesa">
+								<p:column sortBy="#{pedProd.pedido.mesa.numeroMesa}" headerText="Número da mesa">
 									<h:outputText value="#{pedProd.pedido.mesa.numeroMesa}"/>
 								</p:column>
 								
-								<p:column headerText="Número do pedido">
+								<p:column sortBy="#{pedProd.pedido.id}" headerText="Número do pedido">
 									<h:outputText value="#{pedProd.pedido.id}"/>
 								</p:column>
 								

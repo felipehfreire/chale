@@ -21,13 +21,16 @@
 							
 							<h:commandButton value="Novo" action="#{clienteController.novo}" class="btn btn-primary" ajax="false"/>
 							
-							<p:dataTable value="#{clienteController.pessoas}" var="item">
+							<h:dataTable value="#{clienteController.pessoas}" var="item"  >
+							</h:dataTable>
 							
-								<p:column headerText="Nome">
+							<p:dataTable value="#{clienteController.pessoas}" var="item"  sortMode="multiple" rows="10"  paginator="true">
+							
+								<p:column sortBy="#{item.nome}" headerText="Nome">
 									<h:outputText value="#{item.nome}"/>
 								</p:column>
 								
-								<p:column headerText="Telefone">
+								<p:column sortBy="#{item.telefone}" headerText="Telefone">
 									<h:outputText value="#{item.telefone}"/>
 								</p:column>
 								
