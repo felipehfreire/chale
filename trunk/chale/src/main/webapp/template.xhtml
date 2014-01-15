@@ -35,7 +35,7 @@
 <h:body>
 	<p:menubar>
 		<p:submenu label="File" icon="ui-icon-document">
-			<p:menuitem value="Produtos" url="/consultarProduto.jsf?faces-redirect=true" />
+			<p:menuitem value="Produtos" url="/secure/consultarProduto.jsf?faces-redirect=true" />
 			<p:menuitem value="Pedidos" url="/consultarPedido.jsf?faces-redirect=true" />
 			<p:separator />
 			<p:menuitem value="Quit" url="#" />
@@ -47,13 +47,20 @@
 			<p:menuitem value="Quit" url="#" />
 		</p:submenu>
 		
+		<p:submenu label="Relatórios" icon="ui-icon-document">
+			<p:menuitem value="Diário" url="/consultarCliente.jsf?faces-redirect=true" />
+			<p:separator />
+			<p:menuitem value="Quit" url="#" />
+		</p:submenu>
+		
 		<p:submenu label="Edit" icon="ui-icon-pencil">
 			<p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w" />
 			<p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e" />
 		</p:submenu>
 		
 		<f:facet name="options">  
-            <p:commandButton type="button" value="Logout" icon="ui-icon-extlink" />  
+			<p:commandButton type="button" value="Alterar Senha" action="#{loginController.logOut}" icon="ui-icon-extlink" />
+            <p:commandButton type="button" value="Logout" action="#{loginController.logOut}" icon="ui-icon-extlink" />  
         </f:facet>
 	</p:menubar>
 
