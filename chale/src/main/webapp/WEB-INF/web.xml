@@ -33,10 +33,24 @@
               javax.enterprise.inject.spi.BeanManager
            </resource-env-ref-type>
         </resource-env-ref>
-       
+        
+       <!-- retirar -->
        <context-param>  
   			<param-name>javax.faces.PROJECT_STAGE</param-name>  
   			<param-value>Development</param-value>  
-		</context-param>   
+		</context-param>
+		
+		
+		 <filter>
+        	<filter-name>LoginFilter</filter-name>
+        	<filter-class>br.com.chale.filters.LoginFilter</filter-class>
+    	</filter>
+
+		 <!-- Set the login filter to secure all the pages in the /secured/* path of the application - See more at: http://www.itcuties.com/j2ee/jsf-2-login-filter-example/#sthash.yvtSdbO0.dpuf-->
+		<filter-mapping>
+        	<filter-name>LoginFilter</filter-name>
+       	 	<url-pattern>/secure/*</url-pattern>
+  		</filter-mapping>
+   
   
 </web-app>

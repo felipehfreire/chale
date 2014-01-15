@@ -7,7 +7,7 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
 
-<ui:composition template="secure/template.xhtml">
+<ui:composition template="template.xhtml">
 
 	<ui:define name="content">
 		
@@ -26,12 +26,12 @@
 								
 								<h:outputLabel value="Telefone" class="col-lg-2 control-label" for="telCli" />
 								<div class="col-lg-10">
-									<h:inputText class="form-control tel" name="telCli" id="telCli" value="#{clienteController.pessoa.telefone}"/>
+									<h:inputText class="form-control tel"		name="telCli" id="telCli" value="#{clienteController.pessoa.telefone}"/>
 						     	</div>
 						     	
 						     	<div class="form-group">
 									<div class="col-lg-10 col-lg-offset-2">
-										<h:commandButton value="Voltar"	action="#{produtoController.voltar}" 
+										<h:commandButton value="Voltar"	action="#{clienteController.voltar}" 
 											class="btn btn-defaut" ajax="false" immediate="true" />
 											
 										<h:commandButton value="Salvar"	action="#{clienteController.salvar}" 

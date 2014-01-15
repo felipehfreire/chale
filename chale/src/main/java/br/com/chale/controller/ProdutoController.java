@@ -48,11 +48,11 @@ public class ProdutoController implements Serializable {
 	public String novo() {
 		ConversationUtil.iniciarConversacao(conversation);
 		limpar();
-		return "/manterProduto.jsf?faces-redirect=true";
+		return "/secure/manterProduto.jsf?faces-redirect=true";
 	}
 	
 	public String editar() {
-		return "/manterProduto.jsf?faces-redirect=true";
+		return "/secure/manterProduto.jsf?faces-redirect=true";
 	}
 	
 	public void salvar() {
@@ -68,7 +68,7 @@ public class ProdutoController implements Serializable {
 	}
 	
 	public String voltar() {
-		return "/consultarProduto.jsf?faces-redirect=true";
+		return "/secure/consultarProduto.jsf?faces-redirect=true";
 	}
 	
 	public void limpar() {
