@@ -83,6 +83,7 @@ public class PedidoController implements Serializable {
 	public void add() {  
 		//TODO validar quantidade no estoque
 		 //TODO diminuir do estoque
+		//TODO o cara pode mudar de mesa
 		pedidoProduto.getId().setPedido(pedido);
 		pedidoProduto.setPedido(pedido);
 		pedido.getPedidosProdutos().add(pedidoProduto);
