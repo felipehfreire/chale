@@ -19,7 +19,7 @@
 							<div class="form-group">
 								<h:outputLabel value="Usuário" class="col-lg-2 control-label" for="usuario" />
 								<div class="col-lg-10">
-									<h:inputText class="form-control" name="usuario" id="usuario" value="#{loginController.usuario}"
+									<h:inputText class="form-control" name="usuario" id="usuario" value="#{loginController.nomeUsuario}"
 										required="true" requiredMessage="Insira o nome!" />
 										<p:message for="usuario" styleClass="error" />
 								</div>
@@ -28,14 +28,16 @@
 							<div class="form-group">
 								<h:outputLabel value="Senha" class="col-lg-2 control-label" for="senha" />
 									<div class="col-lg-10">
-										<h:inputText class="form-control tel" name="senha" id="senha" value="#{loginController.senha}"/>
+										<h:inputSecret class="form-control" name="senha" id="senha" value="#{loginController.senha}"
+											required="true" requiredMessage="Insira a senha!" />
+										<p:message for="senha" styleClass="error" />
 						     		</div>
 							</div>
 						
 							<div class="form-group">
 								<div class="col-lg-7 col-lg-offset-2">
 								<h:commandButton value="Logar"	action="#{loginController.Login}" 
-									class="btn btn-defaut" ajax="false" immediate="true" />
+									class="btn btn-defaut" ajax="false" />
 									
 								</div>
 							</div>
