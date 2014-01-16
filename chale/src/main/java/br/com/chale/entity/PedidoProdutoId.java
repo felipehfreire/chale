@@ -17,7 +17,7 @@ public class PedidoProdutoId implements Serializable {
 	@JoinColumn(name="codVenda",nullable=false)
 	private Pedido pedido;
 	
-	@ManyToOne
+	@ManyToOne(cascade={CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
 	@JoinColumn(name="codProd", nullable=false)
 	private Produto produto;
 
