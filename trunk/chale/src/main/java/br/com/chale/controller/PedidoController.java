@@ -42,20 +42,16 @@ public class PedidoController implements Serializable {
 	@Inject
 	private Conversation conversation;
 
-	//pesquisa
 	private List<Mesa> mesas;
 	private List<PedidoProduto> pedidosProdutos;
-	private PedidoProduto pedidoProduto;
 	private List<Produto> produtosInseridos;
 	private List<Produto> produtosSelect;
-	
-	private Mesa mesaSelecionada;
-	private Produto produtoSelecionado;
-	
-	private Produto produto;
 	private Date dataAtual;
 	private boolean aVista;
 	//Jhonatan
+	private PedidoProduto pedidoProduto;
+	private Produto produtoSelecionado;
+	private Mesa mesaSelecionada;
 	private Long idProd;
 	private Pedido pedido;
 	
@@ -69,35 +65,45 @@ public class PedidoController implements Serializable {
 	}
 	
 	public void reRenderProduto() {
-		produto = produtoService.getById(idProd);
-		pedidoProduto.setProduto(produto);
-		pedidoProduto.getId().setProduto(produto);
+		produtoSelecionado = produtoService.getById(idProd);
 	}
 	
 	public void reRenderIdProduto() {
-		idProd = pedidoProduto.getProduto().getId();
-		pedidoProduto.setProduto(pedidoProduto.getProduto());
-		pedidoProduto.getId().setProduto(pedidoProduto.getProduto());
+		idProd = produtoSelecionado.getId();
+		
 	}
 	
-	public void add() {  
-		//TODO validar quantidade no estoque
-		 //TODO diminuir do estoque
-		//TODO o cara pode mudar de mesa
-		pedidoProduto.getId().setPedido(pedido);
-		pedidoProduto.setPedido(pedido);
-		pedido.getPedidosProdutos().add(pedidoProduto);
-		
-		if (pedido.getId() == null) {
-			 pedidoService.persistir(pedido);
-		 } else {
-			 pedidoService.atualizar(pedido);
-		 }
-		FacesContext.getCurrentInstance().addMessage(null, new
-				 FacesMessage(FacesMessage.SEVERITY_INFO, "",
-						 "Registro Inserido com sucesso!"));
-		
-    }  
+	public void add() {
+		if (getProdutoSelecionado().getQtdEstoque().equals(0L) || getProdutoSelecionado().getQtdEstoque() < pedidoProduto.getQuantidade()) {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Produto sem estoque!"));
+		} else {
+			getProdutoSelecionado().setQtdEstoque(getProdutoSelecionado().getQtdEstoque() - pedidoProduto.getQuantidade());
+			produtoService.atualizar(getProdutoSelecionado());
+			
+			//TODO o cara pode mudar de mesa
+			pedidoProduto.setProduto(getProdutoSelecionado());
+			pedidoProduto.getId().setProduto(getProdutoSelecionado());
+			
+			pedidoProduto.getId().setPedido(pedido);
+			pedidoProduto.setPedido(pedido);
+			
+			pedido.getPedidosProdutos().add(pedidoProduto);
+			
+			if (pedido.getId() == null) {
+				 pedidoService.persistir(pedido);
+			 } else {
+				 pedidoService.atualizar(pedido);
+			 }
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Inserido com sucesso!"));
+			limparAdd();
+		}
+    } 
+	
+	private void limparAdd() {
+		pedidoProduto = new PedidoProduto();
+		produtoSelecionado = new Produto();
+		idProd = null;
+	}
 
 	private void PreencherMesas() {
 		mesas = pedidoService.consultarTodasMesas();
@@ -128,7 +134,10 @@ public class PedidoController implements Serializable {
 	 }
 	
 	 public void finalizar() {
-		 //TODO validar quantidade de produtos adicionados
+		 if (pedido.getPedidosProdutos().size() == 0) {
+			 FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_ERROR, "", 
+					 "Não é possível finalizar o pedido sem ao menos selecionar um produto!"));
+		 }
 		 //TODO adicionar lista de pessoas caso for a prazo
 		 pedido.setFinalizada(true);
 		 pedidoService.atualizar(pedido);
@@ -145,7 +154,6 @@ public class PedidoController implements Serializable {
 		mesaSelecionada = new Mesa();
 		pedidosProdutos = new ArrayList<PedidoProduto>();
 		
-		produto = new Produto();
 		pedidoProduto  = new PedidoProduto();
 		pedidoProduto.setId(new PedidoProdutoId());
 		pedidoProduto.setPedido(pedido);
@@ -224,14 +232,6 @@ public class PedidoController implements Serializable {
 
 	public void setaVista(boolean aVista) {
 		this.aVista = aVista;
-	}
-
-	public Produto getProduto() {
-		return produto;
-	}
-
-	public void setProduto(Produto produto) {
-		this.produto = produto;
 	}
 
 	public Produto getProdutoSelecionado() {
