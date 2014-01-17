@@ -2,8 +2,9 @@ package br.com.chale.controller;
 
 import java.io.Serializable;
 
+import javax.annotation.PostConstruct;
+import javax.enterprise.context.ApplicationScoped;
 import javax.faces.application.FacesMessage;
-import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -22,18 +23,23 @@ public class LoginController implements Serializable {
 	private LoginService loginService;
 	
 	private String nomeUsuario;
-	private String senha;
+	private String senha;	
 	private Usuario user;
 	
 	private boolean loggedIn;
+	
+	@PostConstruct
+	public void iniciar() {
+		limpar();
+	}
 	
 	public  String Login (){
 		user = loginService.pesquisarUsuario(nomeUsuario, senha);
 		if(user != null){
 			loggedIn = true;
-			return "/index.jsf?faces-redirect=true"; 
+			return "/secure/consultarProduto.jsf?faces-redirect=true"; 
 		}else{
-			FacesMessage msg = new FacesMessage("Login error!", "ERROR MSG");
+			FacesMessage msg = new FacesMessage("ERRO ao logar:", "Usuário ou Senha incorretos!");
 	        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 	        loggedIn = false;
@@ -42,9 +48,16 @@ public class LoginController implements Serializable {
 	}
 	
 	 public String logout() {
+		 loggedIn = false;
 		return "/index.jsf?faces-redirect=true";
 	}
 	
+	 public void limpar() {
+			nomeUsuario = "";
+			senha = "";
+			user = new Usuario();
+		} 
+	 
 	public String getNomeUsuario() {
 		return nomeUsuario;
 	}

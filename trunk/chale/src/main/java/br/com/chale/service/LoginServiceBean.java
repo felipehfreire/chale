@@ -20,6 +20,5 @@ public class LoginServiceBean implements LoginService, Serializable {
 		
 		return loginDAO.pesquisarUsuario(nomeUsuario, senha);
 	}
-	
 
 }

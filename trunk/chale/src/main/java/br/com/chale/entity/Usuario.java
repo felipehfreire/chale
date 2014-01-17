@@ -1,6 +1,7 @@
 package br.com.chale.entity;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name="usuario")
 @NamedQueries({
-	@NamedQuery(name=Usuario.QUERY_CONSULTAR_USUARIO, query="select u from Usuario u where nome = ?1 and senha = ?2"),
+	@NamedQuery(name=Usuario.QUERY_CONSULTAR_USUARIO, query="select u from Usuario u where usuario = ?1 and senha = md5(?2)"),
 })
 public class Usuario implements BaseEntity, Serializable{
 	
@@ -27,10 +28,10 @@ public class Usuario implements BaseEntity, Serializable{
 	@Column(name="codUsuario", nullable=false)
 	private Long id;
 	
-	@Column(name="usuario", length= 100, nullable=false)
+	@Column(name="nomeUsuario", length= 100, nullable=false)
 	private String usuario;
 	
-	@Column(name="senha", length= 20, nullable=false)
+	@Column(name="senha", length= 32, nullable=false)
 	private String senha;
 
 	public Long getId() {
@@ -50,7 +51,14 @@ public class Usuario implements BaseEntity, Serializable{
 	}
 
 	public void setSenha(String senha) {
-		this.senha = senha;
+		try {
+			MessageDigest md = MessageDigest.getInstance("MD5"); 
+			byte[] thedigest = md.digest(senha.getBytes());	
+			this.senha = new String(thedigest);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 	
