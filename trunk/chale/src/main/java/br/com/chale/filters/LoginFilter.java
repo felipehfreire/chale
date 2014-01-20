@@ -2,6 +2,7 @@ package br.com.chale.filters;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -16,12 +17,15 @@ import br.com.chale.controller.LoginController;
 //@WebFilter(filterName = "LoginFilter", urlPatterns = {"*.xhtml"})
 public class LoginFilter implements Filter {
      
+	@Inject
+	LoginController  loginController;
+	
     /**
      * Checks if user is logged in. If not it redirects to the login.xhtml page.
      */
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         // Get the loginBean from session attribute
-        LoginController loginController = (LoginController)((HttpServletRequest)request).getSession().getAttribute("loginController");
+       // LoginController loginController = (LoginController)((HttpServletRequest)request).getSession().getAttribute("loginController");
          
         // For the first application request there is no loginBean in the session so user needs to log in
         // For other requests loginBean is present but we need to check if user has logged in successfully

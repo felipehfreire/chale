@@ -25,6 +25,8 @@ public class LoginController implements Serializable {
 	private String nomeUsuario;
 	private String senha;	
 	private Usuario user;
+	private String novaSenha;
+	private String confirmSenha;
 	
 	private boolean loggedIn;
 	
@@ -49,14 +51,21 @@ public class LoginController implements Serializable {
 	
 	 public String logout() {
 		 loggedIn = false;
-		return "/index.jsf?faces-redirect=true";
+		 FacesMessage msg = new FacesMessage("Logout:", "Desconectado com sucesso!");
+		 msg.setSeverity(FacesMessage.SEVERITY_INFO);
+		 FacesContext.getCurrentInstance().addMessage(null, msg);
+		 return "/index.jsf?faces-redirect=true";
 	}
 	
 	 public void limpar() {
 			nomeUsuario = "";
 			senha = "";
 			user = new Usuario();
-		} 
+	} 
+	 
+	 public  String alterarSenha (){
+		 return "/index.jsf?faces-redirect=true";  
+	 }
 	 
 	public String getNomeUsuario() {
 		return nomeUsuario;
@@ -88,6 +97,22 @@ public class LoginController implements Serializable {
 
 	public void setLoggedIn(boolean loggedIn) {
 		this.loggedIn = loggedIn;
+	}
+
+	public String getNovaSenha() {
+		return novaSenha;
+	}
+
+	public void setNovaSenha(String novaSenha) {
+		this.novaSenha = novaSenha;
+	}
+
+	public String getConfirmSenha() {
+		return confirmSenha;
+	}
+
+	public void setConfirmSenha(String confirmSenha) {
+		this.confirmSenha = confirmSenha;
 	} 
 
 }

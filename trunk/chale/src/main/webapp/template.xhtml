@@ -26,9 +26,12 @@
 	
 	<h:outputScript library="theme" name="js/jquery.maskMoney.min.js"/>
 	
+	<ui:include src="/secure/alterarSenhaModal.xhtml"></ui:include>
+	
 </h:head>
 
 <h:body>
+	
 	<p:menubar>
 		<p:submenu label="File" icon="ui-icon-document">
 			<p:menuitem value="Produtos" url="/secure/consultarProduto.jsf?faces-redirect=true" />
@@ -55,8 +58,10 @@
 		</p:submenu>
 		
 		<f:facet name="options">  
-			<p:commandButton type="button" value="Alterar Senha" action="#{loginController.logOut}" icon="ui-icon-extlink" />
-            <p:commandButton type="button" value="Logout" action="#{loginController.logOut}" icon="ui-icon-extlink" />  
+			<h:form id="loginForm">
+				<h:commandButton  value="Logout" action="#{loginController.logout}" class="btn btn-defaut" ajax="false" icon="ui-icon-extlink" />
+				<h:commandButton value="Alterar Senha"  class="btn btn-defaut" rendered="#{loginController.loggedIn}" ajax="false" icon="ui-icon-extlink" onclick="PF('dlg').show();" />
+           	</h:form>  
         </f:facet>
 	</p:menubar>
 
