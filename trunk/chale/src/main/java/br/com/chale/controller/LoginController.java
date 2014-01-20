@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.chale.entity.Usuario;
-import br.com.chale.service.LoginService;
+import br.com.chale.service.UsuarioService;
 
 @Named
 @ManagedBean
@@ -20,7 +20,7 @@ public class LoginController implements Serializable {
 	private static final long serialVersionUID = 2847517553472907222L;
 	
 	@Inject
-	private LoginService loginService;
+	private UsuarioService usuarioService;
 	
 	private String nomeUsuario;
 	private String senha;	
@@ -34,7 +34,7 @@ public class LoginController implements Serializable {
 	}
 	
 	public  String Login (){
-		user = loginService.pesquisarUsuario(nomeUsuario, senha);
+		user = usuarioService.pesquisarUsuario(nomeUsuario, senha);
 		if(user != null){
 			loggedIn = true;
 			return "/secure/consultarProduto.jsf?faces-redirect=true"; 
