@@ -6,4 +6,8 @@ public interface UsuarioService {
 
 		Usuario pesquisarUsuario(String nomeUsuario, String senha);
 
+		Usuario pesquisarSenha(String senha, String nomeUsuario);
+
+		void atualizar(Usuario userAtual);
+
 }
