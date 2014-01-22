@@ -61,7 +61,7 @@
 					rendered="#{loginController.loggedIn}" class="btn btn-defaut" ajax="false" icon="ui-icon-extlink" />
 					
 				<h:commandButton value="Alterar Senha" styleClass="btn btn-defaut" 
-					rendered="#{loginController.loggedIn}" ajax="true" icon="ui-icon-extlink" onclick="pwModal.show()" />
+					rendered="#{loginController.loggedIn}" ajax="true" icon="ui-icon-extlink" action="#{loginController.alterarSenhaNavigation}" />
            	</h:form>  
         </f:facet>
 	</p:menubar>

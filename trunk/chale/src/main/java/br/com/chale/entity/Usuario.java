@@ -12,16 +12,21 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+import br.com.chale.util.EncriptatorUtil;
+
 @Entity
 @Table(name="usuario")
 @NamedQueries({
 	@NamedQuery(name=Usuario.QUERY_CONSULTAR_USUARIO, query="select u from Usuario u where usuario = ?1 and senha = md5(?2)"),
+	@NamedQuery(name=Usuario.QUERY_CONSULTAR_SENHA, query="select u from Usuario u where usuario = ?1 and senha = md5(?2)"),
 })
 public class Usuario implements BaseEntity, Serializable{
 	
 	private static final long serialVersionUID = 6755595084217031092L;
 
 	public static final String QUERY_CONSULTAR_USUARIO = "consultarUsuario";
+
+	public static final String QUERY_CONSULTAR_SENHA = "consultarSenha";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -51,14 +56,8 @@ public class Usuario implements BaseEntity, Serializable{
 	}
 
 	public void setSenha(String senha) {
-		try {
-			MessageDigest md = MessageDigest.getInstance("MD5"); 
-			byte[] thedigest = md.digest(senha.getBytes());	
-			this.senha = new String(thedigest);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 		
+			this.senha = EncriptatorUtil.formatMD5(senha);
 	}
 
 	

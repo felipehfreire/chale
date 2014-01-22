@@ -1,6 +1,8 @@
 package br.com.chale.controller;
 
 import java.io.Serializable;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -12,6 +14,7 @@ import javax.inject.Named;
 
 import br.com.chale.entity.Usuario;
 import br.com.chale.service.UsuarioService;
+import br.com.chale.util.EncriptatorUtil;
 
 @Named
 @ManagedBean
@@ -61,9 +64,41 @@ public class LoginController implements Serializable {
 			nomeUsuario = "";
 			senha = "";
 			user = new Usuario();
+			novaSenha="";
+			confirmSenha="";
 	} 
 	 
 	 public  String alterarSenha (){
+		 Usuario userAtual =new Usuario();
+		 if(senha!= null && nomeUsuario!=null){
+			 userAtual =  usuarioService.pesquisarSenha(senha, nomeUsuario);
+		 }else{
+			 return"";
+		 }
+		 
+		 if(userAtual!= null){
+			 if(novaSenha.equals(confirmSenha)){
+				 
+				userAtual.setSenha(novaSenha);
+				 userAtual.setUsuario(nomeUsuario);
+				 usuarioService.atualizar(userAtual);
+			 }
+		 }else{
+			 loggedIn = false;
+			 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", "Usuario ou senha incorretos!"));
+			 return"";
+		 }
+		 
+		 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Senha alterada com sucesso!"));
+		 limpar();
+		 return"";
+	 }
+	 
+	 public  String alterarSenhaNavigation (){
+		 return "/secure/alterarSenha.jsf?faces-redirect=true";  
+	 }
+	 
+	 public  String cancelar (){
 		 return "/index.jsf?faces-redirect=true";  
 	 }
 	 
