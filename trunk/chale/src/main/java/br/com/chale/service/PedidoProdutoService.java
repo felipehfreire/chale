@@ -8,8 +8,6 @@ import br.com.chale.entity.PedidoProduto;
 
 public interface PedidoProdutoService {
 
-	List<PedidoProduto> pesquisarPedidos(Mesa mesaSelecionada);
-
-	List<PedidoProduto> pesquisarPedidos();
+	void atualizar(PedidoProduto pedidoProduto);
 
 }

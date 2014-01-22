@@ -34,24 +34,24 @@
 			          	</div>   
 			          
 			          	<div class="well">
-			          		<p:dataTable value="#{pedidoController.pedidosProdutos}" var="pedProd"  sortMode="multiple" rows="10"  paginator="true">
+			          		<p:dataTable value="#{pedidoController.pedidos}" var="pedido"  sortMode="multiple" rows="10"  paginator="true">
 			
-								<p:column sortBy="#{pedProd.pedido.mesa.numeroMesa}" headerText="Número da mesa">
-									<h:outputText value="#{pedProd.pedido.mesa.numeroMesa}"/>
+								<p:column sortBy="#{pedido.mesa.numeroMesa}" headerText="Número da mesa">
+									<h:outputText value="#{pedido.mesa.numeroMesa}"/>
 								</p:column>
 								
-								<p:column sortBy="#{pedProd.pedido.id}" headerText="Número do pedido">
-									<h:outputText value="#{pedProd.pedido.id}"/>
+								<p:column sortBy="#{pedido.id}" headerText="Número do pedido">
+									<h:outputText value="#{pedido.id}"/>
 								</p:column>
 								
 								<p:column headerText="Total">
-									<h:outputText value="#{pedProd.precoTotal}"/>
+									<h:outputText value="#{pedido.precoTotal}"/>
 								</p:column>
 								
 								<p:column headerText="Editar">
 									<h:commandButton class="btn btn-primary" ajax="false" value="Editar" action="#{pedidoController.editar}">
-										<f:setPropertyActionListener value="#{pedProd}"
-                        					target="#{pedidoController.pedidoProduto}" />
+										<f:setPropertyActionListener value="#{pedido}"
+                        					target="#{pedidoController.pedido}" />
                     				</h:commandButton>
 								</p:column>
 							

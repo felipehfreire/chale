@@ -17,9 +17,7 @@ import javax.inject.Named;
 import br.com.chale.entity.Mesa;
 import br.com.chale.entity.Pedido;
 import br.com.chale.entity.PedidoProduto;
-import br.com.chale.entity.PedidoProdutoId;
 import br.com.chale.entity.Produto;
-import br.com.chale.service.PedidoProdutoService;
 import br.com.chale.service.PedidoService;
 import br.com.chale.service.ProdutoService;
 import br.com.chale.util.ConversationUtil;
@@ -29,9 +27,6 @@ import br.com.chale.util.ConversationUtil;
 @ConversationScoped
 public class PedidoController implements Serializable {
 	private static final long serialVersionUID = 2847517553472907222L;
-
-	@Inject
-	private PedidoProdutoService pedidoProdutoService;
 	
 	@Inject
 	private PedidoService pedidoService;
@@ -43,7 +38,7 @@ public class PedidoController implements Serializable {
 	private Conversation conversation;
 
 	private List<Mesa> mesas;
-	private List<PedidoProduto> pedidosProdutos;
+	private List<Pedido> pedidos;
 	private List<Produto> produtosInseridos;
 	private List<Produto> produtosSelect;
 	private Date dataAtual;
@@ -75,18 +70,18 @@ public class PedidoController implements Serializable {
 	
 	public void add() {
 		if (getProdutoSelecionado().getQtdEstoque().equals(0L) || getProdutoSelecionado().getQtdEstoque() < pedidoProduto.getQuantidade()) {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Produto sem estoque!"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Quantidade insuficiente em estoque!"));
+			
+		} else if (pedido.getPedidosProdutos().contains(pedidoProduto)) {
+			//quando clicar no add e o produto já estiver na lista, só atualizar os valores
+			adicionar();
+			
 		} else {
+			//TODO o cara pode mudar de mesa
 			getProdutoSelecionado().setQtdEstoque(getProdutoSelecionado().getQtdEstoque() - pedidoProduto.getQuantidade());
 			produtoService.atualizar(getProdutoSelecionado());
-			
-			//TODO o cara pode mudar de mesa
 			pedidoProduto.setProduto(getProdutoSelecionado());
-			pedidoProduto.getId().setProduto(getProdutoSelecionado());
-			
-			pedidoProduto.getId().setPedido(pedido);
 			pedidoProduto.setPedido(pedido);
-			
 			pedido.getPedidosProdutos().add(pedidoProduto);
 			
 			if (pedido.getId() == null) {
@@ -117,9 +112,9 @@ public class PedidoController implements Serializable {
 		ConversationUtil.iniciarConversacao(conversation);
 		
 		if(mesaSelecionada != null && mesaSelecionada.getNumeroMesa() != null){
-			pedidosProdutos = pedidoProdutoService.pesquisarPedidos(mesaSelecionada);
+			pedidos = pedidoService.pesquisarPedidos(mesaSelecionada);
 		}else{
-			pedidosProdutos = pedidoProdutoService.pesquisarPedidos();
+			pedidos = pedidoService.pesquisarPedidos();
 		}
 		
 	}
@@ -127,6 +122,56 @@ public class PedidoController implements Serializable {
 	public String novo() {
 		ConversationUtil.iniciarConversacao(conversation);
 		return "/manterPedido.jsf?faces-redirect=true";
+	}
+	
+	/**
+	 * Adiciona mais um "pedido" do produto selecionado
+	 */
+	public void adicionar() {
+		if (!pedidoProduto.getProduto().getQtdEstoque().equals(0L)) {
+			pedidoProduto.getProduto().setQtdEstoque(pedidoProduto.getProduto().getQtdEstoque() - 1);
+			produtoService.atualizar(pedidoProduto.getProduto());
+			
+			for (PedidoProduto pedProd : pedido.getPedidosProdutos()) {
+				if (pedProd.equals(pedidoProduto)) {
+					pedProd.setQuantidade(pedProd.getQuantidade() + 1);
+				}
+			}
+			pedidoService.atualizar(pedido);
+			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Atualizado com sucesso!"));
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Quantidade insuficiente em estoque!"));
+		}
+		limparAdd();
+	}
+	
+	
+	public void subtrair() {
+		if (!pedidoProduto.getProduto().getQtdEstoque().equals(0L)) {
+			pedidoProduto.getProduto().setQtdEstoque(pedidoProduto.getProduto().getQtdEstoque() + 1);
+			produtoService.atualizar(pedidoProduto.getProduto());
+			
+			for (PedidoProduto pedProd : pedido.getPedidosProdutos()) {
+				if (pedProd.equals(pedidoProduto)) {
+					pedProd.setQuantidade(pedProd.getQuantidade() - 1);
+				}
+			}
+			pedidoService.atualizar(pedido);
+			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Atualizado com sucesso!"));
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Quantidade insuficiente em estoque!"));
+		}
+		limparAdd();
+	}
+	
+	public void deletar() {
+		pedidoProduto.getProduto().setQtdEstoque(pedidoProduto.getProduto().getQtdEstoque() + pedidoProduto.getQuantidade());
+		produtoService.atualizar(pedidoProduto.getProduto());
+		pedido.getPedidosProdutos().remove(pedidoProduto);
+		pedidoService.atualizar(pedido);
+		limparAdd();
 	}
 
 	 public String editar() {
@@ -151,19 +196,17 @@ public class PedidoController implements Serializable {
 	}
 
 	public void limpar() {
+		pedido = new Pedido();
+		pedido.setPedidosProdutos(new ArrayList<PedidoProduto>());
+		
 		mesaSelecionada = new Mesa();
-		pedidosProdutos = new ArrayList<PedidoProduto>();
+		pedidos = new ArrayList<Pedido>();
 		
 		pedidoProduto  = new PedidoProduto();
-		pedidoProduto.setId(new PedidoProdutoId());
 		pedidoProduto.setPedido(pedido);
-		pedidoProduto.getId().setPedido(pedido);
 		dataAtual =new Date();
 		produtoSelecionado = new Produto();
 		produtosInseridos = new ArrayList<Produto>();
-		
-		pedido = new Pedido();
-		pedido.setPedidosProdutos(new ArrayList<PedidoProduto>());
 	}
 	
 	public void atualizarSelect(Produto p){
@@ -186,12 +229,12 @@ public class PedidoController implements Serializable {
 		this.mesaSelecionada = mesaSelecionada;
 	}
 
-	public List<PedidoProduto> getPedidosProdutos() {
-		return pedidosProdutos;
+	public List<Pedido> getPedidos() {
+		return pedidos;
 	}
 
-	public void setPedidosProdutos(List<PedidoProduto> pedidosProdutos) {
-		this.pedidosProdutos = pedidosProdutos;
+	public void setPedidos(List<Pedido> pedidos) {
+		this.pedidos = pedidos;
 	}
 
 	public PedidoProduto getPedidoProduto() {
