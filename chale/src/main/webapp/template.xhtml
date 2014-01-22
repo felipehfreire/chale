@@ -26,8 +26,6 @@
 	
 	<h:outputScript library="theme" name="js/jquery.maskMoney.min.js"/>
 	
-	<ui:include src="/secure/alterarSenhaModal.xhtml"></ui:include>
-	
 </h:head>
 
 <h:body>
@@ -58,12 +56,16 @@
 		</p:submenu>
 		
 		<f:facet name="options">  
-			<h:form id="loginForm">
-				<h:commandButton  value="Logout" action="#{loginController.logout}" class="btn btn-defaut" ajax="false" icon="ui-icon-extlink" />
-				<h:commandButton value="Alterar Senha"  class="btn btn-defaut" rendered="#{loginController.loggedIn}" ajax="false" icon="ui-icon-extlink" onclick="PF('dlg').show();" />
+			<h:form id="loginControlForm">
+				<h:commandButton  value="Logout" action="#{loginController.logout}" 
+					rendered="#{loginController.loggedIn}" class="btn btn-defaut" ajax="false" icon="ui-icon-extlink" />
+					
+				<h:commandButton value="Alterar Senha" styleClass="btn btn-defaut" 
+					rendered="#{loginController.loggedIn}" ajax="true" icon="ui-icon-extlink" onclick="pwModal.show()" />
            	</h:form>  
         </f:facet>
 	</p:menubar>
+	
 
 	<h:panelGrid id="test2343" width="80%">
 		<p:messages id="messages" showDetail="true" autoUpdate="true"

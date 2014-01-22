@@ -1,64 +1,39 @@
 package br.com.chale.entity;
 
-
-
 import java.io.Serializable;
-
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 
 @Entity
 @Table(name="produto_pedido")
-@NamedQueries({
-	
-	@NamedQuery(name=PedidoProduto.QUERY_CONSULTAR_TODOS_PEDIDOS, query="select pp from PedidoProduto pp "),
-			
-	@NamedQuery(name=PedidoProduto.CONSULTAR_PEDIDOS_POR_MESA, query="select pp from PedidoProduto pp" +
-			" inner join pp.pedido p " +
-			" where p.mesa = ?1"),
-	
-	@NamedQuery(name=PedidoProduto.CONSULTAR_PEDIDO_PROD_POR_ID, query="select pp from PedidoProduto pp" +
-			" where id = ?1")
-	
-})
 public class PedidoProduto implements Serializable{
 	
 	private static final long serialVersionUID = 2080039836842714937L;
 	
-	public static final String QUERY_CONSULTAR_TODOS_PEDIDOS = "consultarTodosPedidos";
-	public static final String CONSULTAR_PEDIDOS_POR_MESA = "consultarPedidosPorMesa";
-	public static final String CONSULTAR_PEDIDO_PROD_POR_ID = "consultarPedidosProdutoPorMesa";
-	
-	@EmbeddedId
-	private PedidoProdutoId id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	@Column(name="codPedidoProduto", nullable=false)
+	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name="codVenda", insertable=false, updatable=false)
+	@JoinColumn(name="codVenda", nullable=false)
 	private Pedido pedido;
 	
 	@ManyToOne
-	@JoinColumn(name="codProd", insertable=false,updatable=false)
+	@JoinColumn(name="codProd", nullable=false)
 	private Produto produto;
 	
 	@Column(name="quantidade", nullable=false)
 	private Long quantidade;
 
-	@Transient
-	private Double precoTotal;
-	
-	public PedidoProdutoId getId() {
+	public Long getId() {
 		return id;
-	}
-	
-	public void setId(PedidoProdutoId id) {
-		this.id = id;
 	}
 
 	public Pedido getPedido() {
@@ -85,15 +60,31 @@ public class PedidoProduto implements Serializable{
 		this.quantidade = quantidade;
 	}
 
-	public Double getPrecoTotal() {
-		if(produto!= null){
-			return (quantidade * produto.getPreco());
-		}
-		return null;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
 	}
 
-	public void setPrecoTotal(Double precoTotal) {
-		this.precoTotal = precoTotal;
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		PedidoProduto other = (PedidoProduto) obj;
+		if (id == null) {
+			if (other.getId() != null)
+				return false;
+		} else if (!id.equals(other.getId()))
+			return false;
+		return true;
 	}
+	
+	
 	
 }

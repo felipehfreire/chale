@@ -47,10 +47,10 @@
 							<p:commandButton id="btn_add" value="Add" ajax="false"
                            	  		action="#{pedidoController.add}" >  
        						  </p:commandButton> 
-    					
+    					</h:form>
     						 <p:spacer width="20" height="20" /> 
     						 
-       						 
+       					<h:form>	 
        						     <p:outputPanel id="pedidos">
        						     	<p:dataTable  value="#{pedidoController.pedido.pedidosProdutos}" var="pedProdIn" sortMode="multiple" rows="10"  paginator="true">
 								
@@ -66,16 +66,30 @@
 										<h:outputText value="#{pedProdIn.quantidade}"/>
 									</p:column>
 									
-									<p:column headerText="Editar">
-										<h:commandButton class="btn btn-primary" ajax="false" value="Editar" action="#{produtoController.editar}">
-										<f:setPropertyActionListener value="#{pedProdIn}"
-		                        			target="#{pedidoController.pedidoProduto}" />
-		                    		</h:commandButton>
+									<p:column headerText="Ações">
+										<h:commandLink class="btn btn-primary btn-large"  action="#{pedidoController.adicionar}">
+											<f:setPropertyActionListener value="#{pedProdIn}"
+		                        				target="#{pedidoController.pedidoProduto}" />
+		                        				<i class="glyphicon glyphicon-plus"></i>
+		                    			</h:commandLink>
+		                    			
+		                    			<h:commandLink class="btn btn-success btn-large"  action="#{pedidoController.subtrair}">
+											<f:setPropertyActionListener value="#{pedProdIn}"
+		                        				target="#{pedidoController.pedidoProduto}" />
+		                        				<i class="glyphicon glyphicon-minus"></i>
+		                    			</h:commandLink>
+										
+										<h:commandLink class="btn btn-danger btn-large"  action="#{pedidoController.deletar}">
+											<f:setPropertyActionListener value="#{pedProdIn}"
+		                        				target="#{pedidoController.pedidoProduto}" />
+		                        				<i class="glyphicon glyphicon-remove-circle"></i>
+		                    			</h:commandLink>
+										
 									</p:column>
 									
 								</p:dataTable>
        						     </p:outputPanel>  
-       						 </h:form>
+       						</h:form> 
     				</div>
     			</div>
        						 

@@ -11,18 +11,33 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="pedido")
+@NamedQueries({
+	
+	@NamedQuery(name=Pedido.QUERY_CONSULTAR_TODOS_PEDIDOS, query="select p from Pedido p "),
+	
+	@NamedQuery(name=Pedido.CONSULTAR_PEDIDOS_POR_MESA, query="select p from Pedido p " +
+			" where p.mesa = ?1"),
+	
+})
 
 //TODO mudar nome da entidade para venda (banco tbm)
 public class Pedido implements BaseEntity,Serializable{
 	
 
 	private static final long serialVersionUID = -5412811770343143282L;
+
+	public static final String QUERY_CONSULTAR_TODOS_PEDIDOS = "pedido.queryConsultarTodosPedidos";
+
+	public static final String CONSULTAR_PEDIDOS_POR_MESA = "pedido.consultarPedidosPorMesa";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -38,7 +53,7 @@ public class Pedido implements BaseEntity,Serializable{
 	@Column(name="vendaPrazo")
 	private Boolean vendaPrazo = false;
 	
-	@OneToMany(mappedBy="produto", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="pedido", orphanRemoval=true, cascade = CascadeType.ALL)
 	private List<PedidoProduto> pedidosProdutos;
 	
 	@JoinColumn(name="pessoa")
@@ -48,6 +63,9 @@ public class Pedido implements BaseEntity,Serializable{
 	@JoinColumn(name="mesa")
 	@OneToOne()
 	private Mesa mesa;
+	
+	@Transient
+	private Double precoTotal;
 
 	public Long getId() {
 		return id;
@@ -101,4 +119,13 @@ public class Pedido implements BaseEntity,Serializable{
 		this.mesa = mesa;
 	}
 	
+	public Double getPrecoTotal() {
+		Double total = 0D;
+		for (PedidoProduto pedProd : getPedidosProdutos()) {
+			total += (pedProd.getQuantidade() * pedProd.getProduto().getPreco());
+		}
+			
+		return total;
+	}
+
 }

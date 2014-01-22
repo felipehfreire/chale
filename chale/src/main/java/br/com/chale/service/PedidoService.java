@@ -14,4 +14,8 @@ public interface PedidoService {
 
 	void atualizar(Pedido pedido);
 
+	List<Pedido> pesquisarPedidos(Mesa mesaSelecionada);
+
+	List<Pedido> pesquisarPedidos();
+
 }
