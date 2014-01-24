@@ -37,6 +37,7 @@ public class ProdutoController implements Serializable {
 	public void iniciar() {
 		ConversationUtil.terminarConversacao(conversation);
 		limpar();
+		pesquisar();
 	}
 	
 	
@@ -68,7 +69,7 @@ public class ProdutoController implements Serializable {
 	}
 	
 	public String voltar() {
-		return "/secure/consultarProduto.jsf?faces-redirect=true";
+		 return "/index.jsf?faces-redirect=true";  
 	}
 	
 	public void limpar() {

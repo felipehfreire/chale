@@ -57,7 +57,7 @@ public class Usuario implements BaseEntity, Serializable{
 
 	public void setSenha(String senha) {
 		
-			this.senha = EncriptatorUtil.formatMD5(senha);
+			this.senha = senha;
 	}
 
 	

@@ -30,6 +30,7 @@ public class ClienteController implements Serializable {
 	private Conversation conversation;
 	
 	private Pessoa pessoa;
+	private Pessoa pessoaSelecionada;
 	private List<Pessoa> pessoas;
 	private String termo;
 	
@@ -37,6 +38,7 @@ public class ClienteController implements Serializable {
 	public void iniciar() {
 		ConversationUtil.terminarConversacao(conversation);
 		limpar();
+		pesquisar();
 	}
 	
 	
@@ -62,7 +64,7 @@ public class ClienteController implements Serializable {
 	}
 	
 	public String voltar() {
-		return "/consultarCliente.jsf?faces-redirect=true";
+		return "/index.jsf?faces-redirect=true";
 	}
 	
 	public String novo() {
@@ -73,8 +75,16 @@ public class ClienteController implements Serializable {
 	
 	public void limpar() {
 		pessoa  = new Pessoa();
+		pessoaSelecionada = new Pessoa();
 		termo = "";
 		pessoas= new ArrayList<Pessoa>();
+	}
+	
+	public void deletar() {
+	//	ConversationUtil.iniciarConversacao(conversation);
+		pessoas.remove(pessoaSelecionada);
+		clienteService.excluir(pessoaSelecionada);
+		iniciar();
 	}
 
 	public Pessoa getPessoa() {
@@ -100,6 +110,16 @@ public class ClienteController implements Serializable {
 
 	public void setTermo(String termo) {
 		this.termo = termo;
+	}
+
+
+	public Pessoa getPessoaSelecionada() {
+		return pessoaSelecionada;
+	}
+
+
+	public void setPessoaSelecionada(Pessoa pessoaSelecionada) {
+		this.pessoaSelecionada = pessoaSelecionada;
 	}
 
 }

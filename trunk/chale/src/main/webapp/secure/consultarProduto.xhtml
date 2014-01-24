@@ -36,13 +36,29 @@
 										<f:setPropertyActionListener value="#{item}"
 				                        	target="#{produtoController.produto}" />
 				                    </h:commandButton>
+				                    
+			                  		<h:commandLink class="btn btn-danger btn-large"  onclick="confirmation.show()">
+										<f:setPropertyActionListener value="#{pedProdIn}"
+	                        				target="#{pedidoController.pedidoProduto}" />
+	                        				<i class="glyphicon glyphicon-remove-circle"></i>
+	                    			</h:commandLink>
+				                    
 								</p:column>
 							</p:dataTable>
+							
+							<h:commandButton value="Voltar"	action="#{produtoController.voltar}" 
+											class="btn btn-defaut" ajax="false" immediate="true" />
 						</div>
 					</div>
 				</div>
 			</div>			
 		</h:form>
+		<h:form id="dlg">  
+			<p:confirmDialog  message="Deseja realmente excluir este item?" hideEffect="explode" header="Aviso"  severity="alert" widgetVar="confirmation">  
+				<p:commandButton id="btnSim" value="Sim" ajax="false" action="#{produtoController.deletar}" process="@form"/>  
+				<p:commandButton id="btnNao" value="Não" ajax="false"/>  
+             </p:confirmDialog>  
+		</h:form> 
 					
 	</ui:define>
 	</ui:composition>	

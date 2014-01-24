@@ -24,7 +24,7 @@
 							<h:dataTable value="#{clienteController.pessoas}" var="item"  >
 							</h:dataTable>
 							
-							<p:dataTable value="#{clienteController.pessoas}" var="item"  sortMode="multiple" rows="10"  paginator="true">
+							<p:dataTable value="#{clienteController.pessoas}" var="item"  sortMode="multiple" rows="10"  paginator="true" selection="#{clienteController.pessoaSelecionada}">
 							
 								<p:column sortBy="#{item.nome}" headerText="Nome">
 									<h:outputText value="#{item.nome}"/>
@@ -39,13 +39,38 @@
 										<f:setPropertyActionListener value="#{item}"
 				                        	target="#{clienteController.pessoa}" />
 				                    </h:commandButton>
+				                    
+		                    		<p:commandButton  styleClass="btn btn-primary" immediate="true" ajax="true" onclick="confirmation.show()">
+		                    			<f:setPropertyActionListener value="#{item}" 
+		                        				target="#{clienteController.pessoaSelecionada}" />
+		                        				<i class="glyphicon glyphicon-remove-circle"></i>
+		                    		</p:commandButton>
+		                    	
+		                    			<h:commandLink class="btn btn-danger btn-large" ajax="true"   onclick="confirmation.show()" >
+											<f:setPropertyActionListener value="#{item}"
+		                        				target="#{clienteController.pessoaSelecionada}" />
+		                        				<i class="glyphicon glyphicon-remove-circle"></i>
+		                    			</h:commandLink>
+		                    			
 								</p:column>
+								
 							</p:dataTable>
+							
+							<h:commandButton value="Voltar"	action="#{clienteController.voltar}" 
+											class="btn btn-defaut" ajax="false" immediate="true" />
 						</div>
 					</div>
 				</div>
 			</div>			
 		</h:form>
+		
+		<h:form id="dlg"> 
+			<p:confirmDialog  message="Deseja realmente excluir este item?" hideEffect="explode" header="Aviso"  severity="alert" widgetVar="confirmation">  
+				<p:commandButton id="btnSim" value="Sim" ajax="false" action="#{clienteController.deletar}" process="@form"/>
+				<p:commandButton id="btnNao" value="Não" ajax="false"/>  
+        	</p:confirmDialog>  
+		</h:form>  
+		 	
 					
 	</ui:define>
 	</ui:composition>	

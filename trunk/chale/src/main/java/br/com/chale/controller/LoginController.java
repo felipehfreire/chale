@@ -1,8 +1,6 @@
 package br.com.chale.controller;
 
 import java.io.Serializable;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -79,7 +77,7 @@ public class LoginController implements Serializable {
 		 if(userAtual!= null){
 			 if(novaSenha.equals(confirmSenha)){
 				 
-				userAtual.setSenha(novaSenha);
+				userAtual.setSenha(EncriptatorUtil.formatMD5(novaSenha));
 				 userAtual.setUsuario(nomeUsuario);
 				 usuarioService.atualizar(userAtual);
 			 }
@@ -109,7 +107,6 @@ public class LoginController implements Serializable {
 	public void setNomeUsuario(String nomeUsuario) {
 		this.nomeUsuario = nomeUsuario;
 	}
-
 
 	public String getSenha() {
 		return senha;

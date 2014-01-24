@@ -29,4 +29,10 @@ public class ClienteServiceBean implements ClienteService, Serializable {
 	public List<Pessoa> pesquisar(String termo) {
 		return pessoaDAO.pesquisar(termo);
 	}
+
+	@Override
+	public void excluir(Pessoa pessoa) {
+		pessoaDAO.remove(pessoa);
+		
+	}
 }

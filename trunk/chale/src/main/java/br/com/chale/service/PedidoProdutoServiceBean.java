@@ -1,6 +1,8 @@
 package br.com.chale.service;
 
 import java.io.Serializable;
+import java.util.Date;
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -19,6 +21,10 @@ public class PedidoProdutoServiceBean implements PedidoProdutoService, Serializa
 	public void atualizar(PedidoProduto pedidoProduto) {
 		pedidoPrdoDAO.update(pedidoProduto);
 	}
-	
+
+	@Override
+	public List<PedidoProduto> pesquisarPedidosDataAtual(Date dataAtual) {
+		return pedidoPrdoDAO.pesquisarPedidosDataAtual(dataAtual);
+	}
 	
 }
