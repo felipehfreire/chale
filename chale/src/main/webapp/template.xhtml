@@ -45,7 +45,7 @@
 		</p:submenu>
 		
 		<p:submenu label="Relatórios" icon="ui-icon-document">
-			<p:menuitem value="Diário" url="/consultarCliente.jsf?faces-redirect=true" />
+			<p:menuitem value="Diário" url="#"  action="#{relatorioController.relatorioVendaDiario}"/>
 			<p:separator />
 			<p:menuitem value="Quit" url="#" />
 		</p:submenu>
@@ -62,6 +62,9 @@
 					
 				<h:commandButton value="Alterar Senha" styleClass="btn btn-defaut" 
 					rendered="#{loginController.loggedIn}" ajax="true" icon="ui-icon-extlink" action="#{loginController.alterarSenhaNavigation}" />
+					
+					<h:commandButton value="diario" styleClass="btn btn-defaut" 
+					 ajax="true" icon="ui-icon-extlink" action="#{relatorioController.relatorioVendaDiario}" />
            	</h:form>  
         </f:facet>
 	</p:menubar>

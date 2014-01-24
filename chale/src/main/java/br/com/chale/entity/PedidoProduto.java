@@ -1,6 +1,7 @@
 package br.com.chale.entity;
 
 import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,13 +9,25 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="produto_pedido")
+@NamedQueries({
+	@NamedQuery(name=PedidoProduto.QUERY_CONSULTAR_PED_POR_DATA, query="select pp from PedidoProduto pp "
+			+ " INNER JOIN pp.pedido AS pedido "
+			+ " where pedido.finalizada = true "
+			+ " and pedido.dataVenda > ?1 "
+			+ " and pedido.dataVenda < ?1 "),
+			
+})
 public class PedidoProduto implements Serializable{
 	
 	private static final long serialVersionUID = 2080039836842714937L;
+
+	public static final String QUERY_CONSULTAR_PED_POR_DATA = "consultarPedidoProdutoData";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

@@ -12,4 +12,7 @@ public interface ClienteService {
 
 	List<Pessoa> pesquisar(String termo);
 
+	void excluir(Pessoa pessoa);
+
+
 }

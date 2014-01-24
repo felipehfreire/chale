@@ -79,7 +79,7 @@
 		                        				<i class="glyphicon glyphicon-minus"></i>
 		                    			</h:commandLink>
 										
-										<h:commandLink class="btn btn-danger btn-large"  action="#{pedidoController.deletar}">
+										<h:commandLink class="btn btn-danger btn-large"  action="#{pedidoController.deletar}" >
 											<f:setPropertyActionListener value="#{pedProdIn}"
 		                        				target="#{pedidoController.pedidoProduto}" />
 		                        				<i class="glyphicon glyphicon-remove-circle"></i>
@@ -131,7 +131,7 @@
 								
 								 </h:form>
 								 <h:form id="dlg">  
-                      				<p:confirmDialog  message="Deseja realmente finalizar o pedido?" hideEffect="explode" header="Aviso" severity="alert" widgetVar="confirmation">  
+                      				<p:confirmDialog  message="Deseja realmente finalizar o pedido?" hideEffect="explode" header="Aviso"  severity="alert" widgetVar="confirmation">  
                           				<p:commandButton id="btnSim" value="Sim" ajax="false" action="#{pedidoController.finalizar}" process="@form"/>  
                           				<p:commandButton id="btnNao" value="Não" ajax="false"/>  
                       				</p:confirmDialog>  
