@@ -1,0 +1,46 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="../template.xhtml">
+
+	<ui:define name="content">
+		<h:form id="submitForm" class="bs-example form-horizontal">
+			<div class="page-header"></div>
+				<div class="row container-center">
+					<div class="col-lg-6 div-center">
+						<div class="well">
+						
+						
+							<div class="form-group">
+								<h:outputLabel value="Escolha uma data: " class="col-lg-2 control-label" for="popupButtonDate" />  
+								<div class="col-lg-10">
+									<h:outputText value="#{relatorioController.data}" id="popupButtonDate">  
+				                		<f:convertDateTime pattern="d/M/yyyy"/>  
+				            		</h:outputText> 
+				            		
+				            		<p:calendar value="#{relatorioController.data}" mode="inline" id="inlineCal"/> 
+				            		
+					     		</div>
+							</div>
+							
+							<div class="form-group">
+								<div class="col-lg-7 col-lg-offset-2">
+									<h:commandButton value="Gerar relatório"	action="#{relatorioController.relatorioVendaDiar}" 
+									class="btn btn-defaut" ajax="false" />
+																		
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+	
+</ui:composition>
+</html>

@@ -16,5 +16,12 @@ public class PessoaDAO extends GenericDAO<Pessoa> {
 		return executeQueryListResult(Pessoa.QUERY_CONSULTAR_POR_NOME, termo);
 		
 	}
+	
+	public void remover(Pessoa pessoa){
+		manager.getTransaction().begin();
+		pessoa = manager.find(Pessoa.class, pessoa.getId());
+		manager.remove(pessoa);
+		manager.getTransaction().commit();
+	}
 
 }
