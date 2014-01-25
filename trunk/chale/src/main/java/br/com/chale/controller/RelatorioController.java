@@ -1,5 +1,6 @@
 package br.com.chale.controller;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -12,10 +13,12 @@ import javax.enterprise.context.ConversationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.inject.Inject;
 import javax.inject.Named;
+import javax.print.PrintException;
 
 import br.com.chale.entity.PedidoProduto;
 import br.com.chale.service.PedidoProdutoService;
 import br.com.chale.util.ConversationUtil;
+import br.com.chale.util.ImpressaoTXTUtil;
 
 @Named
 @ManagedBean
@@ -31,6 +34,8 @@ public class RelatorioController implements Serializable {
 	private Conversation conversation;
 	
 	private List<PedidoProduto> listagem;
+	private Date data;
+	
 	
 	@PostConstruct
 	public void iniciar() {
@@ -43,13 +48,13 @@ public class RelatorioController implements Serializable {
 		ConversationUtil.iniciarConversacao(conversation);
 		listagem = pedidoProdutoService.pesquisarPedidosDataAtual(new Date());
 		SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy");
-		System.out.println("Relatório de venda realizadas no dia "+ sdf.format(new Date()) + "\n\n");
+		String cabecalho ="Relatório de venda realizadas no dia "+ sdf.format(data) + "\n\n";
 		Double total = null;
-		for (PedidoProduto ped : listagem) {
-			System.out.println("Mesa:" + "------"+ped.getPedido().getMesa());
-			System.out.println("   Produto--------------------------------QTD   ");
-			System.out.println(ped.getProduto().getDescricao()+"---------" +ped.getQuantidade());
-			total += ped.getPedido().getPrecoTotal();
+		try {
+			ImpressaoTXTUtil impressao = new ImpressaoTXTUtil();
+			impressao.escreveImpressao(cabecalho);
+		} catch (IOException | PrintException e) {
+			e.printStackTrace();
 			
 		}
 	}
@@ -70,6 +75,16 @@ public class RelatorioController implements Serializable {
 	
 	public void limpar() {
 		listagem = new ArrayList<PedidoProduto>();
+		data = new Date();
+	
+	}
+
+	public Date getData() {
+		return data;
+	}
+
+	public void setData(Date data) {
+		this.data = data;
 	}
 	
 }

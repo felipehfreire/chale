@@ -32,7 +32,7 @@ public class ClienteServiceBean implements ClienteService, Serializable {
 
 	@Override
 	public void excluir(Pessoa pessoa) {
-		pessoaDAO.remove(pessoa);
+		pessoaDAO.remover(pessoa);
 		
 	}
 }

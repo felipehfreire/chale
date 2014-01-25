@@ -40,7 +40,7 @@ public class LoginController implements Serializable {
 		user = usuarioService.pesquisarUsuario(nomeUsuario, senha);
 		if(user != null){
 			loggedIn = true;
-			return "/secure/consultarProduto.jsf?faces-redirect=true"; 
+			return "index.jsf?faces-redirect=true"; 
 		}else{
 			FacesMessage msg = new FacesMessage("ERRO ao logar:", "Usuário ou Senha incorretos!");
 	        msg.setSeverity(FacesMessage.SEVERITY_ERROR);

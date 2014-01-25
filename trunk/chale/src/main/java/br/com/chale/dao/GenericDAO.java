@@ -96,26 +96,4 @@ public class GenericDAO<T> implements Serializable {
 		}
 	}
 	
-	/**
-	 * remove the entity from  database
-	 * @param entity - entity to remove 
-	 */
-	public void remove(T entity){
-		manager.getTransaction().begin();
-		manager.remove(entity);
-		manager.getTransaction().commit();
-	}
-	
-	/**
-	 * remove the entity from  database
-	 * @param entity - entity to remove 
-	 * @param commit - If you don't want to commit now, set false
-	 */
-	public void remove(T entity,boolean commit){
-		manager.getTransaction().begin();
-		manager.remove(entity);
-		if (commit) {
-			manager.getTransaction().commit();
-		}
-	}
 }
