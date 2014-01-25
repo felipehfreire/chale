@@ -6,7 +6,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui">
 
+<f:view contentType="text/html">
 <h:head>
+	<meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/> 
 	<title>Chalé</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<!-- Bootstrap -->
@@ -25,6 +27,7 @@
 	<h:outputScript library="theme" name="js/jasny-bootstrap.min.js"/>
 	
 	<h:outputScript library="theme" name="js/jquery.maskMoney.min.js"/>
+	
 	
 </h:head>
 
@@ -80,6 +83,6 @@
 	</ui:insert>
 	<h:outputScript library="theme" name="js/masks.js"/>
 </h:body>
-
+</f:view>
 
 </html>

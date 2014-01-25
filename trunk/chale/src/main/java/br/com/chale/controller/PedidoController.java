@@ -109,7 +109,6 @@ public class PedidoController implements Serializable {
 	}
 	
 	public void pesquisar() {
-		ConversationUtil.iniciarConversacao(conversation);
 		
 		if(mesaSelecionada != null && mesaSelecionada.getNumeroMesa() != null){
 			pedidos = pedidoService.pesquisarPedidos(mesaSelecionada);
@@ -120,7 +119,6 @@ public class PedidoController implements Serializable {
 	}
 
 	public String novo() {
-		ConversationUtil.iniciarConversacao(conversation);
 		return "/manterPedido.jsf?faces-redirect=true";
 	}
 	
@@ -196,6 +194,7 @@ public class PedidoController implements Serializable {
 	}
 
 	public void limpar() {
+		ConversationUtil.iniciarConversacao(conversation);
 		pedido = new Pedido();
 		pedido.setPedidosProdutos(new ArrayList<PedidoProduto>());
 		

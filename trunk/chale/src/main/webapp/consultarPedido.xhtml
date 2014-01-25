@@ -30,7 +30,7 @@
 			             </div>
 			         	 <div class="well">    
 			             	<h:commandButton value="Pesquisar" action="#{pedidoController.pesquisar}" class="btn btn-defaut" ajax="false"/>
-							<h:commandButton value="Novo" action="#{pedidoController.novo}" class="btn btn-primary" ajax="false"/> 
+			             	<p:commandButton id="modalDialogButton" value="Modal" onclick="PF('dlg2').show();" type="button"/> 
 			          	</div>   
 			          
 			          	<div class="well">
@@ -62,6 +62,19 @@
 	             </div>
              </div>
 		</h:form>
+		
+		  
+        	<p:confirmDialog id="modalDialog" header="Modal Dialog" widgetVar="dlg2" modal="true">
+        	<h:form>
+            	<h:selectOneMenu value="#{pedidoController.pedido.mesa}" converter="simpleEntityConverter">
+            		<f:selectItem itemLabel="Selecione"/>
+            		<f:selectItems value="#{pedidoController.mesas}" var="item" itemLabel="#{item.numeroMesa}" itemValue="#{item}" />
+            	</h:selectOneMenu>
+            	<br/>
+            	<h:commandButton action="#{pedidoController.novo}" value="OK" ajax="false"/>
+            	</h:form>
+            </p:confirmDialog>  
+		
 	</ui:define>
 	</ui:composition>	
 </html>
