@@ -1,0 +1,65 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" 
+	xmlns:ui="http://java.sun.com/jsf/facelets" 
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core" 
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="template.xhtml">
+
+	<ui:define name="content">
+
+		<div class="page-header"></div>
+		<div class="row container-center">
+			<div class="col-lg-6 div-center">
+				<h:form id="submitForm2" class="bs-example form-horizontal">
+					<div class="well">
+						<div class="form-group">
+							<h:outputLabel value="Data" class="col-lg-2 control-label" for="data" />
+							<div class="col-lg-2">
+								<h:inputText class="form-control" name="data" id="data" value="#{pedidoController.pedido.dataVenda}" mask="99/99/9999"
+								 converter="javax.faces.DateTime" readonly="true">
+								 	<f:convertDateTime pattern="dd/MM/yyyy"/>
+								 </h:inputText>
+							</div>
+
+							<h:outputLabel value="À prazo" class="col-lg-1 control-label" for="aPrazo" />
+							<div class="col-lg-2">
+								<h:selectBooleanCheckbox class="form-control" name="aPrazo" id="aPrazo" value="#{pedidoController.pedido.vendaPrazo}">
+									<f:ajax render="clienteGroup"/>
+								</h:selectBooleanCheckbox>
+							</div>
+
+							<h:panelGroup id="clienteGroup" label="clienteGroup" rendered="#{pedidoController.pedido.vendaPrazo}">
+								<h:outputLabel value="Cliente" class="col-lg-2 control-label" for="cliente" />
+								<div class="col-lg-2">
+									<h:selectOneMenu id="cliente" styleClass="form-control" value="#{pedidoController.pedido.pessoa}" converter="simpleEntityConverter">
+										<f:selectItem itemValue="" itemLabel="Selecione uma Mesa" />
+										<f:selectItems value="#{pedidoController.mesas}" var="mesa" itemLabel="#{mesa.numeroMesa}" itemValue="#{mesa}" />
+									</h:selectOneMenu>
+								</div>
+							</h:panelGroup>
+						</div>
+						<div class="form-group">
+							<div class="col-lg-6" align="right">
+								<p:commandButton value="Finalizar" styleClass="btn btn-primary" ajax="true" onclick="confirmation.show()" />
+							</div>
+						</div>
+					</div>	
+					
+
+				</h:form>
+
+				<h:form id="dlg">
+					<p:confirmDialog message="Deseja realmente finalizar o pedido?" hideEffect="explode" header="Aviso" severity="alert" widgetVar="confirmation">
+						<p:commandButton id="btnSim" value="Sim" ajax="false" action="#{pedidoController.finalizar}" process="@form" />
+						<p:commandButton id="btnNao" value="Não" ajax="false" />
+					</p:confirmDialog>
+				</h:form>
+			</div>
+		</div>
+	</ui:define>
+</ui:composition>
+</html>

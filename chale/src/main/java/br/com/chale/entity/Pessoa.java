@@ -17,6 +17,7 @@ import javax.persistence.Table;
 	@NamedQuery(name=Pessoa.QUERY_CONSULTAR_TODOS, query="select p from Pessoa p "),
 	@NamedQuery(name=Pessoa.QUERY_CONSULTAR_POR_NOME, query="select p from Pessoa p where nome like '%' || Upper(?1) || '%' or ?1 is null"),
 })
+//TODO mudar para cliente
 public class Pessoa implements BaseEntity, Serializable{
 	
 	private static final long serialVersionUID = 6755595084217031092L;
