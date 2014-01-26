@@ -14,5 +14,7 @@ public interface ClienteService {
 
 	void excluir(Pessoa pessoa);
 
+	List<Pessoa> pesquisarTodos();
+
 
 }

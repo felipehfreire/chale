@@ -48,8 +48,13 @@
 									<h:outputText value="#{pedido.precoTotal}"/>
 								</p:column>
 								
-								<p:column headerText="Editar">
+								<p:column headerText="Ações">
 									<h:commandButton class="btn btn-primary" ajax="false" value="Editar" action="#{pedidoController.editar}">
+										<f:setPropertyActionListener value="#{pedido}"
+                        					target="#{pedidoController.pedido}" />
+                    				</h:commandButton>
+                    				
+                    				<h:commandButton class="btn btn-primary" ajax="false" value="Finalizar" action="#{pedidoController.preparaFinalizar}">
 										<f:setPropertyActionListener value="#{pedido}"
                         					target="#{pedidoController.pedido}" />
                     				</h:commandButton>
@@ -63,8 +68,8 @@
              </div>
 		</h:form>
 		
-		  
-        	<p:confirmDialog id="modalDialog" header="Modal Dialog" widgetVar="dlg2" modal="true">
+		
+        <p:confirmDialog global="true" header="Selecione uma mesa" widgetVar="dlg2">
         	<h:form>
             	<h:selectOneMenu value="#{pedidoController.pedido.mesa}" converter="simpleEntityConverter">
             		<f:selectItem itemLabel="Selecione"/>
@@ -72,8 +77,8 @@
             	</h:selectOneMenu>
             	<br/>
             	<h:commandButton action="#{pedidoController.novo}" value="OK" ajax="false"/>
-            	</h:form>
-            </p:confirmDialog>  
+            </h:form>
+        </p:confirmDialog>  
 		
 	</ui:define>
 	</ui:composition>	

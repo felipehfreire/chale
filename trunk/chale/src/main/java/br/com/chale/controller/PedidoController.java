@@ -17,7 +17,9 @@ import javax.inject.Named;
 import br.com.chale.entity.Mesa;
 import br.com.chale.entity.Pedido;
 import br.com.chale.entity.PedidoProduto;
+import br.com.chale.entity.Pessoa;
 import br.com.chale.entity.Produto;
+import br.com.chale.service.ClienteService;
 import br.com.chale.service.PedidoService;
 import br.com.chale.service.ProdutoService;
 import br.com.chale.util.ConversationUtil;
@@ -36,6 +38,9 @@ public class PedidoController implements Serializable {
 
 	@Inject
 	private Conversation conversation;
+	
+	@Inject
+	private ClienteService clienteService;
 
 	private List<Mesa> mesas;
 	private List<Pedido> pedidos;
@@ -49,7 +54,7 @@ public class PedidoController implements Serializable {
 	private Mesa mesaSelecionada;
 	private Long idProd;
 	private Pedido pedido;
-	
+	private List<Pessoa> pessoas;
 
 	@PostConstruct
 	public void iniciar() {
@@ -175,7 +180,12 @@ public class PedidoController implements Serializable {
 	 public String editar() {
 		 return "/manterPedido.jsf?faces-redirect=true";
 	 }
-	
+	 
+	 public String preparaFinalizar() {
+		 pessoas = clienteService.pesquisarTodos();
+		 return "finalizar";
+	 }
+	 
 	 public void finalizar() {
 		 if (pedido.getPedidosProdutos().size() == 0) {
 			 FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_ERROR, "", 
@@ -299,6 +309,14 @@ public class PedidoController implements Serializable {
 	public void setPedido(Pedido pedido) {
 		this.pedido = pedido;
 	}
-	
+
+	public List<Pessoa> getPessoas() {
+		return pessoas;
+	}
+
+	public void setPessoas(List<Pessoa> pessoas) {
+		this.pessoas = pessoas;
+	}
+
 	
 }

@@ -24,4 +24,5 @@ public class PessoaDAO extends GenericDAO<Pessoa> {
 		manager.getTransaction().commit();
 	}
 
+
 }
