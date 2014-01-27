@@ -22,9 +22,4 @@ public class PedidoProdutoServiceBean implements PedidoProdutoService, Serializa
 		pedidoPrdoDAO.update(pedidoProduto);
 	}
 
-	@Override
-	public List<PedidoProduto> pesquisarPedidosDataAtual(Date dataAtual) {
-		return pedidoPrdoDAO.pesquisarPedidosDataAtual(dataAtual);
-	}
-	
 }

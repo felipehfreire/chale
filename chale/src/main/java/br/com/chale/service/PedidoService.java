@@ -1,5 +1,6 @@
 package br.com.chale.service;
 
+import java.util.Date;
 import java.util.List;
 
 import br.com.chale.entity.Mesa;
@@ -17,6 +18,8 @@ public interface PedidoService {
 	List<Pedido> pesquisarPedidos(Mesa mesaSelecionada);
 
 	List<Pedido> pesquisarPedidos();
+
+	List<Pedido> pesquisarPedidosData(Date data);
 
 
 }

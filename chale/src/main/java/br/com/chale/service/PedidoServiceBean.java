@@ -1,6 +1,7 @@
 package br.com.chale.service;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -10,7 +11,6 @@ import br.com.chale.dao.PedidoDAO;
 import br.com.chale.dao.PedidoProdutoDAO;
 import br.com.chale.entity.Mesa;
 import br.com.chale.entity.Pedido;
-import br.com.chale.entity.PedidoProduto;
 
 public class PedidoServiceBean implements PedidoService, Serializable {
 
@@ -49,6 +49,11 @@ public class PedidoServiceBean implements PedidoService, Serializable {
 	@Override
 	public List<Pedido> pesquisarPedidos() {
 		return pedidoDAO.pesquisarPedidos();
+	}
+
+	@Override
+	public List<Pedido> pesquisarPedidosData(Date data) {
+		return pedidoDAO.pesquisarPedidosData(data);
 	}
 	
 }

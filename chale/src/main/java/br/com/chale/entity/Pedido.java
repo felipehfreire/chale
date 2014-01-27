@@ -26,6 +26,9 @@ import javax.persistence.Transient;
 	
 	@NamedQuery(name=Pedido.CONSULTAR_PEDIDOS_POR_MESA, query="select p from Pedido p " +
 			" where p.mesa = ?1"),
+	@NamedQuery(name=Pedido.QUERY_CONSULTAR_PED_POR_DATA, query="select p from Pedido p "
+			+ " where p.finalizada = true "
+			+ " and  p.dataVenda < ?1 "),
 	
 })
 
@@ -38,6 +41,8 @@ public class Pedido implements BaseEntity,Serializable{
 	public static final String QUERY_CONSULTAR_TODOS_PEDIDOS = "pedido.queryConsultarTodosPedidos";
 
 	public static final String CONSULTAR_PEDIDOS_POR_MESA = "pedido.consultarPedidosPorMesa";
+
+	public static final String QUERY_CONSULTAR_PED_POR_DATA = "consultarPedidoProdutoData";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
