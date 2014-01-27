@@ -10,6 +10,4 @@ public interface PedidoProdutoService {
 
 	void atualizar(PedidoProduto pedidoProduto);
 	
-	List<PedidoProduto> pesquisarPedidosDataAtual(Date date);
-
 }

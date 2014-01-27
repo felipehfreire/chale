@@ -15,19 +15,19 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name="produto_pedido")
-@NamedQueries({
-	@NamedQuery(name=PedidoProduto.QUERY_CONSULTAR_PED_POR_DATA, query="select pp from PedidoProduto pp "
-			+ " INNER JOIN pp.pedido AS pedido "
-			+ " where pedido.finalizada = true "
-			+ " and pedido.dataVenda > ?1 "
-			+ " and pedido.dataVenda < ?1 "),
-			
-})
+//@NamedQueries({
+//	@NamedQuery(name=PedidoProduto.QUERY_CONSULTAR_PED_POR_DATA, query="select pp from PedidoProduto pp "
+//			+ " INNER JOIN pp.pedido AS pedido "
+//			+ " where pedido.finalizada = true "
+//			+ " and pedido.dataVenda > ?1 "
+//			+ " and pedido.dataVenda < ?1 "),
+//			
+//})
 public class PedidoProduto implements Serializable{
 	
 	private static final long serialVersionUID = 2080039836842714937L;
 
-	public static final String QUERY_CONSULTAR_PED_POR_DATA = "consultarPedidoProdutoData";
+	//public static final String QUERY_CONSULTAR_PED_POR_DATA = "consultarPedidoProdutoData";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
