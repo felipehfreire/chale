@@ -21,7 +21,6 @@ import javax.print.PrintException;
 
 import br.com.chale.entity.Pedido;
 import br.com.chale.entity.PedidoProduto;
-import br.com.chale.service.PedidoProdutoService;
 import br.com.chale.service.PedidoService;
 import br.com.chale.util.ConversationUtil;
 import br.com.chale.util.ImpressaoTXTUtil;
@@ -32,9 +31,6 @@ import br.com.chale.util.ImpressaoTXTUtil;
 public class RelatorioController implements Serializable {
 	
 	private static final long serialVersionUID = 2847517553472907222L;
-	
-	@Inject
-	private PedidoProdutoService pedidoProdutoService;
 	
 	@Inject
 	private PedidoService pedidoService;
@@ -101,7 +97,6 @@ public class RelatorioController implements Serializable {
 		if(listagem!= null||!listagem.isEmpty()){
 			for (Pedido p : listagem) {
 				mensagem += "Pedido:" +pedido +retornaEspacoBranco("Pedido:" +pedido," Hora:"+new SimpleDateFormat("HH:mm").format(p.getDataVenda())) +" Hora:"+new SimpleDateFormat("HH:mm").format(p.getDataVenda())+ "\n" ;
-				impressaoPedidoFinalizado(p);
 				for (PedidoProduto pp : p.getPedidosProdutos()) {
 					
 					descProdQtd= pp.getProduto().getDescricao();
@@ -117,13 +112,14 @@ public class RelatorioController implements Serializable {
 			mensagem +=retornaEspacoBranco("", "Total: "+"R$"+dcmFmt.format(totalGeral)) + "Total: "+"R$"+dcmFmt.format(totalGeral);
 			mensagem += "\n\n\n\n\n\n\n\n";
 		}else{
-			FacesMessage msg = new FacesMessage("Vendas Inexistente:", "Não existem Vendas realizadas na data informada!!");
+			FacesMessage msg = new FacesMessage("Vendas Inexistentes:", "Não existem Vendas realizadas na data informada!!");
 	        msg.setSeverity(FacesMessage.SEVERITY_WARN);
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
-		System.out.println(mensagem);
+		
 		
 		try {
+			System.out.println(new String(mensagem.getBytes("UTF-8"), "UTF-8"));
 			ImpressaoTXTUtil impressao = new ImpressaoTXTUtil();
 			impressao.escreveImpressao(mensagem);
 		} catch (IOException | PrintException e) {
