@@ -7,6 +7,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.print.Doc;
 import javax.print.DocFlavor;
 import javax.print.DocPrintJob;
@@ -27,10 +29,17 @@ public class ImpressaoTXTUtil {
         // seleciona a impressora  
         detectaImpressoras();  
         setAtributos();  
-        // cria a tarefa de impressao  
-        printJob = impressora.createPrintJob();  
-        //determina o tipo a ser impresso txt  
-        docFlavor = DocFlavor.INPUT_STREAM.AUTOSENSE;  
+        if(impressora != null){
+        	// cria a tarefa de impressao  
+            printJob = impressora.createPrintJob();
+            //determina o tipo a ser impresso txt  
+            docFlavor = DocFlavor.INPUT_STREAM.AUTOSENSE;  
+        }else{
+        	FacesMessage msg = new FacesMessage("Erro:", "Impressoara não encontrada, favor verificar se a impressora esta conectada ou desligada!!!");
+	        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+        }
+       
     }
 	//public static ImpressaoTXTUtil getInstance() {  
      //   return instance;  
@@ -53,7 +62,9 @@ public class ImpressaoTXTUtil {
             File arquivo = File.createTempFile("impressao", ".txt", 
                     new File(System.getProperty("user.dir")));
             BufferedWriter out = new BufferedWriter(new FileWriter(arquivo));
-            out.write(mensagem);
+            
+            //TODO verificar a codificação utilizada pela impressora
+            out.write(new String(mensagem.getBytes("UTF-8"),"UTF-8"));
             out.close();
             
             arquivo.deleteOnExit();
@@ -66,10 +77,12 @@ public class ImpressaoTXTUtil {
     }  
   
     public void imprime(InputStream print) throws PrintException {  
-       Doc documentoTexto = new SimpleDoc(print, docFlavor, null);  
-        // imprime  
-        printJob.print(documentoTexto,  (PrintRequestAttributeSet) printerAttributes);  
-    }  
+    	if(docFlavor!= null){
+    		Doc documentoTexto = new SimpleDoc(print, docFlavor, null);
+            // imprime  
+            printJob.print(documentoTexto,  (PrintRequestAttributeSet) printerAttributes);
+    	}
+	}
     /** 
      * O metodo verifica se existe impressora conectada e a define como padrao. 
      */  

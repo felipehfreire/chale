@@ -96,6 +96,10 @@ public class LoginController implements Serializable {
 		 return "/secure/alterarSenha.jsf?faces-redirect=true";  
 	 }
 	 
+	 public  String efetuarLogin (){
+		 return "/login.jsf?faces-redirect=true";  
+	 }
+	 
 	 public  String cancelar (){
 		 return "/index.jsf?faces-redirect=true";  
 	 }
