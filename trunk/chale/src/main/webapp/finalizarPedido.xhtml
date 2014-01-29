@@ -32,15 +32,16 @@
 								</h:selectBooleanCheckbox>
 							</div>
 
-							<h:panelGroup id="clienteGroup" label="clienteGroup" rendered="#{pedidoController.pedido.vendaPrazo}">
-								<h:outputLabel value="Cliente" class="col-lg-2 control-label" for="cliente" />
+							<p:outputLabel  id="clienteGroup" label="clienteGroup" >
+								<h:outputLabel value="Cliente" class="col-lg-2 control-label" for="cliente" rendered="#{pedidoController.pedido.vendaPrazo}" />
 								<div class="col-lg-2">
-									<h:selectOneMenu id="cliente" styleClass="form-control" value="#{pedidoController.pedido.pessoa}" converter="simpleEntityConverter">
-										<f:selectItem itemValue="" itemLabel="Selecione uma Mesa" />
+									<h:selectOneMenu id="cliente" styleClass="form-control" value="#{pedidoController.pedido.pessoa}" 
+										rendered="#{pedidoController.pedido.vendaPrazo}"	converter="simpleEntityConverter">
+										<f:selectItem itemLabel="Selecione" />
 										<f:selectItems value="#{pedidoController.mesas}" var="mesa" itemLabel="#{mesa.numeroMesa}" itemValue="#{mesa}" />
 									</h:selectOneMenu>
 								</div>
-							</h:panelGroup>
+							</p:outputLabel>
 						</div>
 						<div class="form-group">
 							<div class="col-lg-6" align="right">
