@@ -19,8 +19,8 @@
   
   <context-param>  
     <param-name>primefaces.THEME</param-name>  
-    <param-value>bootstrap</param-value>  
-</context-param>  
+    <param-value>cruze</param-value>  
+  </context-param>   
   
   <!-- Listener do Jboss Weld -->
         <listener>

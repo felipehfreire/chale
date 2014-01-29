@@ -36,7 +36,7 @@ public class Produto implements BaseEntity,Serializable {
 	@Column(name = "descricao", length = 500, nullable=false)
 	private String descricao;
 
-	@Column(name = "qtdEstoque", nullable=false)
+	@Column(name = "qtdEstoque", nullable=true)
 	private Long qtdEstoque;
 
 	@Column(name = "preco", precision=10, scale=2, nullable=false)
@@ -45,7 +45,7 @@ public class Produto implements BaseEntity,Serializable {
 	@Column(name = "tipoServico")
 	private Boolean tipoServico;
 
-	@Column(name = "qtdMinEstoque", nullable=false)
+	@Column(name = "qtdMinEstoque", nullable=true)
 	private Long qtdMinEstoque;
 	
 	public String toString() {
