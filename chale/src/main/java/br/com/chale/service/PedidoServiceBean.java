@@ -8,7 +8,6 @@ import javax.inject.Inject;
 
 import br.com.chale.dao.MesaDAO;
 import br.com.chale.dao.PedidoDAO;
-import br.com.chale.dao.PedidoProdutoDAO;
 import br.com.chale.entity.Mesa;
 import br.com.chale.entity.Pedido;
 
@@ -22,9 +21,6 @@ public class PedidoServiceBean implements PedidoService, Serializable {
 	@Inject
 	private PedidoDAO pedidoDAO;
 	
-	@Inject
-	private PedidoProdutoDAO pedidoProdutoDAO;
-
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<Mesa> consultarTodasMesas() {
@@ -55,5 +51,13 @@ public class PedidoServiceBean implements PedidoService, Serializable {
 	public List<Pedido> pesquisarPedidosData(Date data) {
 		return pedidoDAO.pesquisarPedidosData(data);
 	}
+
+	@Override
+	public void atualizarMesa(Mesa mesa) {
+		mesaDAO.update(mesa);
+		
+	}
 	
+	
+
 }
