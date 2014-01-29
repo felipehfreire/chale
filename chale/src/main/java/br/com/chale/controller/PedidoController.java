@@ -131,12 +131,13 @@ public class PedidoController implements Serializable {
 	 * Adiciona mais um "pedido" do produto selecionado
 	 */
 	public void adicionar() {
+		pedidoProduto.setProduto(getProdutoSelecionado());
 		if (!pedidoProduto.getProduto().getQtdEstoque().equals(0L)) {
 			pedidoProduto.getProduto().setQtdEstoque(pedidoProduto.getProduto().getQtdEstoque() - 1);
 			produtoService.atualizar(pedidoProduto.getProduto());
 			
 			for (PedidoProduto pedProd : pedido.getPedidosProdutos()) {
-				if (pedProd.equals(pedidoProduto)) {
+				if (pedProd.getProduto().equals(pedidoProduto.getProduto())) {
 					pedProd.setQuantidade(pedProd.getQuantidade() + 1);
 				}
 			}
