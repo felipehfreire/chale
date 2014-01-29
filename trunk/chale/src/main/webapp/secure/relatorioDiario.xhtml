@@ -16,16 +16,10 @@
 					<div class="col-lg-6 div-center">
 						<div class="well">
 						
-						
 							<div class="form-group">
 								<h:outputLabel value="Escolha uma data: " class="col-lg-2 control-label" for="popupButtonDate" />  
 								<div class="col-lg-10">
-									<h:outputText value="#{relatorioController.data}" id="popupButtonDate">  
-				                		<f:convertDateTime pattern="d/M/yyyy"/>  
-				            		</h:outputText> 
-				            		
-				            		<p:calendar value="#{relatorioController.data}" mode="inline" id="inlineCal"/> 
-				            		
+				            		<p:calendar value="#{relatorioController.data}" id="popupButtonDate" showButtonPanel="true"/>
 					     		</div>
 							</div>
 							
