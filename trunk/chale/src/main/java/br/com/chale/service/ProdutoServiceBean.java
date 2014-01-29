@@ -42,6 +42,11 @@ public class ProdutoServiceBean implements ProdutoService, Serializable {
 		return produtoDAO.manager.find(Produto.class, idProd);
 		
 	}
+
+	@Override
+	public List<Produto> pesquisarProdutosEstoqueMin() {
+		return produtoDAO.pesquisarProdutosEstoqueMin();
+	}
 	
 	
 	

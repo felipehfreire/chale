@@ -17,8 +17,8 @@ import javax.persistence.Table;
 @NamedQueries({
 	
 	@NamedQuery(name=Produto.QUERY_CONSULTAR_POR_NOME, query="select p from Produto p where descricao like '%' || Upper(?1) || '%' or ?1 is null"),
-	
 	@NamedQuery(name=Produto.QUERY_CONSULTAR_TODOS, query="select p from Produto p "),
+	@NamedQuery(name=Produto.QUERY_CONSULTAR_PRODS_QTD_MIN, query="select p from Produto p  where p.qtdMinEstoque >= p.qtdEstoque "),
 	
 })
 public class Produto implements BaseEntity,Serializable {
@@ -27,6 +27,8 @@ public class Produto implements BaseEntity,Serializable {
 	
 	public static final String QUERY_CONSULTAR_POR_NOME = "consultarPorNome";
 	public static final String QUERY_CONSULTAR_TODOS = "produto.consultarTodos";
+
+	public static final String QUERY_CONSULTAR_PRODS_QTD_MIN = "consultarProdutosEstoqueMin";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

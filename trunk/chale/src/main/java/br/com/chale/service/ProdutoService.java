@@ -16,4 +16,6 @@ public interface ProdutoService {
 
 	Produto getById(Long idProd);
 
+	List<Produto> pesquisarProdutosEstoqueMin();
+
 }
