@@ -113,7 +113,10 @@ public class RelatorioController implements Serializable {
 					totalPedido+=pp.getProduto().getPreco()*pp.getQuantidade();
 				}
 				totalGeral +=totalPedido;
-				mensagem +=retornaEspacoBranco("","Total: " + dcmFmt.format(totalPedido) )+"Total: " + dcmFmt.format(totalPedido) +"\n\n";
+				mensagem +=retornaEspacoBranco("","Total: " + dcmFmt.format(totalPedido) )+"Total: " + dcmFmt.format(totalPedido) +"\n";
+				if(p.getVendaPrazo()== true && p.getPago() == false){
+					mensagem +=p.getPessoa().getNome()+ retornaEspacoBranco(p.getPessoa().getNome(), p.getPessoa().getTelefone())+p.getPessoa().getTelefone()+"\n\n";
+				}
 				totalPedido= 0D;
 				pedido ++;
 			}

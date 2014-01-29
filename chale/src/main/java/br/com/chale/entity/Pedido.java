@@ -65,9 +65,12 @@ public class Pedido implements BaseEntity,Serializable{
 	@OneToOne
 	private Pessoa pessoa;
 
-	@JoinColumn(name="mesa")
+	@JoinColumn(name="mesa",nullable=false)
 	@OneToOne
 	private Mesa mesa;
+	
+	@Column(name="pago")
+	private Boolean pago = false;
 	
 	@Transient
 	private Double precoTotal;
@@ -133,4 +136,12 @@ public class Pedido implements BaseEntity,Serializable{
 		return total;
 	}
 
+	public Boolean getPago() {
+		return pago;
+	}
+
+	public void setPago(Boolean pago) {
+		this.pago = pago;
+	}
+	
 }
