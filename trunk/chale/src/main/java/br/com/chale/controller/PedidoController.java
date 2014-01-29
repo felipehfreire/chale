@@ -41,7 +41,7 @@ public class PedidoController implements Serializable {
 	
 	@Inject
 	private ClienteService clienteService;
-
+	
 	private List<Mesa> mesas;
 	private List<Pedido> pedidos;
 	private List<Produto> produtosInseridos;
@@ -88,12 +88,7 @@ public class PedidoController implements Serializable {
 			pedidoProduto.setProduto(getProdutoSelecionado());
 			pedidoProduto.setPedido(pedido);
 			pedido.getPedidosProdutos().add(pedidoProduto);
-			
-			if (pedido.getId() == null) {
-				 pedidoService.persistir(pedido);
-			 } else {
-				 pedidoService.atualizar(pedido);
-			 }
+			pedidoService.atualizar(pedido);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Inserido com sucesso!"));
 			limparAdd();
 		}
@@ -124,6 +119,9 @@ public class PedidoController implements Serializable {
 	}
 
 	public String novo() {
+		Mesa mesa = pedido.getMesa();
+		mesa.setUsada(true);
+		pedidoService.atualizarMesa(mesa);
 		return "/manterPedido.jsf?faces-redirect=true";
 	}
 	
@@ -192,10 +190,14 @@ public class PedidoController implements Serializable {
 			 FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_ERROR, "", 
 					 "Não é possível finalizar o pedido sem ao menos selecionar um produto!"));
 		 }
-		 //TODO adicionar lista de pessoas caso for a prazo
+		 
+		Mesa mesa = pedido.getMesa();
+		mesa.setUsada(false);
+		pedidoService.atualizarMesa(mesa);
+			
 		 pedido.setFinalizada(true);
 		 pedidoService.atualizar(pedido);
-		 FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Alterado com sucesso!"));
+		 FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_INFO, "", "Pedido finalizado com sucesso!"));
 		 ConversationUtil.terminarConversacao(conversation);
 	 }
 	

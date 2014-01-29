@@ -66,7 +66,7 @@ public class Pedido implements BaseEntity,Serializable{
 	private Pessoa pessoa;
 
 	@JoinColumn(name="mesa")
-	@OneToOne()
+	@OneToOne
 	private Mesa mesa;
 	
 	@Transient

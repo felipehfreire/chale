@@ -13,7 +13,7 @@
 
 		<div class="page-header"></div>
 		<div class="row container-center">
-			<div class="col-lg-6 div-center">
+			<div class="col-lg-12 div-center">
 				<h:form id="submitForm2" class="bs-example form-horizontal">
 					<div class="well">
 						<div class="form-group">
@@ -25,20 +25,20 @@
 								 </h:inputText>
 							</div>
 
-							<h:outputLabel value="À prazo" class="col-lg-1 control-label" for="aPrazo" />
-							<div class="col-lg-2">
-								<h:selectBooleanCheckbox class="form-control" name="aPrazo" id="aPrazo" value="#{pedidoController.pedido.vendaPrazo}">
+							<h:outputLabel value="À prazo" class="col-lg-2 control-label" for="aPrazo" />
+							<div class="col-lg-2" style="margin-top: 6px">
+								<h:selectBooleanCheckbox name="aPrazo" id="aPrazo" value="#{pedidoController.pedido.vendaPrazo}">
 									<f:ajax render="clienteGroup"/>
 								</h:selectBooleanCheckbox>
 							</div>
 
 							<p:outputLabel  id="clienteGroup" label="clienteGroup" >
-								<h:outputLabel value="Cliente" class="col-lg-2 control-label" for="cliente" rendered="#{pedidoController.pedido.vendaPrazo}" />
-								<div class="col-lg-2">
+								<h:outputLabel value="Cliente" class="col-lg-4 control-label" for="cliente" rendered="#{pedidoController.pedido.vendaPrazo}" />
+								<div class="col-lg-8">
 									<h:selectOneMenu id="cliente" styleClass="form-control" value="#{pedidoController.pedido.pessoa}" 
 										rendered="#{pedidoController.pedido.vendaPrazo}"	converter="simpleEntityConverter">
 										<f:selectItem itemLabel="Selecione" />
-										<f:selectItems value="#{pedidoController.mesas}" var="mesa" itemLabel="#{mesa.numeroMesa}" itemValue="#{mesa}" />
+										<f:selectItems value="#{pedidoController.pessoas}" var="pessoa" itemLabel="#{pessoa.nome}" itemValue="#{pessoa}" />
 									</h:selectOneMenu>
 								</div>
 							</p:outputLabel>

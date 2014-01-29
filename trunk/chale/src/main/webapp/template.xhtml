@@ -34,29 +34,19 @@
 <h:body>
 	
 	<p:menubar>
-		<p:submenu label="File" icon="ui-icon-document">
+		<p:submenu label="Pedidos/Produtos" icon="ui-icon-document">
 			<p:menuitem value="Produtos" url="/secure/consultarProduto.jsf?faces-redirect=true" rendered="#{loginController.loggedIn}" />
 			<p:menuitem value="Pedidos" url="/consultarPedido.jsf?faces-redirect=true" />
-			<p:separator />
-			<p:menuitem value="Quit" url="#" />
 		</p:submenu>
 		
 		<p:submenu label="Clientes" icon="ui-icon-document">
 			<p:menuitem value="Cliente" url="/consultarCliente.jsf?faces-redirect=true" />
-			<p:separator />
-			<p:menuitem value="Quit" url="#" />
 		</p:submenu>
 		
 		<p:submenu label="Relatórios" icon="ui-icon-document" rendered="#{loginController.loggedIn}">
 			<p:menuitem value="Diário" url="/secure/relatorioDiario.jsf?faces-redirect=true" />
-			<p:separator />
-			<p:menuitem value="Quit" url="#" />
 		</p:submenu>
 		
-		<p:submenu label="Edit" icon="ui-icon-pencil">
-			<p:menuitem value="Undo" url="#" icon="ui-icon-arrowreturnthick-1-w" />
-			<p:menuitem value="Redo" url="#" icon="ui-icon-arrowreturnthick-1-e" />
-		</p:submenu>
 		
 		<f:facet name="options">  
 			<h:form id="loginControlForm">
@@ -66,7 +56,7 @@
 				<h:commandButton value="Alterar Senha" styleClass="btn btn-defaut" 
 					rendered="#{loginController.loggedIn}" ajax="true" icon="ui-icon-extlink" action="#{loginController.alterarSenhaNavigation}" />
 					
-				<h:commandButton value="Efetura Login" styleClass="btn btn-defaut" 
+				<h:commandButton value="Efetuar Login" styleClass="btn btn-defaut" 
 					 rendered="#{!loginController.loggedIn}" ajax="true" icon="ui-icon-extlink" action="#{loginController.efetuarLogin}" />	
            	</h:form>  
         </f:facet>

@@ -21,5 +21,7 @@ public interface PedidoService {
 
 	List<Pedido> pesquisarPedidosData(Date data);
 
+	void atualizarMesa(Mesa mesa);
+
 
 }
