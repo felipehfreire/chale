@@ -17,4 +17,8 @@ public class ProdutoDAO extends GenericDAO<Produto> {
 		return executeQueryListResult(Produto.QUERY_CONSULTAR_TODOS);
 	}
 
+	public List<Produto> pesquisarProdutosEstoqueMin() {
+		return executeQueryListResult(Produto.QUERY_CONSULTAR_PRODS_QTD_MIN);
+	}
+
 }
