@@ -35,29 +35,40 @@
 						</div>
 						
 						<div class="form-group">
-							<h:outputLabel value="Quantidade em Estoque" class="col-lg-2 control-label" for="qtdEstoque" />
-							<div class="col-lg-10">
-								<h:inputText class="form-control" name="qtdEstoque" id="qtdEstoque" value="#{produtoController.produto.qtdEstoque}"
-									converter="javax.faces.Long"  required="true" requiredMessage="Insira a Quantidade em Estoque!" />
-									<p:message for="qtdEstoque" styleClass="error" />
-							</div>
-						</div>
-						
-						<div class="form-group">
-							<h:outputLabel value="Quantidade Mínima de Estoque" class="col-lg-2 control-label" for="qtdEstoqueMin" />
-							<div class="col-lg-10">
-								<h:inputText class="form-control" name="qtdEstoqueMin" id="qtdEstoqueMin" value="#{produtoController.produto.qtdMinEstoque}"
-									converter="javax.faces.Long" required="true" requiredMessage="Insira a quantidade Mínima de estoque!"/>
-								<p:message for="qtdEstoqueMin" styleClass="error" />
-							</div>
-						</div>
-						
-						<div class="form-group">
 							<h:outputLabel value="Serviço" class="col-lg-2 control-label" for="servico" />
 							<div class="col-lg-10">
-								<h:selectBooleanCheckbox class="form-control" name="servico" id="servico" value="#{produtoController.produto.tipoServico}" />
+								<h:selectBooleanCheckbox class="form-control" name="servico" id="servico" value="#{produtoController.produto.tipoServico}" >
+									<f:ajax render="estoque"/>
+								</h:selectBooleanCheckbox>
 							</div>
 						</div>
+						
+						<h:panelGroup id="estoque" >
+							<h:panelGroup id="estoque2"  rendered="#{!produtoController.produto.tipoServico}">
+								<div class="form-group">
+									<h:outputLabel value="Quantidade em Estoque" class="col-lg-2 control-label" for="qtdEstoque" />
+									<div class="col-lg-10">
+										<h:inputText class="form-control" name="qtdEstoque" id="qtdEstoque" value="#{produtoController.produto.qtdEstoque}"
+											converter="javax.faces.Long"  required="true" requiredMessage="Insira a Quantidade em Estoque!" />
+											<p:message for="qtdEstoque" styleClass="error" />
+									</div>
+								</div>
+								
+								<div class="form-group">
+									<h:outputLabel value="Quantidade Mínima de Estoque" class="col-lg-2 control-label" for="qtdEstoqueMin" />
+									<div class="col-lg-10">
+										<h:inputText class="form-control" name="qtdEstoqueMin" id="qtdEstoqueMin" value="#{produtoController.produto.qtdMinEstoque}"
+											converter="javax.faces.Long" required="true" requiredMessage="Insira a quantidade Mínima de estoque!"/>
+										<p:message for="qtdEstoqueMin" styleClass="error" />
+									</div>
+								</div>
+							</h:panelGroup>
+						</h:panelGroup>
+								
+						
+						
+						
+						
 						
 						<div class="form-group">
 							<div class="col-lg-7 col-lg-offset-2">
