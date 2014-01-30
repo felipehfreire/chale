@@ -7,7 +7,7 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.chale.dao.PedidoProdutoDAO;
-import br.com.chale.entity.PedidoProduto;
+import br.com.chale.entity.VendaProduto;
 
 public class PedidoProdutoServiceBean implements PedidoProdutoService, Serializable {
 
@@ -18,7 +18,7 @@ public class PedidoProdutoServiceBean implements PedidoProdutoService, Serializa
 
 
 	@Override
-	public void atualizar(PedidoProduto pedidoProduto) {
+	public void atualizar(VendaProduto pedidoProduto) {
 		pedidoPrdoDAO.update(pedidoProduto);
 	}
 

@@ -7,11 +7,11 @@ import java.util.List;
 import javax.inject.Inject;
 
 import br.com.chale.dao.MesaDAO;
-import br.com.chale.dao.PedidoDAO;
+import br.com.chale.dao.VendaDAO;
 import br.com.chale.entity.Mesa;
-import br.com.chale.entity.Pedido;
+import br.com.chale.entity.Venda;
 
-public class PedidoServiceBean implements PedidoService, Serializable {
+public class VendaServiceBean implements VendaService, Serializable {
 
 	private static final long serialVersionUID = 8310482099763882250L;
 	
@@ -19,7 +19,7 @@ public class PedidoServiceBean implements PedidoService, Serializable {
 	private MesaDAO mesaDAO;
 	
 	@Inject
-	private PedidoDAO pedidoDAO;
+	private VendaDAO vendaDAO;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -28,28 +28,28 @@ public class PedidoServiceBean implements PedidoService, Serializable {
 	}
 
 	@Override
-	public void persistir(Pedido pedido) {
-		pedidoDAO.insert(pedido);
+	public void persistir(Venda venda) {
+		vendaDAO.insert(venda);
 	}
 
 	@Override
-	public void atualizar(Pedido pedido) {
-		pedidoDAO.update(pedido);
+	public Venda atualizar(Venda venda) {
+		return vendaDAO.update(venda);
 	}
 	
 	@Override
-	public List<Pedido> pesquisarPedidos(Mesa mesaSelecionada) {
-		return pedidoDAO.pesquisarPedidos(mesaSelecionada);
+	public List<Venda> pesquisarVendasPorMesa(Mesa mesaSelecionada) {
+		return vendaDAO.pesquisarVendasPorMesa(mesaSelecionada);
 	}
 
 	@Override
-	public List<Pedido> pesquisarPedidos() {
-		return pedidoDAO.pesquisarPedidos();
+	public List<Venda> pesquisarVendas() {
+		return vendaDAO.pesquisarVendas();
 	}
 
 	@Override
-	public List<Pedido> pesquisarPedidosData(Date data) {
-		return pedidoDAO.pesquisarPedidosData(data);
+	public List<Venda> pesquisarVendasPorData(Date data) {
+		return vendaDAO.pesquisarVendasPorData(data);
 	}
 
 	@Override
