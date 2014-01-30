@@ -25,29 +25,28 @@ public class Produto implements BaseEntity,Serializable {
 	
 	private static final long serialVersionUID = 5130446222776884014L;
 	
-	public static final String QUERY_CONSULTAR_POR_NOME = "consultarPorNome";
+	public static final String QUERY_CONSULTAR_POR_NOME = "produto.consultarPorNome";
 	public static final String QUERY_CONSULTAR_TODOS = "produto.consultarTodos";
-
-	public static final String QUERY_CONSULTAR_PRODS_QTD_MIN = "consultarProdutosEstoqueMin";
+	public static final String QUERY_CONSULTAR_PRODS_QTD_MIN = "produto.consultarProdutosEstoqueMin";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "codProd", nullable=false)
+	@Column(name = "cod_produto", nullable=false)
 	private Long id;
 
-	@Column(name = "descricao", length = 500, nullable=false)
+	@Column(name = "txt_descricao", length = 500, nullable=false)
 	private String descricao;
 
-	@Column(name = "qtdEstoque", nullable=true)
+	@Column(name = "num_qtd_estoque", nullable=true)
 	private Long qtdEstoque;
 
-	@Column(name = "preco", precision=10, scale=2, nullable=false)
+	@Column(name = "num_preco", precision=10, scale=2, nullable=false)
 	private Double preco;
 
-	@Column(name = "tipoServico")
+	@Column(name = "ind_servico")
 	private Boolean tipoServico;
 
-	@Column(name = "qtdMinEstoque", nullable=true)
+	@Column(name = "ind_qtd_min_estoque", nullable=true)
 	private Long qtdMinEstoque;
 	
 	public String toString() {

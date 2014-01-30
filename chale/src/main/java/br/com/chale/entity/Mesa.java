@@ -17,20 +17,19 @@ import javax.persistence.Table;
 
 	@NamedQuery(name=Mesa.CONSULTAR_TODAS_MESAS, query="Select m from Mesa m"),
 	
-	
 })
-public class Mesa implements BaseEntity,Serializable{
+public class Mesa implements BaseEntity, Serializable {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 5226396022428686688L;
 
-	public static final String CONSULTAR_TODAS_MESAS = "consultarTodasMesas";
+	public static final String CONSULTAR_TODAS_MESAS = "mesa.consultarTodasMesas";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="codMesa", nullable=false)
+	@Column(name="cod_mesa", nullable=false)
 	private Long numeroMesa;
 	
-	@Column(name="usada")
+	@Column(name="ind_usada")
 	private Boolean usada;
 
 	public Long getNumeroMesa() {

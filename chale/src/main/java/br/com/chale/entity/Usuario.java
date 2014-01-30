@@ -1,7 +1,6 @@
 package br.com.chale.entity;
 
 import java.io.Serializable;
-import java.security.MessageDigest;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,8 +10,6 @@ import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
-
-import br.com.chale.util.EncriptatorUtil;
 
 @Entity
 @Table(name="usuario")
@@ -24,19 +21,18 @@ public class Usuario implements BaseEntity, Serializable{
 	
 	private static final long serialVersionUID = 6755595084217031092L;
 
-	public static final String QUERY_CONSULTAR_USUARIO = "consultarUsuario";
-
-	public static final String QUERY_CONSULTAR_SENHA = "consultarSenha";
+	public static final String QUERY_CONSULTAR_USUARIO = "usuario.consultarUsuario";
+	public static final String QUERY_CONSULTAR_SENHA = "usuario.consultarSenha";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="codUsuario", nullable=false)
+	@Column(name="cod_usuario", nullable=false)
 	private Long id;
 	
-	@Column(name="nomeUsuario", length= 100, nullable=false)
+	@Column(name="txt_nome_usuario", length= 100, nullable=false)
 	private String usuario;
 	
-	@Column(name="senha", length= 32, nullable=false)
+	@Column(name="pw_senha", length= 32, nullable=false)
 	private String senha;
 
 	public Long getId() {
