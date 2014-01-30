@@ -30,9 +30,11 @@ import javax.persistence.Transient;
 	@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_POR_DATA, query="select p from Venda p "
 			+ " where p.finalizada = true "
 			+ " and  p.dataVenda < ?1 "),
+			@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_PRAZO, query="select p from Venda p "
+					+ " where p.finalizada = true "
+					+ " and pago = false "),		
 	
 })
-
 public class Venda implements BaseEntity, Serializable {
 	
 	private static final long serialVersionUID = -5412811770343143282L;
@@ -40,6 +42,7 @@ public class Venda implements BaseEntity, Serializable {
 	public static final String QUERY_CONSULTAR_TODAS_VENDAS = "venda.queryConsultarTodasVendas";
 	public static final String CONSULTAR_VENDAS_POR_MESA = "venda.consultarVendasPorMesa";
 	public static final String QUERY_CONSULTAR_VENDAS_POR_DATA = "venda.consultarVendasPorData";
+	public static final String QUERY_CONSULTAR_VENDAS_PRAZO = "venda.consultarVendasPrazo";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -50,6 +53,9 @@ public class Venda implements BaseEntity, Serializable {
 	@Column(name="dat_venda")
 	@Basic(optional=false)
 	private Date dataVenda = new Date();
+	
+	@Column(name="dat_pagamento")
+	private Date dataPagamento;
 	
 	@Column(name="ind_finalizada")
 	private Boolean finalizada = false;
@@ -141,6 +147,14 @@ public class Venda implements BaseEntity, Serializable {
 
 	public void setPago(Boolean pago) {
 		this.pago = pago;
+	}
+
+	public Date getDataPagamento() {
+		return dataPagamento;
+	}
+
+	public void setDataPagamento(Date dataPagamento) {
+		this.dataPagamento = dataPagamento;
 	}
 	
 }

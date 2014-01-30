@@ -57,6 +57,11 @@ public class VendaServiceBean implements VendaService, Serializable {
 		mesaDAO.update(mesa);
 		
 	}
+
+	@Override
+	public List<Venda> pesquisarVendasFinalizadasPrazo() {
+		return vendaDAO.pesquisarVendasFinalizadasPrazo();
+	}
 	
 	
 

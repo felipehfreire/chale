@@ -22,6 +22,10 @@ public class VendaDAO extends GenericDAO<Venda> {
 		return executeQueryListResult(Venda.QUERY_CONSULTAR_VENDAS_POR_DATA, data);
 	}
 
+	public List<Venda> pesquisarVendasFinalizadasPrazo() {
+		return executeQueryListResult(Venda.QUERY_CONSULTAR_VENDAS_PRAZO);
+	}
+
 	
 
 }

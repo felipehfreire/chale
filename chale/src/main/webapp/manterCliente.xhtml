@@ -28,14 +28,14 @@
 								<div class="col-lg-10">
 									<h:inputText class="form-control tel"		name="telCli" id="telCli" value="#{clienteController.pessoa.telefone}"/>
 						     	</div>
-						     	
+						     	<p:spacer height="5px"/> 	
 						     	<div class="form-group">
 									<div class="col-lg-10 col-lg-offset-2">
 										<h:commandButton value="Voltar"	action="#{clienteController.voltar}" 
 											class="btn btn-defaut" ajax="false" immediate="true" />
-											
+										 <p:spacer width="5px"/> 	
 										<h:commandButton value="Salvar"	action="#{clienteController.salvar}" 
-											class="btn btn-primary"	ajax="false" onclick="submitForm();" />
+											class="btn btn-success"	ajax="false" onclick="submitForm();" />
 									</div>
 								</div>
 					  		</h:form>

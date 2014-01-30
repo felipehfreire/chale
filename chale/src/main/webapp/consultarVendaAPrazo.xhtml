@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+	
+	<ui:composition template="template.xhtml">
+	
+	<ui:define name="content">
+		<h:form id="submitForm" class="bs-example form-horizontal">
+			<div class="page-header"></div>
+			<div class="row container-center">
+				<div class="col-lg-7 div-center">
+				<p:fieldset legend="Vendas finalizadas à prazo ">
+					<div class="well">
+					
+						<div class="well">    
+			             	<h:commandButton value="Pesquisar" action="#{vendaPrazoController.pesquisar}" class="btn btn-success" ajax="false"/>
+			          	</div>   
+			          
+			          	<div class="well">
+			          		<p:dataTable value="#{vendaPrazoController.vendasFinalizadasAprazo}" var="venda"  sortMode="multiple" rows="10"  paginator="true">
+			
+								<p:column sortBy="#{venda.mesa.numeroMesa}" headerText="Data da Venda">
+									<h:outputText value="#{venda.dataVenda}">
+										<f:convertDateTime pattern="dd/MM/yyyy"/>  
+									</h:outputText>
+								</p:column>
+								
+								<p:column sortBy="#{venda.id}" headerText="Número da venda">
+									<h:outputText value="#{venda.id}"/>
+								</p:column>
+								
+								<p:column headerText="Total">
+									<h:outputText value="#{venda.precoTotal}"/>
+								</p:column>
+								
+								<p:column headerText="Ações">
+								<button id="detalhar" class="btn btn-primary">Novo
+								
+								</button>
+								<p:spacer width="5px"/>
+                    				<h:commandButton class="btn btn-success" ajax="false"  onclick="{$(function() {$('#dialog-form').dialog('open');}}" value="Detalhar" id="detalhar">
+										<f:setPropertyActionListener value="#{venda}" 
+                        					target="#{vendaPrazoController.vendaSelecionada}" />
+                        					<p:spacer></p:spacer>
+                    				</h:commandButton>
+                    				<p:spacer width="5px"/>
+								</p:column>
+							
+							</p:dataTable>
+			          	</div>
+		             </div>
+		             </p:fieldset>
+	             </div>
+             </div>
+		</h:form>
+		
+		
+		<script>
+			$(function() {
+				$("#dialog-form")
+						.dialog(
+								{
+									autoOpen : false,
+									height : 250,
+									width : 600,
+									modal : true,
+									close : function() {
+										$(this).dialog("close");
+									}
+								});
+
+				$("#detalhar").click(function() {
+					$("#dialog-form").dialog("open");
+					return false;
+				});
+				
+			});
+		</script>
+
+		<div id="dialog-form" title="Detalhes">
+			<h:form>
+				<div class="row container-center">
+					<div class="col-lg-6 div-center">
+						<div>
+							<div class="form-group">
+								<p:outputPanel id="produtosVendaPrazo">
+									<p:dataList  value="#{vendaPrazoController.vendaSelecionada.vendaProdutos}" var="vendProd" itemType="disc">  
+										<b>Prod.:</b> #{vendProd.produto.descricao}   --   <b>Qtd:</b>  #{vendProd.quantidade}   --   <b>Preço:</b> #{vendProd.produto.preco}
+									</p:dataList>  
+								</p:outputPanel>			
+							</div>
+							<div class="form-group">
+								<h:outputText
+									value="Cliente: #{vendaPrazoController.vendaSelecionada.cliente.nome}"
+									style="text-align:right" />
+								<h:outputText
+									value="Tel: #{vendaPrazoController.vendaSelecionada.cliente.telefone}"
+									style="text-align:right" />
+								<h:outputText
+									value="Vlr Total: #{vendaPrazoController.vendaSelecionada.precoTotal}"
+									style="text-align:right" />
+							</div>
+
+							<br/>
+							<br/>
+							<div class="form-group" style="text-align: center;">
+								<h:commandButton action="#{vendaPrazoController.receberVenda}" value="Receber" ajax="false"  class="btn btn-success"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+
+	</ui:define>
+	</ui:composition>	
+</html>
