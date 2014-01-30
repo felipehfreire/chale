@@ -15,23 +15,23 @@ import javax.inject.Inject;
 import javax.inject.Named;
 
 import br.com.chale.entity.Mesa;
-import br.com.chale.entity.Pedido;
-import br.com.chale.entity.PedidoProduto;
-import br.com.chale.entity.Pessoa;
+import br.com.chale.entity.Venda;
+import br.com.chale.entity.VendaProduto;
+import br.com.chale.entity.Cliente;
 import br.com.chale.entity.Produto;
 import br.com.chale.service.ClienteService;
-import br.com.chale.service.PedidoService;
+import br.com.chale.service.VendaService;
 import br.com.chale.service.ProdutoService;
 import br.com.chale.util.ConversationUtil;
 
 @Named
 @ManagedBean
 @ConversationScoped
-public class PedidoController implements Serializable {
+public class VendaController implements Serializable {
 	private static final long serialVersionUID = 2847517553472907222L;
 	
 	@Inject
-	private PedidoService pedidoService;
+	private VendaService vendaService;
 	
 	@Inject
 	private ProdutoService produtoService;
@@ -43,18 +43,18 @@ public class PedidoController implements Serializable {
 	private ClienteService clienteService;
 	
 	private List<Mesa> mesas;
-	private List<Pedido> pedidos;
+	private List<Venda> vendas;
 	private List<Produto> produtosInseridos;
 	private List<Produto> produtosSelect;
 	private Date dataAtual;
 	private boolean aVista;
 	//Jhonatan
-	private PedidoProduto pedidoProduto;
+	private VendaProduto vendaProduto;
 	private Produto produtoSelecionado;
 	private Mesa mesaSelecionada;
 	private Long idProd;
-	private Pedido pedido;
-	private List<Pessoa> pessoas;
+	private Venda venda;
+	private List<Cliente> clientes;
 
 	@PostConstruct
 	public void iniciar() {
@@ -74,34 +74,52 @@ public class PedidoController implements Serializable {
 	}
 	
 	public void add() {
-		if (getProdutoSelecionado().getQtdEstoque().equals(0L) || getProdutoSelecionado().getQtdEstoque() < pedidoProduto.getQuantidade()) {
+		if (getProdutoSelecionado().getQtdEstoque().equals(0L) || getProdutoSelecionado().getQtdEstoque() < vendaProduto.getQuantidade()) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Quantidade insuficiente em estoque!"));
 			
-		} else if (pedido.getPedidosProdutos().contains(pedidoProduto)) {
+		} else if (verificaExistenciaProdutoNoPedido()) {
 			//quando clicar no add e o produto já estiver na lista, só atualizar os valores
+			vendaProduto.setProduto(getProdutoSelecionado());
 			adicionar();
 			
 		} else {
 			//TODO o cara pode mudar de mesa
-			getProdutoSelecionado().setQtdEstoque(getProdutoSelecionado().getQtdEstoque() - pedidoProduto.getQuantidade());
+			getProdutoSelecionado().setQtdEstoque(getProdutoSelecionado().getQtdEstoque() - vendaProduto.getQuantidade());
 			produtoService.atualizar(getProdutoSelecionado());
-			pedidoProduto.setProduto(getProdutoSelecionado());
-			pedidoProduto.setPedido(pedido);
-			pedido.getPedidosProdutos().add(pedidoProduto);
-			pedidoService.atualizar(pedido);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Inserido com sucesso!"));
+			vendaProduto.setProduto(getProdutoSelecionado());
+			vendaProduto.setVenda(venda);
+			venda.getVendaProdutos().add(vendaProduto);
+			if (venda.getId() == null) {
+				vendaService.persistir(venda);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Inserido com sucesso!"));
+			} else {
+				venda = vendaService.atualizar(venda);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Atualizado com sucesso!"));
+			}
+			
 			limparAdd();
 		}
-    } 
+    }
+	
+	private boolean verificaExistenciaProdutoNoPedido() {
+		boolean retorno = false;
+		for (VendaProduto vendProd : venda.getVendaProdutos()) {
+			if (vendProd.getProduto().equals(getProdutoSelecionado())) {
+				retorno = true;
+				break;
+			}
+		}
+		return retorno;
+	}
 	
 	private void limparAdd() {
-		pedidoProduto = new PedidoProduto();
+		vendaProduto = new VendaProduto();
 		produtoSelecionado = new Produto();
 		idProd = null;
 	}
 
 	private void PreencherMesas() {
-		mesas = pedidoService.consultarTodasMesas();
+		mesas = vendaService.consultarTodasMesas();
 	}
 	
 	private void PreencherProdutos() {
@@ -111,17 +129,17 @@ public class PedidoController implements Serializable {
 	public void pesquisar() {
 		
 		if(mesaSelecionada != null && mesaSelecionada.getNumeroMesa() != null){
-			pedidos = pedidoService.pesquisarPedidos(mesaSelecionada);
+			vendas = vendaService.pesquisarVendasPorMesa(mesaSelecionada);
 		}else{
-			pedidos = pedidoService.pesquisarPedidos();
+			vendas = vendaService.pesquisarVendas();
 		}
 		
 	}
 
 	public String novo() {
-		Mesa mesa = pedido.getMesa();
+		Mesa mesa = venda.getMesa();
 		mesa.setUsada(true);
-		pedidoService.atualizarMesa(mesa);
+		vendaService.atualizarMesa(mesa);
 		return "/manterPedido.jsf?faces-redirect=true";
 	}
 	
@@ -129,17 +147,16 @@ public class PedidoController implements Serializable {
 	 * Adiciona mais um "pedido" do produto selecionado
 	 */
 	public void adicionar() {
-		pedidoProduto.setProduto(getProdutoSelecionado());
-		if (!pedidoProduto.getProduto().getQtdEstoque().equals(0L)) {
-			pedidoProduto.getProduto().setQtdEstoque(pedidoProduto.getProduto().getQtdEstoque() - 1);
-			produtoService.atualizar(pedidoProduto.getProduto());
+		if (!vendaProduto.getProduto().getQtdEstoque().equals(0L)) {
+			vendaProduto.getProduto().setQtdEstoque(vendaProduto.getProduto().getQtdEstoque() - 1);
+			produtoService.atualizar(vendaProduto.getProduto());
 			
-			for (PedidoProduto pedProd : pedido.getPedidosProdutos()) {
-				if (pedProd.getProduto().equals(pedidoProduto.getProduto())) {
-					pedProd.setQuantidade(pedProd.getQuantidade() + 1);
+			for (VendaProduto vendProd : venda.getVendaProdutos()) {
+				if (vendProd.getProduto().equals(vendaProduto.getProduto())) {
+					vendProd.setQuantidade(vendProd.getQuantidade() + 1);
 				}
 			}
-			pedidoService.atualizar(pedido);
+			vendaService.atualizar(venda);
 			
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Atualizado com sucesso!"));
 		} else {
@@ -150,16 +167,16 @@ public class PedidoController implements Serializable {
 	
 	
 	public void subtrair() {
-		if (!pedidoProduto.getProduto().getQtdEstoque().equals(0L)) {
-			pedidoProduto.getProduto().setQtdEstoque(pedidoProduto.getProduto().getQtdEstoque() + 1);
-			produtoService.atualizar(pedidoProduto.getProduto());
+		if (!vendaProduto.getProduto().getQtdEstoque().equals(0L)) {
+			vendaProduto.getProduto().setQtdEstoque(vendaProduto.getProduto().getQtdEstoque() + 1);
+			produtoService.atualizar(vendaProduto.getProduto());
 			
-			for (PedidoProduto pedProd : pedido.getPedidosProdutos()) {
-				if (pedProd.equals(pedidoProduto)) {
-					pedProd.setQuantidade(pedProd.getQuantidade() - 1);
+			for (VendaProduto vendProd : venda.getVendaProdutos()) {
+				if (vendProd.equals(vendaProduto)) {
+					vendProd.setQuantidade(vendProd.getQuantidade() - 1);
 				}
 			}
-			pedidoService.atualizar(pedido);
+			vendaService.atualizar(venda);
 			
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Atualizado com sucesso!"));
 		} else {
@@ -169,10 +186,10 @@ public class PedidoController implements Serializable {
 	}
 	
 	public void deletar() {
-		pedidoProduto.getProduto().setQtdEstoque(pedidoProduto.getProduto().getQtdEstoque() + pedidoProduto.getQuantidade());
-		produtoService.atualizar(pedidoProduto.getProduto());
-		pedido.getPedidosProdutos().remove(pedidoProduto);
-		pedidoService.atualizar(pedido);
+		vendaProduto.getProduto().setQtdEstoque(vendaProduto.getProduto().getQtdEstoque() + vendaProduto.getQuantidade());
+		produtoService.atualizar(vendaProduto.getProduto());
+		venda.getVendaProdutos().remove(vendaProduto);
+		vendaService.atualizar(venda);
 		limparAdd();
 	}
 
@@ -181,26 +198,26 @@ public class PedidoController implements Serializable {
 	 }
 	 
 	 public String preparaFinalizar() {
-		 pessoas = clienteService.pesquisarTodos();
+		 clientes = clienteService.pesquisarTodos();
 		 return "finalizar";
 	 }
 	 
 	 public void finalizar() {
-		 if (pedido.getPedidosProdutos().size() == 0) {
+		 if (venda.getVendaProdutos().size() == 0) {
 			 FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_ERROR, "", 
 					 "Não é possível finalizar o pedido sem ao menos selecionar um produto!"));
 		 }
-		 
-		Mesa mesa = pedido.getMesa();
-		mesa.setUsada(false);
-		pedidoService.atualizarMesa(mesa);
-			
-		 pedido.setFinalizada(true);
-		 pedidoService.atualizar(pedido);
+
+		 Mesa mesa = venda.getMesa();
+		 mesa.setUsada(false);
+		 vendaService.atualizarMesa(mesa);
+
+		 venda.setFinalizada(true);
+		 vendaService.atualizar(venda);
 		 FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_INFO, "", "Pedido finalizado com sucesso!"));
 		 ConversationUtil.terminarConversacao(conversation);
 	 }
-	
+
 
 	public String voltar() {
 		return "/index.jsf?faces-redirect=true";
@@ -208,14 +225,14 @@ public class PedidoController implements Serializable {
 
 	public void limpar() {
 		ConversationUtil.iniciarConversacao(conversation);
-		pedido = new Pedido();
-		pedido.setPedidosProdutos(new ArrayList<PedidoProduto>());
+		venda = new Venda();
+		venda.setVendaProdutos(new ArrayList<VendaProduto>());
 		
 		mesaSelecionada = new Mesa();
-		pedidos = new ArrayList<Pedido>();
+		vendas = new ArrayList<Venda>();
 		
-		pedidoProduto  = new PedidoProduto();
-		pedidoProduto.setPedido(pedido);
+		vendaProduto = new VendaProduto();
+		vendaProduto.setVenda(venda);
 		dataAtual =new Date();
 		produtoSelecionado = new Produto();
 		produtosInseridos = new ArrayList<Produto>();
@@ -241,20 +258,20 @@ public class PedidoController implements Serializable {
 		this.mesaSelecionada = mesaSelecionada;
 	}
 
-	public List<Pedido> getPedidos() {
-		return pedidos;
+	public List<Venda> getVendas() {
+		return vendas;
 	}
 
-	public void setPedidos(List<Pedido> pedidos) {
-		this.pedidos = pedidos;
+	public void setVendas(List<Venda> vendas) {
+		this.vendas = vendas;
 	}
 
-	public PedidoProduto getPedidoProduto() {
-		return pedidoProduto;
+	public VendaProduto getVendaProduto() {
+		return vendaProduto;
 	}
 
-	public void setPedidoProduto(PedidoProduto pedidoProduto) {
-		this.pedidoProduto = pedidoProduto;
+	public void setVendaProduto(VendaProduto vendaProduto) {
+		this.vendaProduto = vendaProduto;
 	}
 
 	public List<Produto> getProdutosInseridos() {
@@ -305,20 +322,20 @@ public class PedidoController implements Serializable {
 		this.idProd = idProd;
 	}
 
-	public Pedido getPedido() {
-		return pedido;
+	public Venda getVenda() {
+		return venda;
 	}
 
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
+	public void setVenda(Venda venda) {
+		this.venda = venda;
 	}
 
-	public List<Pessoa> getPessoas() {
-		return pessoas;
+	public List<Cliente> getClientes() {
+		return clientes;
 	}
 
-	public void setPessoas(List<Pessoa> pessoas) {
-		this.pessoas = pessoas;
+	public void setClientes(List<Cliente> clientes) {
+		this.clientes = clientes;
 	}
 
 	

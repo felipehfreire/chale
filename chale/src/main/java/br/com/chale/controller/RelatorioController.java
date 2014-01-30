@@ -12,7 +12,6 @@ import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
-import javax.enterprise.inject.New;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
@@ -22,11 +21,11 @@ import javax.print.PrintException;
 
 import org.primefaces.event.SelectEvent;
 
-import br.com.chale.entity.Pedido;
-import br.com.chale.entity.PedidoProduto;
 import br.com.chale.entity.Produto;
-import br.com.chale.service.PedidoService;
+import br.com.chale.entity.Venda;
+import br.com.chale.entity.VendaProduto;
 import br.com.chale.service.ProdutoService;
+import br.com.chale.service.VendaService;
 import br.com.chale.util.ConversationUtil;
 import br.com.chale.util.ImpressaoTXTUtil;
 
@@ -38,7 +37,7 @@ public class RelatorioController implements Serializable {
 	private static final long serialVersionUID = 2847517553472907222L;
 	
 	@Inject
-	private PedidoService pedidoService;
+	private VendaService pedidoService;
 	
 	@Inject
 	private ProdutoService produtoService;
@@ -46,7 +45,7 @@ public class RelatorioController implements Serializable {
 	@Inject
 	private Conversation conversation;
 	
-	private List<Pedido> pedidosFinalizados;
+	private List<Venda> pedidosFinalizados;
 	private List<Produto> produtosQtdMin;
 	private Date data;
 	
@@ -57,23 +56,23 @@ public class RelatorioController implements Serializable {
 		limpar();
 	}
 	
-	public void impressaoPedidoFinalizado(Pedido p){
+	public void impressaoPedidoFinalizado(Venda p){
 		SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy");
 		DecimalFormat dcmFmt = new DecimalFormat("0.00");
 		String cabecalho ="            Pousada Vale dos ventos \n\n"; 
 		String mesa="Mesa:"+ p.getMesa()+retornaEspacoBranco("Mesa:"+ p.getMesa(), "Hora:"+new SimpleDateFormat("HH:mm").format(new Date()))+"Hora:"+new SimpleDateFormat("HH:mm").format(new Date())+"\n";
 		
-		String cabecalhoVenda ="Itens"+retornaEspacoBranco("Itens", "Qtd/preço")+"Qtd/preço\n";
+		String cabecalhoVenda ="Itens"+retornaEspacoBranco("Itens", "Qtd/preï¿½o")+"Qtd/preï¿½o\n";
 		String mensagem = cabecalho+ mesa+cabecalhoVenda;
 		Double totalPedido = 0D;
 		String descProdQtd="";
 		String preco="";
-		for (PedidoProduto pedProd : p.getPedidosProdutos()) {
+		for (VendaProduto vendProd : p.getVendaProdutos()) {
 			
-			descProdQtd= pedProd.getProduto().getDescricao();
-			preco = "("+pedProd.getQuantidade()+"Un.)"+"R$"+(dcmFmt.format( pedProd.getProduto().getPreco()));
+			descProdQtd= vendProd.getProduto().getDescricao();
+			preco = "("+vendProd.getQuantidade()+"Un.)"+"R$"+(dcmFmt.format( vendProd.getProduto().getPreco()));
 			mensagem+=descProdQtd+retornaPontos(descProdQtd, preco)+preco+"\n";
-			totalPedido+=pedProd.getProduto().getPreco()*pedProd.getQuantidade();
+			totalPedido+=vendProd.getProduto().getPreco()*vendProd.getQuantidade();
 		}
 		mensagem +=retornaEspacoBranco("","Total: " + dcmFmt.format(totalPedido) )+"Total: " + dcmFmt.format(totalPedido) +"\n\n";
 		System.out.println(mensagem);
@@ -82,7 +81,7 @@ public class RelatorioController implements Serializable {
 			impressao.escreveImpressao(mensagem);
 		} catch (IOException | PrintException e) {
 			e.printStackTrace();
-			FacesMessage msg = new FacesMessage("ERRO:", "Não foi possível realizar a impressão !!");
+			FacesMessage msg = new FacesMessage("ERRO:", "Nï¿½o foi possï¿½vel realizar a impressï¿½o !!");
 	        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
@@ -93,8 +92,8 @@ public class RelatorioController implements Serializable {
 		SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy");
 		DecimalFormat dcmFmt = new DecimalFormat("0.00");
 		data= sdf.parse(sdf.format(data));
-		pedidosFinalizados = pedidoService.pesquisarPedidosData(data);
-		String cabecalho ="Relatório de venda realizadas no dia "+ sdf.format(data) + "\n\n";
+		pedidosFinalizados = pedidoService.pesquisarVendasPorData(data);
+		String cabecalho ="Relatï¿½rio de venda realizadas no dia "+ sdf.format(data) + "\n\n";
 		Double totalPedido = 0D;
 		Double totalGeral = 0D;
 		String descProdQtd="";
@@ -103,9 +102,9 @@ public class RelatorioController implements Serializable {
 		int pedido  = 0;
 		
 		if(pedidosFinalizados!= null||!pedidosFinalizados.isEmpty()){
-			for (Pedido p : pedidosFinalizados) {
+			for (Venda p : pedidosFinalizados) {
 				mensagem += "Pedido:" +pedido +retornaEspacoBranco("Pedido:" +pedido," Hora:"+new SimpleDateFormat("HH:mm").format(p.getDataVenda())) +" Hora:"+new SimpleDateFormat("HH:mm").format(p.getDataVenda())+ "\n" ;
-				for (PedidoProduto pp : p.getPedidosProdutos()) {
+				for (VendaProduto pp : p.getVendaProdutos()) {
 					
 					descProdQtd= pp.getProduto().getDescricao();
 					preco = "("+pp.getQuantidade()+"Un.)"+"R$"+(dcmFmt.format( pp.getProduto().getPreco()));
@@ -115,7 +114,7 @@ public class RelatorioController implements Serializable {
 				totalGeral +=totalPedido;
 				mensagem +=retornaEspacoBranco("","Total: " + dcmFmt.format(totalPedido) )+"Total: " + dcmFmt.format(totalPedido) +"\n";
 				if(p.getVendaPrazo()== true && p.getPago() == false){
-					mensagem +=p.getPessoa().getNome()+ retornaEspacoBranco(p.getPessoa().getNome(), p.getPessoa().getTelefone())+p.getPessoa().getTelefone()+"\n\n";
+					mensagem +=p.getCliente().getNome()+ retornaEspacoBranco(p.getCliente().getNome(), p.getCliente().getTelefone())+p.getCliente().getTelefone()+"\n\n";
 				}
 				totalPedido= 0D;
 				pedido ++;
@@ -123,7 +122,7 @@ public class RelatorioController implements Serializable {
 			mensagem +=retornaEspacoBranco("", "Total: "+"R$"+dcmFmt.format(totalGeral)) + "Total: "+"R$"+dcmFmt.format(totalGeral);
 			mensagem += "\n\n\n\n\n\n\n\n";
 		}else{
-			FacesMessage msg = new FacesMessage("Vendas Inexistentes:", "Não existem Vendas realizadas na data informada!!");
+			FacesMessage msg = new FacesMessage("Vendas Inexistentes:", "Nï¿½o existem Vendas realizadas na data informada!!");
 	        msg.setSeverity(FacesMessage.SEVERITY_WARN);
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
@@ -135,7 +134,7 @@ public class RelatorioController implements Serializable {
 			impressao.escreveImpressao(mensagem);
 		} catch (IOException | PrintException e) {
 			e.printStackTrace();
-			FacesMessage msg = new FacesMessage("ERRO:", "Não foi possível realizar a impressão !!");
+			FacesMessage msg = new FacesMessage("ERRO:", "Nï¿½o foi possï¿½vel realizar a impressï¿½o !!");
 	        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 			
@@ -151,8 +150,8 @@ public class RelatorioController implements Serializable {
 		DecimalFormat dcmFmt = new DecimalFormat("0.00");
 		
 		if(produtosQtdMin!= null||!produtosQtdMin.isEmpty()){
-			String cabecalho ="Relatório de produtos com estoque na quantidade \n"
-					+ "\tmínima realizado no dia "+ sdf.format(new Date()) + "\n\n";
+			String cabecalho ="Relatï¿½rio de produtos com estoque na quantidade \n"
+					+ "\tmï¿½nima realizado no dia "+ sdf.format(new Date()) + "\n\n";
 			String mensagem = cabecalho;
 			mensagem += "Produto"+ retornaEspacoBranco("Produto", "Qtd/Estoque")+"Qtd/Estoque\n";
 			for (Produto prod : produtosQtdMin) {
@@ -165,12 +164,12 @@ public class RelatorioController implements Serializable {
 				impressao.escreveImpressao(mensagem);
 			} catch (IOException | PrintException e) {
 				e.printStackTrace();
-				FacesMessage msg = new FacesMessage("ERRO:", "Não foi possível realizar a impressão !!");
+				FacesMessage msg = new FacesMessage("ERRO:", "Nï¿½o foi possï¿½vel realizar a impressï¿½o !!");
 		        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 		        FacesContext.getCurrentInstance().addMessage(null, msg);
 			}
 		}else{
-			FacesMessage msg = new FacesMessage("AVISO: ", "Não existem Produtos cadastrados com quantidade mínima!!");
+			FacesMessage msg = new FacesMessage("AVISO: ", "Nï¿½o existem Produtos cadastrados com quantidade mï¿½nima!!");
 	        msg.setSeverity(FacesMessage.SEVERITY_WARN);
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
@@ -214,7 +213,7 @@ public class RelatorioController implements Serializable {
 	}
 	
 	public void limpar() {
-		 pedidosFinalizados= new ArrayList<Pedido>();
+		 pedidosFinalizados= new ArrayList<Venda>();
 		 produtosQtdMin = new ArrayList<Produto>();
 		data = new Date();
 	
@@ -234,11 +233,11 @@ public class RelatorioController implements Serializable {
 		this.data = data;
 	}
 
-	public List<Pedido> getPedidosFinalizados() {
+	public List<Venda> getPedidosFinalizados() {
 		return pedidosFinalizados;
 	}
 
-	public void setPedidosFinalizados(List<Pedido> pedidosFinalizados) {
+	public void setPedidosFinalizados(List<Venda> pedidosFinalizados) {
 		this.pedidosFinalizados = pedidosFinalizados;
 	}
 
