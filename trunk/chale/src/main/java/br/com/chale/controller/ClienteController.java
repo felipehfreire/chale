@@ -13,7 +13,7 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
-import br.com.chale.entity.Pessoa;
+import br.com.chale.entity.Cliente;
 import br.com.chale.service.ClienteService;
 import br.com.chale.util.ConversationUtil;
 
@@ -29,9 +29,9 @@ public class ClienteController implements Serializable {
 	@Inject
 	private Conversation conversation;
 	
-	private Pessoa pessoa;
-	private Pessoa pessoaSelecionada;
-	private List<Pessoa> pessoas;
+	private Cliente pessoa;
+	private Cliente pessoaSelecionada;
+	private List<Cliente> pessoas;
 	private String termo;
 	
 	@PostConstruct
@@ -74,10 +74,10 @@ public class ClienteController implements Serializable {
 	}
 	
 	public void limpar() {
-		pessoa  = new Pessoa();
-		pessoaSelecionada = new Pessoa();
+		pessoa  = new Cliente();
+		pessoaSelecionada = new Cliente();
 		termo = "";
-		pessoas= new ArrayList<Pessoa>();
+		pessoas= new ArrayList<Cliente>();
 	}
 	
 	public void deletar() {
@@ -87,19 +87,19 @@ public class ClienteController implements Serializable {
 		iniciar();
 	}
 
-	public Pessoa getPessoa() {
+	public Cliente getPessoa() {
 		return pessoa;
 	}
 
-	public void setPessoa(Pessoa pessoa) {
+	public void setPessoa(Cliente pessoa) {
 		this.pessoa = pessoa;
 	}
 
-	public List<Pessoa> getPessoas() {
+	public List<Cliente> getPessoas() {
 		return pessoas;
 	}
 
-	public void setPessoas(List<Pessoa> pessoas) {
+	public void setPessoas(List<Cliente> pessoas) {
 		this.pessoas = pessoas;
 	}
 
@@ -113,12 +113,12 @@ public class ClienteController implements Serializable {
 	}
 
 
-	public Pessoa getPessoaSelecionada() {
+	public Cliente getPessoaSelecionada() {
 		return pessoaSelecionada;
 	}
 
 
-	public void setPessoaSelecionada(Pessoa pessoaSelecionada) {
+	public void setPessoaSelecionada(Cliente pessoaSelecionada) {
 		this.pessoaSelecionada = pessoaSelecionada;
 	}
 
