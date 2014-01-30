@@ -36,17 +36,17 @@
 
 <h:body>
 	
-	<p:menubar>
-		<p:submenu label="Pedidos/Produtos" icon="ui-icon-document">
+	<p:menubar styleClass="navbar2 navbar-default2">
+		<p:submenu label="Vendas/Produtos">
 			<p:menuitem value="Produtos" url="/secure/consultarProduto.jsf?faces-redirect=true" rendered="#{loginController.loggedIn}" />
-			<p:menuitem value="Pedidos" url="/consultarPedido.jsf?faces-redirect=true" />
+			<p:menuitem value="Vendas" url="/consultarVenda.jsf?faces-redirect=true" />
 		</p:submenu>
 		
-		<p:submenu label="Clientes" icon="ui-icon-document">
+		<p:submenu label="Clientes">
 			<p:menuitem value="Cliente" url="/consultarCliente.jsf?faces-redirect=true" />
 		</p:submenu>
 		
-		<p:submenu label="Relatórios" icon="ui-icon-document" rendered="#{loginController.loggedIn}">
+		<p:submenu label="Relatórios" rendered="#{loginController.loggedIn}">
 			<p:menuitem value="Vendas Diária" url="/secure/relatorioDiario.jsf?faces-redirect=true" />
 			<p:menuitem value="Produtos Quantidade Miníma" url="/secure/relatorioProdutosQtdMin.jsf?faces-redirect=true" />
 		</p:submenu>

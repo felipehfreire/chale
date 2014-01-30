@@ -16,21 +16,17 @@
 				<div class="col-lg-7 div-center">
 					<div class="well">
 						<div class="form-group">
-						
-				            <h:selectOneMenu id="mesa" label="mesas"   
-				             	value="#{vendaController.mesaSelecionada}" 
-				                converter="simpleEntityConverter"> Mesa 
-				                <f:selectItem itemValue="" itemLabel="Selecione uma Mesa"/>  
-				                <f:selectItems value="#{vendaController.mesas}" 
-				                	var="mesa" 
-				                	itemLabel="#{mesa.numeroMesa}" 
-				                	itemValue="#{mesa}"/>  
-				                      
-				            </h:selectOneMenu> 
-			             </div>
-			         	 <div class="well">    
-			             	<h:commandButton value="Pesquisar" action="#{vendaController.pesquisar}" class="btn btn-defaut" ajax="false"/>
-			             	<button id="new" class="btn btn-defaut">Novo</button>
+							<h:outputLabel value="Mesa: " class="col-lg-4 control-label" for="mesa" />
+							<div class="col-lg-4">
+								<h:selectOneMenu id="mesa" label="mesas" value="#{vendaController.mesaSelecionada}" converter="simpleEntityConverter" styleClass="form-control">
+									<f:selectItem itemValue="" itemLabel="Selecione uma Mesa" />
+									<f:selectItems value="#{vendaController.mesas}" var="mesa" itemLabel="#{mesa.numeroMesa}" itemValue="#{mesa}" />
+								</h:selectOneMenu>
+							</div>
+						</div>
+						<div class="well">    
+			             	<h:commandButton value="Pesquisar" action="#{vendaController.pesquisar}" class="btn btn-success" ajax="false"/>
+			             	<button id="new" class="btn btn-primary">Novo</button>
 			             	
 			          	</div>   
 			          
@@ -54,8 +50,8 @@
 										<f:setPropertyActionListener value="#{venda}"
                         					target="#{vendaController.venda}" />
                     				</h:commandButton>
-                    				
-                    				<h:commandButton class="btn btn-primary" ajax="false" value="Finalizar" action="#{vendaController.preparaFinalizar}">
+                    				<p:spacer width="10px"/>
+                    				<h:commandButton class="btn btn-success" ajax="false" value="Finalizar" action="#{vendaController.preparaFinalizar}">
 										<f:setPropertyActionListener value="#{venda}"
                         					target="#{vendaController.venda}" />
                     				</h:commandButton>
@@ -76,15 +72,9 @@
 						.dialog(
 								{
 									autoOpen : false,
-									height : 300,
-									width : 350,
+									height : 200,
+									width : 400,
 									modal : true,
-									buttons : {
-										
-										Cancel : function() {
-											$(this).dialog("close");
-										}
-									},
 									close : function() {
 										$(this).dialog("close");
 									}
@@ -101,18 +91,21 @@
 			<h:form>
 				<div class="row container-center">
 					<div class="col-lg-6 div-center">
-						<div >
+						<div>
 							<div class="form-group">
-								<h:outputLabel for="selectMesa" value="Mesa: " class="col-lg-4 control-label"/>
-								<div class="col-lg-8">
-									<h:selectOneMenu id="selectMesa" value="#{vendaController.venda.mesa}" converter="simpleEntityConverter">
+								<h:outputLabel for="selectMesa" value="Mesa: " class="col-lg-3 control-label" style="margin-top: 5px;"/>
+								<div class="col-lg-9">
+									<h:selectOneMenu id="selectMesa" value="#{vendaController.venda.mesa}" converter="simpleEntityConverter" styleClass="form-control">
 										<f:selectItem itemLabel="Selecione" />
 										<f:selectItems value="#{vendaController.mesas}" var="item" itemLabel="#{item.numeroMesa}" itemValue="#{item}" />
 									</h:selectOneMenu>
 								</div>
 							</div>
-							<div class="form-group">
-								<h:commandButton action="#{vendaController.novo}" value="OK" ajax="false" class="btn btn-defaut" />
+							<br/>
+							<br/>
+							<br/>
+							<div class="form-group" style="text-align: center;">
+								<h:commandButton action="#{vendaController.novo}" value="OK" ajax="false" class="btn btn-primary" />
 							</div>
 						</div>
 					</div>

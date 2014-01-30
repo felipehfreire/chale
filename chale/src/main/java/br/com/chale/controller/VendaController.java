@@ -140,7 +140,7 @@ public class VendaController implements Serializable {
 		Mesa mesa = venda.getMesa();
 		mesa.setUsada(true);
 		vendaService.atualizarMesa(mesa);
-		return "/manterPedido.jsf?faces-redirect=true";
+		return "/manterVenda.jsf?faces-redirect=true";
 	}
 	
 	/**
@@ -194,7 +194,7 @@ public class VendaController implements Serializable {
 	}
 
 	 public String editar() {
-		 return "/manterPedido.jsf?faces-redirect=true";
+		 return "/manterVenda.jsf?faces-redirect=true";
 	 }
 	 
 	 public String preparaFinalizar() {
@@ -202,7 +202,7 @@ public class VendaController implements Serializable {
 		 return "finalizar";
 	 }
 	 
-	 public void finalizar() {
+	 public String finalizar() {
 		 if (venda.getVendaProdutos().size() == 0) {
 			 FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_ERROR, "", 
 					 "Não é possível finalizar o pedido sem ao menos selecionar um produto!"));
@@ -213,9 +213,13 @@ public class VendaController implements Serializable {
 		 vendaService.atualizarMesa(mesa);
 
 		 venda.setFinalizada(true);
+		 if (!venda.getVendaPrazo()) {
+			 venda.setPago(true);
+		 }
 		 vendaService.atualizar(venda);
 		 FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_INFO, "", "Pedido finalizado com sucesso!"));
 		 ConversationUtil.terminarConversacao(conversation);
+		 return "/consultarVenda.jsf?faces-redirect=true";
 	 }
 
 

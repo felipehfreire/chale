@@ -19,7 +19,7 @@
   
   <context-param>  
     <param-name>primefaces.THEME</param-name>  
-    <param-value>cruze</param-value>  
+    <param-value>redmond</param-value>  
   </context-param>   
   
   <!-- Listener do Jboss Weld -->
