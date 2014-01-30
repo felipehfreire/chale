@@ -18,10 +18,10 @@
 						<div class="form-group">
 						
 				            <h:selectOneMenu id="mesa" label="mesas"   
-				             	value="#{pedidoController.mesaSelecionada}" 
+				             	value="#{vendaController.mesaSelecionada}" 
 				                converter="simpleEntityConverter"> Mesa 
 				                <f:selectItem itemValue="" itemLabel="Selecione uma Mesa"/>  
-				                <f:selectItems value="#{pedidoController.mesas}" 
+				                <f:selectItems value="#{vendaController.mesas}" 
 				                	var="mesa" 
 				                	itemLabel="#{mesa.numeroMesa}" 
 				                	itemValue="#{mesa}"/>  
@@ -29,34 +29,35 @@
 				            </h:selectOneMenu> 
 			             </div>
 			         	 <div class="well">    
-			             	<h:commandButton value="Pesquisar" action="#{pedidoController.pesquisar}" class="btn btn-defaut" ajax="false"/>
-			             	<p:commandButton id="modalDialogButton" value="Modal" onclick="PF('dlg2').show();" type="button"/> 
+			             	<h:commandButton value="Pesquisar" action="#{vendaController.pesquisar}" class="btn btn-defaut" ajax="false"/>
+			             	<button id="new" class="btn btn-defaut">Novo</button>
+			             	
 			          	</div>   
 			          
 			          	<div class="well">
-			          		<p:dataTable value="#{pedidoController.pedidos}" var="pedido"  sortMode="multiple" rows="10"  paginator="true">
+			          		<p:dataTable value="#{vendaController.vendas}" var="venda"  sortMode="multiple" rows="10"  paginator="true">
 			
-								<p:column sortBy="#{pedido.mesa.numeroMesa}" headerText="Número da mesa">
-									<h:outputText value="#{pedido.mesa.numeroMesa}"/>
+								<p:column sortBy="#{venda.mesa.numeroMesa}" headerText="Número da mesa">
+									<h:outputText value="#{venda.mesa.numeroMesa}"/>
 								</p:column>
 								
-								<p:column sortBy="#{pedido.id}" headerText="Número do pedido">
-									<h:outputText value="#{pedido.id}"/>
+								<p:column sortBy="#{venda.id}" headerText="Número da venda">
+									<h:outputText value="#{venda.id}"/>
 								</p:column>
 								
 								<p:column headerText="Total">
-									<h:outputText value="#{pedido.precoTotal}"/>
+									<h:outputText value="#{venda.precoTotal}"/>
 								</p:column>
 								
 								<p:column headerText="Ações">
-									<h:commandButton class="btn btn-primary" ajax="false" value="Editar" action="#{pedidoController.editar}">
-										<f:setPropertyActionListener value="#{pedido}"
-                        					target="#{pedidoController.pedido}" />
+									<h:commandButton class="btn btn-primary" ajax="false" value="Editar" action="#{vendaController.editar}">
+										<f:setPropertyActionListener value="#{venda}"
+                        					target="#{vendaController.venda}" />
                     				</h:commandButton>
                     				
-                    				<h:commandButton class="btn btn-primary" ajax="false" value="Finalizar" action="#{pedidoController.preparaFinalizar}">
-										<f:setPropertyActionListener value="#{pedido}"
-                        					target="#{pedidoController.pedido}" />
+                    				<h:commandButton class="btn btn-primary" ajax="false" value="Finalizar" action="#{vendaController.preparaFinalizar}">
+										<f:setPropertyActionListener value="#{venda}"
+                        					target="#{vendaController.venda}" />
                     				</h:commandButton>
 								</p:column>
 							
@@ -69,17 +70,56 @@
 		</h:form>
 		
 		
-        <p:confirmDialog global="true" header="Selecione uma mesa" widgetVar="dlg2">
-        	<h:form>
-            	<h:selectOneMenu value="#{pedidoController.pedido.mesa}" converter="simpleEntityConverter">
-            		<f:selectItem itemLabel="Selecione"/>
-            		<f:selectItems value="#{pedidoController.mesas}" var="item" itemLabel="#{item.numeroMesa}" itemValue="#{item}" />
-            	</h:selectOneMenu>
-            	<br/>
-            	<h:commandButton action="#{pedidoController.novo}" value="OK" ajax="false"/>
-            </h:form>
-        </p:confirmDialog>  
-		
+		<script>
+			$(function() {
+				$("#dialog-form")
+						.dialog(
+								{
+									autoOpen : false,
+									height : 300,
+									width : 350,
+									modal : true,
+									buttons : {
+										
+										Cancel : function() {
+											$(this).dialog("close");
+										}
+									},
+									close : function() {
+										$(this).dialog("close");
+									}
+								});
+
+				$("#new").button().click(function() {
+					$("#dialog-form").dialog("open");
+					return false;
+				});
+			});
+		</script>
+
+		<div id="dialog-form" title="Selecione uma mesa">
+			<h:form>
+				<div class="row container-center">
+					<div class="col-lg-6 div-center">
+						<div >
+							<div class="form-group">
+								<h:outputLabel for="selectMesa" value="Mesa: " class="col-lg-4 control-label"/>
+								<div class="col-lg-8">
+									<h:selectOneMenu id="selectMesa" value="#{vendaController.venda.mesa}" converter="simpleEntityConverter">
+										<f:selectItem itemLabel="Selecione" />
+										<f:selectItems value="#{vendaController.mesas}" var="item" itemLabel="#{item.numeroMesa}" itemValue="#{item}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<div class="form-group">
+								<h:commandButton action="#{vendaController.novo}" value="OK" ajax="false" class="btn btn-defaut" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+
 	</ui:define>
 	</ui:composition>	
 </html>

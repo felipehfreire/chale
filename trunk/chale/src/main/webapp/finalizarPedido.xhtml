@@ -19,7 +19,7 @@
 						<div class="form-group">
 							<h:outputLabel value="Data" class="col-lg-2 control-label" for="data" />
 							<div class="col-lg-2">
-								<h:inputText class="form-control" name="data" id="data" value="#{pedidoController.pedido.dataVenda}" mask="99/99/9999"
+								<h:inputText class="form-control" name="data" id="data" value="#{vendaController.venda.dataVenda}" mask="99/99/9999"
 								 converter="javax.faces.DateTime" readonly="true">
 								 	<f:convertDateTime pattern="dd/MM/yyyy"/>
 								 </h:inputText>
@@ -27,18 +27,18 @@
 
 							<h:outputLabel value="À prazo" class="col-lg-2 control-label" for="aPrazo" />
 							<div class="col-lg-2" style="margin-top: 6px">
-								<h:selectBooleanCheckbox name="aPrazo" id="aPrazo" value="#{pedidoController.pedido.vendaPrazo}">
+								<h:selectBooleanCheckbox name="aPrazo" id="aPrazo" value="#{vendaController.venda.vendaPrazo}">
 									<f:ajax render="clienteGroup"/>
 								</h:selectBooleanCheckbox>
 							</div>
 
 							<p:outputLabel  id="clienteGroup" label="clienteGroup" >
-								<h:outputLabel value="Cliente" class="col-lg-4 control-label" for="cliente" rendered="#{pedidoController.pedido.vendaPrazo}" />
+								<h:outputLabel value="Cliente" class="col-lg-4 control-label" for="cliente" rendered="#{vendaController.venda.vendaPrazo}" />
 								<div class="col-lg-8">
-									<h:selectOneMenu id="cliente" styleClass="form-control" value="#{pedidoController.pedido.pessoa}" 
-										rendered="#{pedidoController.pedido.vendaPrazo}"	converter="simpleEntityConverter">
+									<h:selectOneMenu id="cliente" styleClass="form-control" value="#{vendaController.venda.cliente}" 
+										rendered="#{vendaController.venda.vendaPrazo}"	converter="simpleEntityConverter">
 										<f:selectItem itemLabel="Selecione" />
-										<f:selectItems value="#{pedidoController.pessoas}" var="pessoa" itemLabel="#{pessoa.nome}" itemValue="#{pessoa}" />
+										<f:selectItems value="#{vendaController.clientes}" var="cliente" itemLabel="#{cliente.nome}" itemValue="#{cliente}" />
 									</h:selectOneMenu>
 								</div>
 							</p:outputLabel>
@@ -55,7 +55,7 @@
 
 				<h:form id="dlg">
 					<p:confirmDialog message="Deseja realmente finalizar o pedido?" hideEffect="explode" header="Aviso" severity="alert" widgetVar="confirmation">
-						<p:commandButton id="btnSim" value="Sim" ajax="false" action="#{pedidoController.finalizar}" process="@form" />
+						<p:commandButton id="btnSim" value="Sim" ajax="false" action="#{vendaController.finalizar}" process="@form" />
 						<p:commandButton id="btnNao" value="Não" ajax="false" />
 					</p:confirmDialog>
 				</h:form>
