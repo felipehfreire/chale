@@ -5,38 +5,38 @@ import java.util.List;
 
 import javax.inject.Inject;
 
-import br.com.chale.dao.PessoaDAO;
-import br.com.chale.entity.Pessoa;
+import br.com.chale.dao.ClienteDAO;
+import br.com.chale.entity.Cliente;
 
 public class ClienteServiceBean implements ClienteService, Serializable {
 
 	private static final long serialVersionUID = 8310482099763882250L;
 	
 	@Inject
-	private PessoaDAO pessoaDAO;
+	private ClienteDAO clenteDAO;
 
 	@Override
-	public void persistir(Pessoa pessoa) {
-		pessoaDAO.insert(pessoa);
+	public void persistir(Cliente cliente) {
+		clenteDAO.insert(cliente);
 	}
 
 	@Override
-	public void atualizar(Pessoa pessoa) {
-		pessoaDAO.update(pessoa);
+	public void atualizar(Cliente cliente) {
+		clenteDAO.update(cliente);
 	}
 
 	@Override
-	public List<Pessoa> pesquisar(String termo) {
-		return pessoaDAO.pesquisar(termo);
+	public List<Cliente> pesquisar(String termo) {
+		return clenteDAO.pesquisar(termo);
 	}
 	
 	@Override
-	public List<Pessoa> pesquisarTodos() {
-		return pessoaDAO.pesquisarTodos();
+	public List<Cliente> pesquisarTodos() {
+		return clenteDAO.pesquisarTodos();
 	}
 
 	@Override
-	public void excluir(Pessoa pessoa) {
-		pessoaDAO.remover(pessoa);
+	public void excluir(Cliente cliente) {
+		clenteDAO.remover(cliente);
 	}
 }

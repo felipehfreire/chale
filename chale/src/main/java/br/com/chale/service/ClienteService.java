@@ -1,20 +1,19 @@
 package br.com.chale.service;
 
 import java.util.List;
-
-import br.com.chale.entity.Pessoa;
+import br.com.chale.entity.Cliente;
 
 public interface ClienteService {
 
-	void persistir(Pessoa pessoa);
+	void persistir(Cliente cliente);
 
-	void atualizar(Pessoa pessoa);
+	void atualizar(Cliente cliente);
 
-	List<Pessoa> pesquisar(String termo);
+	List<Cliente> pesquisar(String termo);
 
-	void excluir(Pessoa pessoa);
+	void excluir(Cliente cliente);
 
-	List<Pessoa> pesquisarTodos();
+	List<Cliente> pesquisarTodos();
 
 
 }
