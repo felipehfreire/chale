@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -19,58 +20,56 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
-@Table(name="pedido")
+@Table(name="venda")
 @NamedQueries({
 	
-	@NamedQuery(name=Pedido.QUERY_CONSULTAR_TODOS_PEDIDOS, query="select p from Pedido p "),
+	@NamedQuery(name=Venda.QUERY_CONSULTAR_TODAS_VENDAS, query="select p from Venda p "),
 	
-	@NamedQuery(name=Pedido.CONSULTAR_PEDIDOS_POR_MESA, query="select p from Pedido p " +
+	@NamedQuery(name=Venda.CONSULTAR_VENDAS_POR_MESA, query="select p from Venda p " +
 			" where p.mesa = ?1"),
-	@NamedQuery(name=Pedido.QUERY_CONSULTAR_PED_POR_DATA, query="select p from Pedido p "
+	@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_POR_DATA, query="select p from Venda p "
 			+ " where p.finalizada = true "
 			+ " and  p.dataVenda < ?1 "),
 	
 })
 
-//TODO mudar nome da entidade para venda (banco tbm)
-public class Pedido implements BaseEntity,Serializable{
+public class Venda implements BaseEntity, Serializable {
 	
-
 	private static final long serialVersionUID = -5412811770343143282L;
 
-	public static final String QUERY_CONSULTAR_TODOS_PEDIDOS = "pedido.queryConsultarTodosPedidos";
-
-	public static final String CONSULTAR_PEDIDOS_POR_MESA = "pedido.consultarPedidosPorMesa";
-
-	public static final String QUERY_CONSULTAR_PED_POR_DATA = "consultarPedidoProdutoData";
+	public static final String QUERY_CONSULTAR_TODAS_VENDAS = "venda.queryConsultarTodasVendas";
+	public static final String CONSULTAR_VENDAS_POR_MESA = "venda.consultarVendasPorMesa";
+	public static final String QUERY_CONSULTAR_VENDAS_POR_DATA = "venda.consultarVendasPorData";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="codVenda", nullable=false)
+	@Column(name="cod_venda")
+	@Basic(optional=false)
 	private Long id;
 	
-	@Column(name="dataVenda", nullable=false)
+	@Column(name="dat_venda")
+	@Basic(optional=false)
 	private Date dataVenda = new Date();
 	
-	@Column(name="finalizada")
+	@Column(name="ind_finalizada")
 	private Boolean finalizada = false;
 	
-	@Column(name="vendaPrazo")
+	@Column(name="ind_venda_prazo")
 	private Boolean vendaPrazo = false;
 	
-	@OneToMany(mappedBy="pedido", orphanRemoval=true, cascade = CascadeType.ALL)
-	private List<PedidoProduto> pedidosProdutos;
-	
-	@JoinColumn(name="pessoa")
-	@OneToOne
-	private Pessoa pessoa;
-
-	@JoinColumn(name="mesa",nullable=false)
-	@OneToOne
-	private Mesa mesa;
-	
-	@Column(name="pago")
+	@Column(name="ind_pago")
 	private Boolean pago = false;
+	
+	@OneToMany(mappedBy="venda", orphanRemoval=true, cascade = CascadeType.ALL)
+	private List<VendaProduto> vendaProdutos;
+	
+	@OneToOne
+	@JoinColumn(name="cod_cliente")
+	private Cliente cliente;
+
+	@OneToOne
+	@JoinColumn(name="cod_mesa",nullable=false)
+	private Mesa mesa;
 	
 	@Transient
 	private Double precoTotal;
@@ -103,20 +102,20 @@ public class Pedido implements BaseEntity,Serializable{
 		this.vendaPrazo = vendaPrazo;
 	}
 
-	public List<PedidoProduto> getPedidosProdutos() {
-		return pedidosProdutos;
+	public List<VendaProduto> getVendaProdutos() {
+		return vendaProdutos;
 	}
 
-	public void setPedidosProdutos(List<PedidoProduto> pedidosProdutos) {
-		this.pedidosProdutos = pedidosProdutos;
+	public void setVendaProdutos(List<VendaProduto> vendaProdutos) {
+		this.vendaProdutos = vendaProdutos;
 	}
 
-	public Pessoa getPessoa() {
-		return pessoa;
+	public Cliente getCliente() {
+		return cliente;
 	}
 
-	public void setPessoa(Pessoa pessoa) {
-		this.pessoa = pessoa;
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 	public Mesa getMesa() {
@@ -129,8 +128,8 @@ public class Pedido implements BaseEntity,Serializable{
 	
 	public Double getPrecoTotal() {
 		Double total = 0D;
-		for (PedidoProduto pedProd : getPedidosProdutos()) {
-			total += (pedProd.getQuantidade() * pedProd.getProduto().getPreco());
+		for (VendaProduto vendProd : getVendaProdutos()) {
+			total += (vendProd.getQuantidade() * vendProd.getProduto().getPreco());
 		}
 			
 		return total;

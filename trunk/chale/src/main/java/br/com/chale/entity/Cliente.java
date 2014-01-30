@@ -12,27 +12,26 @@ import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="pessoa")
+@Table(name="cliente")
 @NamedQueries({
-	@NamedQuery(name=Pessoa.QUERY_CONSULTAR_TODOS, query="select p from Pessoa p "),
-	@NamedQuery(name=Pessoa.QUERY_CONSULTAR_POR_NOME, query="select p from Pessoa p where nome like '%' || Upper(?1) || '%' or ?1 is null"),
+	@NamedQuery(name=Cliente.QUERY_CONSULTAR_TODOS, query="select p from Cliente p "),
+	@NamedQuery(name=Cliente.QUERY_CONSULTAR_POR_NOME, query="select p from Cliente p where nome like '%' || Upper(?1) || '%' or ?1 is null"),
 })
-//TODO mudar para cliente
-public class Pessoa implements BaseEntity, Serializable{
+public class Cliente implements BaseEntity, Serializable {
 	
 	private static final long serialVersionUID = 6755595084217031092L;
 
-	public static final String QUERY_CONSULTAR_TODOS = "pessoa.consultarTodos";
-	public static final String QUERY_CONSULTAR_POR_NOME= "consultarPessoaPorNome";;
+	public static final String QUERY_CONSULTAR_TODOS = "cliente.consultarTodos";
+	public static final String QUERY_CONSULTAR_POR_NOME= "cliente.consultarClientePorNome";
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="codPessoa", nullable=false)
+	@Column(name="cod_cliente", nullable=false)
 	private Long id;
 	
-	@Column(name="nome", length= 100, nullable=false)
+	@Column(name="txt_nome", length= 100, nullable=false)
 	private String nome;
 	
-	@Column(name="telefone", length= 20, nullable=false)
+	@Column(name="txt_telefone", length= 20, nullable=false)
 	private String telefone;
 
 	public Long getId() {

@@ -2,6 +2,7 @@ package br.com.chale.entity;
 
 import java.io.Serializable;
 
+import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,37 +13,41 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="produto_pedido")
-public class PedidoProduto implements Serializable{
+@Table(name="venda_produto")
+public class VendaProduto implements Serializable{
 	
 	private static final long serialVersionUID = 2080039836842714937L;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="codPedidoProduto", nullable=false)
+	@Column(name="cod_venda_produto")
+	@Basic(optional=false)
 	private Long id;
 	
 	@ManyToOne
-	@JoinColumn(name="codVenda", nullable=false)
-	private Pedido pedido;
+	@JoinColumn(name="cod_venda")
+	@Basic(optional=false)
+	private Venda venda;
 	
 	@ManyToOne
-	@JoinColumn(name="codProd", nullable=false)
+	@JoinColumn(name="cod_produto")
+	@Basic(optional=false)
 	private Produto produto;
 	
-	@Column(name="quantidade", nullable=false)
+	@Column(name="num_quantidade")
+	@Basic(optional=false)
 	private Long quantidade;
 
 	public Long getId() {
 		return id;
 	}
 
-	public Pedido getPedido() {
-		return pedido;
+	public Venda getVenda() {
+		return venda;
 	}
 
-	public void setPedido(Pedido pedido) {
-		this.pedido = pedido;
+	public void setVenda(Venda venda) {
+		this.venda = venda;
 	}
 
 	public Produto getProduto() {
@@ -77,7 +82,7 @@ public class PedidoProduto implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		PedidoProduto other = (PedidoProduto) obj;
+		VendaProduto other = (VendaProduto) obj;
 		if (id == null) {
 			if (other.getId() != null)
 				return false;
