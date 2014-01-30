@@ -23,5 +23,7 @@ public interface VendaService {
 
 	void atualizarMesa(Mesa mesa);
 
+	List<Venda> pesquisarVendasFinalizadasPrazo();
+
 
 }

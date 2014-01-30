@@ -40,6 +40,7 @@
 		<p:submenu label="Vendas/Produtos">
 			<p:menuitem value="Produtos" url="/secure/consultarProduto.jsf?faces-redirect=true" rendered="#{loginController.loggedIn}" />
 			<p:menuitem value="Vendas" url="/consultarVenda.jsf?faces-redirect=true" />
+			<p:menuitem value="Vendas final. à prazo" url="/consultarVendaAPrazo.jsf?faces-redirect=true" />
 		</p:submenu>
 		
 		<p:submenu label="Clientes">
@@ -48,7 +49,8 @@
 		
 		<p:submenu label="Relatórios" rendered="#{loginController.loggedIn}">
 			<p:menuitem value="Vendas Diária" url="/secure/relatorioDiario.jsf?faces-redirect=true" />
-			<p:menuitem value="Produtos Quantidade Miníma" url="/secure/relatorioProdutosQtdMin.jsf?faces-redirect=true" />
+			<p:menuitem value="Produtos QTD Min." url="/secure/relatorioProdutosQtdMin.jsf?faces-redirect=true" />
+			<p:menuitem value="Vendas á prazo" url="/secure/relatorioVendasPrazo.jsf?faces-redirect=true" />
 		</p:submenu>
 		
 		

@@ -16,10 +16,13 @@
 				<div class="col-lg-7 div-center">
 					<div class="well">
 						<div class="form-group">
-							<h:inputText value="#{produtoController.termo}"/>
-							<h:commandButton value="Pesquisar" action="#{produtoController.pesquisar}" class="btn btn-defaut" ajax="false"/>
-							
-							<h:commandButton value="Novo" action="#{produtoController.novo}" class="btn btn-primary" ajax="false"/>
+							<div class="well">  
+								<h:inputText value="#{produtoController.termo}"/>
+								<p:spacer width="5px"/>
+								<h:commandButton value="Pesquisar" action="#{produtoController.pesquisar}" class="btn btn-success" ajax="false"/>
+								<p:spacer width="5px"/>
+								<h:commandButton value="Novo" action="#{produtoController.novo}" class="btn btn-primary" ajax="false"/>
+							</div>
 							
 							<p:dataTable value="#{produtoController.listagem}" var="item"  sortMode="multiple" rows="10"  paginator="true">
 							
