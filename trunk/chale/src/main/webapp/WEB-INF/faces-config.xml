@@ -7,10 +7,10 @@
     
     
     <navigation-rule>
-     	<from-view-id>consultarPedido.xhtml</from-view-id>
+     	<from-view-id>consultarVenda.xhtml</from-view-id>
           <navigation-case>
                <from-outcome>finalizar</from-outcome>
-                    <to-view-id>finalizarPedido.xhtml</to-view-id>
+                    <to-view-id>finalizarVenda.xhtml</to-view-id>
                     <redirect></redirect>
           </navigation-case>
 	</navigation-rule>
