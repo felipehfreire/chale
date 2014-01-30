@@ -75,12 +75,15 @@ public class GenericDAO<T> implements Serializable {
 	/**
 	 * Update the entity in the database
 	 * @param entity - entity to update in database
+	 * @return 
 	 * 
 	 **/
-	public void update(T entity) {
+	public T update(T entity) {
+		T retorno = null;
 		manager.getTransaction().begin();
-		manager.merge(entity);
+		retorno = manager.merge(entity);
 		manager.getTransaction().commit();
+		return retorno;
 	}
 	
 	/**
