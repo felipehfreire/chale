@@ -17,17 +17,17 @@
 						<div class="well">
 						
 							<div class="form-group">
-								<h:outputLabel value="Usuário" class="col-lg-2 control-label" for="usuario" />
-								<div class="col-lg-10">
+								<h:outputLabel value="Usuário:" class="col-lg-2 control-label" for="usuario" />
+								<div class="col-lg-8">
 									<h:inputText class="form-control" name="usuario" id="usuario" value="#{loginController.nomeUsuario}"
-										required="true" requiredMessage="Insira o nome!" />
+										required="true" requiredMessage="Insira o Usuário!" />
 										<p:message for="usuario" styleClass="error" />
 								</div>
 							</div>
 						
 							<div class="form-group">
-								<h:outputLabel value="Senha" class="col-lg-2 control-label" for="senha" />
-									<div class="col-lg-10">
+								<h:outputLabel value="Senha:" class="col-lg-2 control-label" for="senha" />
+									<div class="col-lg-4">
 										<h:inputSecret class="form-control" name="senha" id="senha" value="#{loginController.senha}"
 											required="true" requiredMessage="Insira a senha!" />
 										<p:message for="senha" styleClass="error" />
@@ -37,10 +37,10 @@
 							<div class="form-group">
 								<div class="col-lg-7 col-lg-offset-2">
 								<h:commandButton value="Logar"	action="#{loginController.Login}" 
-									class="btn btn-defaut" ajax="false" />
-									
+									class="btn btn-primary" ajax="false" />
+								<p:spacer width="5px"/>
 								<h:commandButton value="Cancelar"	action="#{loginController.cancelar}" 
-									class="btn btn-defaut" ajax="false" immediate="true"/>
+									class="btn btn-success" ajax="false" immediate="true"/>
 									
 								</div>
 							</div>

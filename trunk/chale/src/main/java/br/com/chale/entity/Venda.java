@@ -1,8 +1,11 @@
 package br.com.chale.entity;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -139,6 +142,12 @@ public class Venda implements BaseEntity, Serializable {
 		}
 			
 		return total;
+	}
+	
+	public String getPrecoTotalFormatado() {
+		 DecimalFormatSymbols dfs = new DecimalFormatSymbols(new Locale ("pt", "BR"));
+		 DecimalFormat df1 = new DecimalFormat("#,##0.00", dfs);
+		 return "R$ " + df1.format(getPrecoTotal());
 	}
 
 	public Boolean getPago() {
