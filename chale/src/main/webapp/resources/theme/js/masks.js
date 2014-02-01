@@ -3,3 +3,6 @@ $('.tel').inputmask({
 });
 
 $(".money").maskMoney({thousands:'.', decimal:','});
+
+
+$(".numerico").numeric();

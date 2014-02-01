@@ -31,6 +31,8 @@
 	
 	<h:outputScript library="theme" name="js/jquery.maskMoney.min.js"/>
 	
+	<h:outputScript library="theme" name="js/jquery.numeric.js"/>
+	
 	
 </h:head>
 
@@ -57,12 +59,14 @@
 		<f:facet name="options">  
 			<h:form id="loginControlForm">
 				<h:commandButton  value="Logout" action="#{loginController.logout}" 
-					rendered="#{loginController.loggedIn}" class="btn btn-defaut" ajax="false" icon="ui-icon-extlink" />
-					
-				<h:commandButton value="Alterar Senha" styleClass="btn btn-defaut" 
+					rendered="#{loginController.loggedIn}" class="btn btn-success" ajax="false" icon="ui-icon-extlink" />
+				<p:spacer width="5px"/>
+				
+				<h:commandButton value="Alterar Senha" styleClass="btn btn-warning" 
 					rendered="#{loginController.loggedIn}" ajax="true" icon="ui-icon-extlink" action="#{loginController.alterarSenhaNavigation}" />
+				<p:spacer width="5px"/>
 					
-				<h:commandButton value="Efetuar Login" styleClass="btn btn-defaut" 
+				<h:commandButton value="Efetuar Login" styleClass="btn btn-warning" 
 					 rendered="#{!loginController.loggedIn}" ajax="true" icon="ui-icon-extlink" action="#{loginController.efetuarLogin}" />	
            	</h:form>  
         </f:facet>
@@ -78,7 +82,16 @@
 
 	</ui:insert>
 	<h:outputScript library="theme" name="js/masks.js"/>
-</h:body>
+
+		<div id="footer">
+			<div class="bs-example">
+				<p class="text-muted" style="text-align: center">Desenvolvido por:</p>
+				<p class="text-info" style="text-align: center;margin:0 !important;">Bear Soft</p>
+				<p class="text-primary" style="text-align: center;margin:0 !important;">Felipe (35) 9140-0335 / felipehfreire@gmail.com</p>
+				<p class="text-primary" style="text-align: center">Jhonatan (35) 9921-3766 / jhonatan.rdgs@gmail.com</p>
+			</div>
+		</div>
+	</h:body>
 </f:view>
 
 </html>

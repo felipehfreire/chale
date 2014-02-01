@@ -176,7 +176,7 @@ public class VendaController implements Serializable {
 					vendProd.setQuantidade(vendProd.getQuantidade() - 1);
 				}
 			}
-			vendaService.atualizar(venda);
+			venda = vendaService.atualizar(venda);
 			
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Atualizado com sucesso!"));
 		} else {
@@ -189,7 +189,7 @@ public class VendaController implements Serializable {
 		vendaProduto.getProduto().setQtdEstoque(vendaProduto.getProduto().getQtdEstoque() + vendaProduto.getQuantidade());
 		produtoService.atualizar(vendaProduto.getProduto());
 		venda.getVendaProdutos().remove(vendaProduto);
-		vendaService.atualizar(venda);
+		venda = vendaService.atualizar(venda);
 		limparAdd();
 	}
 
@@ -216,7 +216,7 @@ public class VendaController implements Serializable {
 		 if (!venda.getVendaPrazo()) {
 			 venda.setPago(true);
 		 }
-		 vendaService.atualizar(venda);
+		 venda = vendaService.atualizar(venda);
 		 FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_INFO, "", "Pedido finalizado com sucesso!"));
 		 ConversationUtil.terminarConversacao(conversation);
 		 return "/consultarVenda.jsf?faces-redirect=true";
