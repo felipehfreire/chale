@@ -25,5 +25,8 @@ public interface VendaService {
 
 	List<Venda> pesquisarVendasFinalizadasPrazo();
 
+	List<Venda> pesquisarVendasPrazoMes(Date data);
+
+
 
 }

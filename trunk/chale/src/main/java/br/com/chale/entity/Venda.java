@@ -26,16 +26,27 @@ import javax.persistence.Transient;
 @Table(name="venda")
 @NamedQueries({
 	
-	@NamedQuery(name=Venda.QUERY_CONSULTAR_TODAS_VENDAS, query="select p from Venda p "),
-	
-	@NamedQuery(name=Venda.CONSULTAR_VENDAS_POR_MESA, query="select p from Venda p " +
+	@NamedQuery(name=Venda.QUERY_CONSULTAR_TODAS_VENDAS, 
+		query="select p from Venda p "),
+	@NamedQuery(name=Venda.CONSULTAR_VENDAS_POR_MESA, 
+		query="select p from Venda p " +
 			" where p.mesa = ?1"),
-	@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_POR_DATA, query="select p from Venda p "
+	@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_POR_DATA, 
+		query="select p from Venda p "
 			+ " where p.finalizada = true "
-			+ " and  p.dataVenda < ?1 "),
-			@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_PRAZO, query="select p from Venda p "
-					+ " where p.finalizada = true "
-					+ " and pago = false "),		
+			+ " and YEAR(p.dataVenda) = YEAR(?1) "
+			+ " and Month(p.dataVenda) = Month(?1) "
+			+ " and Day(p.dataVenda) = Day(?1) "),
+	@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_PRAZO, 
+		query="select p from Venda p "
+			+ " where p.finalizada = true "
+			+ " and pago = false "),
+	@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_PRAZO_POR_MES, 
+		query="select p from Venda p "
+			+ " where p.finalizada = true "
+			+ " and pago = false "
+			+ " and YEAR(p.dataVenda) = YEAR(?1) "
+			+ " and Month(p.dataVenda) = Month(?1) "),
 	
 })
 public class Venda implements BaseEntity, Serializable {
@@ -46,6 +57,7 @@ public class Venda implements BaseEntity, Serializable {
 	public static final String CONSULTAR_VENDAS_POR_MESA = "venda.consultarVendasPorMesa";
 	public static final String QUERY_CONSULTAR_VENDAS_POR_DATA = "venda.consultarVendasPorData";
 	public static final String QUERY_CONSULTAR_VENDAS_PRAZO = "venda.consultarVendasPrazo";
+	public static final String QUERY_CONSULTAR_VENDAS_PRAZO_POR_MES = "venda.consultarVendasPrazoMes";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -72,7 +84,7 @@ public class Venda implements BaseEntity, Serializable {
 	@OneToMany(mappedBy="venda", orphanRemoval=true, cascade = CascadeType.ALL)
 	private List<VendaProduto> vendaProdutos;
 	
-	@OneToOne
+	@OneToOne(cascade=CascadeType.MERGE)
 	@JoinColumn(name="cod_cliente")
 	private Cliente cliente;
 

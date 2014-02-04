@@ -43,12 +43,15 @@ public class RelatorioController implements Serializable {
 	private ProdutoService produtoService;
 	
 	@Inject
+	private VendaService vendaService;
+	
+	@Inject
 	private Conversation conversation;
 	
 	private List<Venda> pedidosFinalizados;
+	private List<Venda> vendasFinalizadasAprazo;
 	private List<Produto> produtosQtdMin;
 	private Date data;
-	
 	
 	@PostConstruct
 	public void iniciar() {
@@ -57,12 +60,11 @@ public class RelatorioController implements Serializable {
 	}
 	
 	public void impressaoPedidoFinalizado(Venda p){
-		SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy");
 		DecimalFormat dcmFmt = new DecimalFormat("0.00");
 		String cabecalho ="            Pousada Vale dos ventos \n\n"; 
 		String mesa="Mesa:"+ p.getMesa()+retornaEspacoBranco("Mesa:"+ p.getMesa(), "Hora:"+new SimpleDateFormat("HH:mm").format(new Date()))+"Hora:"+new SimpleDateFormat("HH:mm").format(new Date())+"\n";
 		
-		String cabecalhoVenda ="Itens"+retornaEspacoBranco("Itens", "Qtd/pre�o")+"Qtd/pre�o\n";
+		String cabecalhoVenda ="Itens"+retornaEspacoBranco("Itens", "Qtd/preço")+"Qtd/preço\n";
 		String mensagem = cabecalho+ mesa+cabecalhoVenda;
 		Double totalPedido = 0D;
 		String descProdQtd="";
@@ -81,7 +83,7 @@ public class RelatorioController implements Serializable {
 			impressao.escreveImpressao(mensagem);
 		} catch (IOException | PrintException e) {
 			e.printStackTrace();
-			FacesMessage msg = new FacesMessage("ERRO:", "N�o foi poss�vel realizar a impress�o !!");
+			FacesMessage msg = new FacesMessage("ERRO:", "Não foi posível Não foi possível realizar a impressão !!");
 	        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
@@ -93,17 +95,18 @@ public class RelatorioController implements Serializable {
 		DecimalFormat dcmFmt = new DecimalFormat("0.00");
 		data= sdf.parse(sdf.format(data));
 		pedidosFinalizados = pedidoService.pesquisarVendasPorData(data);
-		String cabecalho ="Relat�rio de venda realizadas no dia "+ sdf.format(data) + "\n\n";
+		
 		Double totalPedido = 0D;
 		Double totalGeral = 0D;
 		String descProdQtd="";
 		String preco="";
-		String mensagem = cabecalho;
-		int pedido  = 0;
+		String mensagem= "";
 		
-		if(pedidosFinalizados!= null||!pedidosFinalizados.isEmpty()){
+		if(pedidosFinalizados!= null && !pedidosFinalizados.isEmpty()){
+			String cabecalho ="Relatório de venda realizadas no dia "+ sdf.format(data) + "\n\n";
+			mensagem = cabecalho;
 			for (Venda p : pedidosFinalizados) {
-				mensagem += "Pedido:" +pedido +retornaEspacoBranco("Pedido:" +pedido," Hora:"+new SimpleDateFormat("HH:mm").format(p.getDataVenda())) +" Hora:"+new SimpleDateFormat("HH:mm").format(p.getDataVenda())+ "\n" ;
+				mensagem += "Pedido: Mesa" +p.getMesa() +retornaEspacoBranco("Pedido: Mesa" +p.getMesa() ," Hora:"+new SimpleDateFormat("HH:mm").format(p.getDataVenda())) +" Hora:"+new SimpleDateFormat("HH:mm").format(p.getDataVenda())+ "\n" ;
 				for (VendaProduto pp : p.getVendaProdutos()) {
 					
 					descProdQtd= pp.getProduto().getDescricao();
@@ -112,33 +115,34 @@ public class RelatorioController implements Serializable {
 					totalPedido+=pp.getProduto().getPreco()*pp.getQuantidade();
 				}
 				totalGeral +=totalPedido;
-				mensagem +=retornaEspacoBranco("","Total: " + dcmFmt.format(totalPedido) )+"Total: " + dcmFmt.format(totalPedido) +"\n";
-				if(p.getVendaPrazo()== true && p.getPago() == false){
+				mensagem +=retornaEspacoBranco("","Total: " + dcmFmt.format(totalPedido) )+"Total: " + dcmFmt.format(totalPedido) +"\n\n";
+				
+				//TODO vincular o cliente ao pedido para funcionar
+				if(p.getVendaPrazo()== true ){
 					mensagem +=p.getCliente().getNome()+ retornaEspacoBranco(p.getCliente().getNome(), p.getCliente().getTelefone())+p.getCliente().getTelefone()+"\n\n";
 				}
 				totalPedido= 0D;
-				pedido ++;
 			}
 			mensagem +=retornaEspacoBranco("", "Total: "+"R$"+dcmFmt.format(totalGeral)) + "Total: "+"R$"+dcmFmt.format(totalGeral);
 			mensagem += "\n\n\n\n\n\n\n\n";
+			
+			try {
+				System.out.println(new String(mensagem.getBytes("UTF-8"), "UTF-8"));
+				ImpressaoTXTUtil impressao = new ImpressaoTXTUtil();
+				impressao.escreveImpressao(mensagem);
+			} catch (IOException | PrintException e) {
+				e.printStackTrace();
+				FacesMessage msg = new FacesMessage("ERRO:", "Não foi possível realizar a impressão !!");
+		        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+		        FacesContext.getCurrentInstance().addMessage(null, msg);
+				
+			}
 		}else{
-			FacesMessage msg = new FacesMessage("Vendas Inexistentes:", "N�o existem Vendas realizadas na data informada!!");
+			FacesMessage msg = new FacesMessage("Vendas Inexistentes:", "Não existem Vendas realizadas na data informada!!");
 	        msg.setSeverity(FacesMessage.SEVERITY_WARN);
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 		
-		
-		try {
-			System.out.println(new String(mensagem.getBytes("UTF-8"), "UTF-8"));
-			ImpressaoTXTUtil impressao = new ImpressaoTXTUtil();
-			impressao.escreveImpressao(mensagem);
-		} catch (IOException | PrintException e) {
-			e.printStackTrace();
-			FacesMessage msg = new FacesMessage("ERRO:", "N�o foi poss�vel realizar a impress�o !!");
-	        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-	        FacesContext.getCurrentInstance().addMessage(null, msg);
-			
-		}
 		System.out.println(mensagem);
 	}
 	
@@ -147,33 +151,70 @@ public class RelatorioController implements Serializable {
 		ConversationUtil.iniciarConversacao(conversation);
 		produtosQtdMin =  produtoService.pesquisarProdutosEstoqueMin();
 		SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		DecimalFormat dcmFmt = new DecimalFormat("0.00");
 		
-		if(produtosQtdMin!= null||!produtosQtdMin.isEmpty()){
-			String cabecalho ="Relat�rio de produtos com estoque na quantidade \n"
-					+ "\tm�nima realizado no dia "+ sdf.format(new Date()) + "\n\n";
+		if(produtosQtdMin!= null&&!produtosQtdMin.isEmpty()){
+			String cabecalho ="Relatório de produtos com estoque na quantidade \n"
+					+ "\tmínima realizado no dia "+ sdf.format(new Date()) + "\n\n";
 			String mensagem = cabecalho;
-			mensagem += "Produto"+ retornaEspacoBranco("Produto", "Qtd/Estoque")+"Qtd/Estoque\n";
+			mensagem += "Produto"+ retornaEspacoBranco("Produto", "Qtd.Estoque")+"Qtd.Estoque\n";
 			for (Produto prod : produtosQtdMin) {
 				mensagem += prod.getDescricao()+ retornaPontos(prod.getDescricao(), prod.getQtdEstoque().toString())+ prod.getQtdEstoque().toString() +"\n";
 			}
-			mensagem +=mensagem += "\n\n\n\n\n\n\n\n";
+			mensagem += "\n\n\n\n\n\n\n\n";
 			System.out.println(mensagem);
 			try {
 				ImpressaoTXTUtil impressao = new ImpressaoTXTUtil();
 				impressao.escreveImpressao(mensagem);
 			} catch (IOException | PrintException e) {
 				e.printStackTrace();
-				FacesMessage msg = new FacesMessage("ERRO:", "N�o foi poss�vel realizar a impress�o !!");
+				FacesMessage msg = new FacesMessage("ERRO:", "Não foi possível realizar a impressão !!");
 		        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 		        FacesContext.getCurrentInstance().addMessage(null, msg);
 			}
 		}else{
-			FacesMessage msg = new FacesMessage("AVISO: ", "N�o existem Produtos cadastrados com quantidade m�nima!!");
+			FacesMessage msg = new FacesMessage("AVISO: ", "Não existem Produtos cadastrados com quantidade mínima!!");
 	        msg.setSeverity(FacesMessage.SEVERITY_WARN);
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 		}
 		
+	}
+	
+	public void relatorioVendaPrazo(){
+		
+		ConversationUtil.iniciarConversacao(conversation);
+		vendasFinalizadasAprazo =  vendaService.pesquisarVendasPrazoMes(data);
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy HH:mm:ss");
+		String mensagem ="";
+		Double totalGeral = 0D;
+		
+		if(vendasFinalizadasAprazo!= null &&!vendasFinalizadasAprazo.isEmpty()){
+			String cabecalho ="Relatório de vendas à prazo no mês de "+ sdf.format(data)+ "\n\n";
+			mensagem= cabecalho;
+			mensagem += "Cliente" + retornaEspacoBranco("Cliente", "Total")+"Total\n";
+			for (Venda venda : vendasFinalizadasAprazo) {
+				mensagem += venda.getCliente().getNome()+retornaPontos(venda.getCliente().getNome(), "Total: "+venda.getPrecoTotalFormatado())+"Total: "+venda.getPrecoTotalFormatado()+"\n";
+				totalGeral += Double.valueOf(venda.getPrecoTotal());
+			}
+			
+			mensagem+= retornaEspacoBranco("","Total: "+"R$"+totalGeral) + "Total: "+"R$"+totalGeral;
+			mensagem += "\n\n\n\n\n\n\n\n";
+			System.out.println(mensagem);
+			
+			try {
+				ImpressaoTXTUtil impressao = new ImpressaoTXTUtil();
+				impressao.escreveImpressao(mensagem);
+			} catch (IOException | PrintException e) {
+				e.printStackTrace();
+				FacesMessage msg = new FacesMessage("ERRO:", "Não foi possível realizar a impressão !!");
+		        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+		        FacesContext.getCurrentInstance().addMessage(null, msg);
+			}
+			
+		}else{
+			FacesMessage msg = new FacesMessage("AVISO: ", "Não existem Vendas a prazo no mês informado!!");
+	        msg.setSeverity(FacesMessage.SEVERITY_WARN);
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
 	}
 	
 	private String retornaPontos(String descProdQtd, String preco) {
@@ -247,6 +288,14 @@ public class RelatorioController implements Serializable {
 
 	public void setProdutosQtdMin(List<Produto> produtosQtdMin) {
 		this.produtosQtdMin = produtosQtdMin;
+	}
+
+	public List<Venda> getVendasFinalizadasAprazo() {
+		return vendasFinalizadasAprazo;
+	}
+
+	public void setVendasFinalizadasAprazo(List<Venda> vendasFinalizadasAprazo) {
+		this.vendasFinalizadasAprazo = vendasFinalizadasAprazo;
 	}
 	
 }
