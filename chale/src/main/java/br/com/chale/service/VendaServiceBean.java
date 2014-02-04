@@ -62,7 +62,12 @@ public class VendaServiceBean implements VendaService, Serializable {
 	public List<Venda> pesquisarVendasFinalizadasPrazo() {
 		return vendaDAO.pesquisarVendasFinalizadasPrazo();
 	}
-	
+
+	@Override
+	public List<Venda> pesquisarVendasPrazoMes(Date data) {
+		return vendaDAO.pesquisarVendasPrazoMes(data);
+	}
+
 	
 
 }
