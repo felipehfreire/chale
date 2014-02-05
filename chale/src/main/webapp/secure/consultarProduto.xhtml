@@ -45,11 +45,12 @@
 									</h:commandLink>
 									<p:tooltip for="editar" value="Editar" showEffect="fade" hideEffect="fade" />
 
-									<h:commandLink onclick="confirmation.show()" id="deletar">
+									<p:commandLink id="del" ajax="true" styleClass="openModal">
 										<f:setPropertyActionListener value="#{item}" target="#{produtoController.produto}" />
+										<f:param name="pessoaSelecionada" value="#{item}" /> 
 										<p:graphicImage library="theme" name="img/delete.png" width="30" height="30"/>
-									</h:commandLink>
-									<p:tooltip for="deletar" value="Deletar" showEffect="fade" hideEffect="fade" />
+									</p:commandLink>
+									<p:tooltip for="del" value="Deletar" showEffect="fade" hideEffect="fade" />
 
 								</p:column>
 							</p:dataTable>
@@ -60,6 +61,41 @@
 				</div>
 			</div>
 		</h:form>
+		<script>
+			$(function() {
+				$("#dialog-form")
+						.dialog(
+								{
+									autoOpen : false,
+									height : 150,
+									width : 350,
+									modal : true,
+									close : function() {
+										$(this).dialog("close");
+									}
+								});
+
+				$(".openModal").click(function() {
+					$("#dialog-form").dialog("open");
+					return false;
+				});
+			});
+		</script>
+		<div id="dialog-form" title="Deseja realmente excluir este item?">
+			<h:form>
+				<div class="row container-center">
+					<div class="col-lg-6 div-center">
+						<div >
+							<div class="form-group" style="text-align: center;">
+								<h:commandButton id="btnSim" value="Sim" action="#{produtoController.deletar}" styleClass="btn btn-success"/>
+								<p:spacer width="5px"/>
+								<h:commandButton id="btnNao" value="Não" styleClass="btn btn-danger"/>  
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
 		<h:form id="dlg">
 			<p:confirmDialog message="Deseja realmente excluir este item?" hideEffect="explode" header="Aviso" severity="alert" widgetVar="confirmation">
 				<p:commandButton id="btnSim" value="Sim" ajax="false" action="#{produtoController.deletar}" process="@form" />

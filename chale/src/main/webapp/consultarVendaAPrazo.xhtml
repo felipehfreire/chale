@@ -35,20 +35,16 @@
 								</p:column>
 								
 								<p:column headerText="Total">
-									<h:outputText value="#{venda.precoTotal}"/>
+									<h:outputText value="#{venda.precoTotalFormatado}"/>
 								</p:column>
 								
 								<p:column headerText="Ações">
-								<button id="detalhar" class="btn btn-primary">Novo
 								
-								</button>
-								<p:spacer width="5px"/>
-                    				<h:commandButton class="btn btn-success" ajax="false"  onclick="{$(function() {$('#dialog-form').dialog('open');}}" value="Detalhar" id="detalhar">
-										<f:setPropertyActionListener value="#{venda}" 
-                        					target="#{vendaPrazoController.vendaSelecionada}" />
-                        					<p:spacer></p:spacer>
-                    				</h:commandButton>
-                    				<p:spacer width="5px"/>
+									<p:commandLink value="Detalhar" id="detal" ajax="true"   styleClass="openModal btn btn-success">
+											<f:setPropertyActionListener value="#{venda}" target="#{vendaPrazoController.vendaSelecionada}" />
+									</p:commandLink>
+									<p:tooltip for="detal" value="Deletar" showEffect="fade" hideEffect="fade" />
+								
 								</p:column>
 							
 							</p:dataTable>
@@ -74,7 +70,7 @@
 									}
 								});
 
-				$("#detalhar").click(function() {
+				$(".openModal").click(function() {
 					$("#dialog-form").dialog("open");
 					return false;
 				});
@@ -95,14 +91,19 @@
 								</p:outputPanel>			
 							</div>
 							<div class="form-group">
+								<b>Cliente: </b>
 								<h:outputText
-									value="Cliente: #{vendaPrazoController.vendaSelecionada.cliente.nome}"
+									value="#{vendaPrazoController.vendaSelecionada.cliente.nome}"
 									style="text-align:right" />
+								<b>Tel: </b>
 								<h:outputText
-									value="Tel: #{vendaPrazoController.vendaSelecionada.cliente.telefone}"
+									value="#{vendaPrazoController.vendaSelecionada.cliente.telefone}"
 									style="text-align:right" />
+							</div>
+							<div class="form-group">
+								<b>Vlr total: </b>
 								<h:outputText
-									value="Vlr Total: #{vendaPrazoController.vendaSelecionada}"
+									value="#{vendaPrazoController.vendaSelecionada.precoTotalFormatado}"
 									style="text-align:right" />
 							</div>
 

@@ -149,10 +149,12 @@ public class Venda implements BaseEntity, Serializable {
 	
 	public Double getPrecoTotal() {
 		Double total = 0D;
-		for (VendaProduto vendProd : getVendaProdutos()) {
-			total += (vendProd.getQuantidade() * vendProd.getProduto().getPreco());
+		if( getVendaProdutos()!=null && !getVendaProdutos().isEmpty()){
+			for (VendaProduto vendProd : getVendaProdutos()) {
+				total += (vendProd.getQuantidade() * vendProd.getProduto().getPreco());
+			}
 		}
-			
+		
 		return total;
 	}
 	

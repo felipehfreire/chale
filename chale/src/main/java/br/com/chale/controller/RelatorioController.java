@@ -115,12 +115,12 @@ public class RelatorioController implements Serializable {
 					totalPedido+=pp.getProduto().getPreco()*pp.getQuantidade();
 				}
 				totalGeral +=totalPedido;
+				if(p.getVendaPrazo()== true ){
+					mensagem +=p.getCliente().getNome()+ retornaEspacoBranco(p.getCliente().getNome(), p.getCliente().getTelefone())+p.getCliente().getTelefone()+"\n";
+				}
 				mensagem +=retornaEspacoBranco("","Total: " + dcmFmt.format(totalPedido) )+"Total: " + dcmFmt.format(totalPedido) +"\n\n";
 				
-				//TODO vincular o cliente ao pedido para funcionar
-				if(p.getVendaPrazo()== true ){
-					mensagem +=p.getCliente().getNome()+ retornaEspacoBranco(p.getCliente().getNome(), p.getCliente().getTelefone())+p.getCliente().getTelefone()+"\n\n";
-				}
+				
 				totalPedido= 0D;
 			}
 			mensagem +=retornaEspacoBranco("", "Total: "+"R$"+dcmFmt.format(totalGeral)) + "Total: "+"R$"+dcmFmt.format(totalGeral);
@@ -184,6 +184,7 @@ public class RelatorioController implements Serializable {
 		ConversationUtil.iniciarConversacao(conversation);
 		vendasFinalizadasAprazo =  vendaService.pesquisarVendasPrazoMes(data);
 		SimpleDateFormat sdf = new SimpleDateFormat("MM/yyyy HH:mm:ss");
+		DecimalFormat dcmFmt = new DecimalFormat("0.00");
 		String mensagem ="";
 		Double totalGeral = 0D;
 		
@@ -196,7 +197,7 @@ public class RelatorioController implements Serializable {
 				totalGeral += Double.valueOf(venda.getPrecoTotal());
 			}
 			
-			mensagem+= retornaEspacoBranco("","Total: "+"R$"+totalGeral) + "Total: "+"R$"+totalGeral;
+			mensagem+= "\n"+retornaEspacoBranco("","Total: "+"R$ "+totalGeral) + "Total: "+"R$ "+dcmFmt.format(totalGeral);
 			mensagem += "\n\n\n\n\n\n\n\n";
 			System.out.println(mensagem);
 			
