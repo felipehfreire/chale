@@ -35,7 +35,7 @@ public class ImpressaoTXTUtil {
             //determina o tipo a ser impresso txt  
             docFlavor = DocFlavor.INPUT_STREAM.AUTOSENSE;  
         }else{
-        	FacesMessage msg = new FacesMessage("Erro:", "Impressoara não encontrada, favor verificar se a impressora esta conectada ou desligada!!!");
+        	FacesMessage msg = new FacesMessage("Erro:", "Impressoara nÃ£o encontrada, favor verificar se a impressora esta conectada ou desligada!!!");
 	        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
         }
@@ -44,7 +44,7 @@ public class ImpressaoTXTUtil {
 	//public static ImpressaoTXTUtil getInstance() {  
      //   return instance;  
     //}  
- // variáveis  
+ // variÃ¡veis  
     private  PrintService impressora;  
     private PrintRequestAttributeSet printerAttributes;  
     private DocPrintJob printJob;  
@@ -63,7 +63,7 @@ public class ImpressaoTXTUtil {
                     new File(System.getProperty("user.dir")));
             BufferedWriter out = new BufferedWriter(new FileWriter(arquivo));
             
-            //TODO verificar a codificação utilizada pela impressora
+            //TODO verificar a codificaï¿½ï¿½o utilizada pela impressora
             out.write(new String(mensagem.getBytes("UTF-8"),"UTF-8"));
             out.close();
             
@@ -105,7 +105,7 @@ public class ImpressaoTXTUtil {
     }  
   
     /** 
-     * Definição dos atributos de impressão 
+     * Definiï¿½ï¿½o dos atributos de impressï¿½o 
      * @return 
      */  
     private PrintRequestAttributeSet setAtributos() {  
