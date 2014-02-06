@@ -32,6 +32,14 @@ create table pessoa(
    primary key(codPessoa)
 );
 
+drop table usuario;
+create table usuario(
+   codUsuario integer not null auto_increment,
+   nomeUsuario varchar(100) not null,
+   senha varchar(32),
+   primary key(codUsuario)
+);
+
 drop table perfis_acesso;
 create table perfis_acesso(
 	cod_perfil_acesso integer not null auto_increment,
