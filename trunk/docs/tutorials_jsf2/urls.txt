@@ -25,4 +25,7 @@ Converte para select one menu
 SELECT one menu example
 	http://www.guj.com.br/java/249047-resolvido-jsf2-selectonemenu-nao-dispara-valuechangelistener-primefaces
 	
-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-	
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+Primefaces dataTable does not sort
+	http://stackoverflow.com/questions/19314158/primefaces-datatable-does-not-sort
+=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-		
