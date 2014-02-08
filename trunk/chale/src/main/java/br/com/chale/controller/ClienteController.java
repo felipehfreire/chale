@@ -29,9 +29,6 @@ public class ClienteController implements Serializable {
 	@Inject
 	private Conversation conversation;
 	
-	@Inject
-	private ExclusãoController exclusãoController;
-	
 	private Cliente pessoa;
 	private Cliente pessoaSelecionada;
 	private List<Cliente> pessoas;
@@ -76,6 +73,11 @@ public class ClienteController implements Serializable {
 		return "/manterCliente.jsf?faces-redirect=true";
 	}
 	
+	public void excluir(Cliente cliente) {
+		clienteService.excluir(cliente);
+		pesquisar();
+	}
+	
 	public void limpar() {
 		pessoa  = new Cliente();
 		pessoaSelecionada = new Cliente();
@@ -83,15 +85,6 @@ public class ClienteController implements Serializable {
 		pessoas= new ArrayList<Cliente>();
 	}
 	
-	public void deletar() {
-	//	ConversationUtil.iniciarConversacao(conversation);
-		pessoaSelecionada = (Cliente) exclusãoController.getObjectoAExcluir();
-		pessoas.remove(pessoaSelecionada);
-		clienteService.excluir(pessoaSelecionada);
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Excluído com sucesso!"));
-		iniciar();
-	}
-
 	public Cliente getPessoa() {
 		return pessoa;
 	}
@@ -125,10 +118,5 @@ public class ClienteController implements Serializable {
 
 	public void setPessoaSelecionada(Cliente pessoaSelecionada) {
 		this.pessoaSelecionada = pessoaSelecionada;
-		if(pessoaSelecionada!= null){
-			if(pessoaSelecionada.getId() != null){
-				exclusãoController.setObjectoAExcluir(pessoaSelecionada);
-			}
-		}
 	}
 }

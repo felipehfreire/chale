@@ -21,4 +21,12 @@ public class ProdutoDAO extends GenericDAO<Produto> {
 		return executeQueryListResult(Produto.QUERY_CONSULTAR_PRODS_QTD_MIN);
 	}
 
+	public void excluir(Produto produto) {
+		manager.getTransaction().begin();
+		produto = manager.find(Produto.class, produto.getId());
+		manager.remove(produto);
+		manager.getTransaction().commit();
+		
+	}
+
 }

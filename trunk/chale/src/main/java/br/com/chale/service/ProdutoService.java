@@ -18,4 +18,6 @@ public interface ProdutoService {
 
 	List<Produto> pesquisarProdutosEstoqueMin();
 
+	void excluir(Produto produto);
+
 }
