@@ -38,13 +38,13 @@ public class VendaServiceBean implements VendaService, Serializable {
 	}
 	
 	@Override
-	public List<Venda> pesquisarVendasPorMesa(Mesa mesaSelecionada) {
-		return vendaDAO.pesquisarVendasPorMesa(mesaSelecionada);
+	public List<Venda> pesquisarVendasNaoFinalizadasPorMesa(Mesa mesaSelecionada) {
+		return vendaDAO.pesquisarVendasNaoFinalizadasPorMesa(mesaSelecionada);
 	}
 
 	@Override
-	public List<Venda> pesquisarVendas() {
-		return vendaDAO.pesquisarVendas();
+	public List<Venda> pesquisarVendasNaoFinalizadas() {
+		return vendaDAO.pesquisarVendasNaoFinalizadas();
 	}
 
 	@Override
@@ -67,6 +67,13 @@ public class VendaServiceBean implements VendaService, Serializable {
 	public List<Venda> pesquisarVendasPrazoMes(Date data) {
 		return vendaDAO.pesquisarVendasPrazoMes(data);
 	}
+
+	@Override
+	public List<Mesa> consultarMesasNaoUsadas() {
+		return mesaDAO.consultarMesasNaoUsadas();
+	}
+	
+	
 
 	
 

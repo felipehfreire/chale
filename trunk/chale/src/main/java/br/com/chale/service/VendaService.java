@@ -15,9 +15,9 @@ public interface VendaService {
 
 	Venda atualizar(Venda venda);
 
-	List<Venda> pesquisarVendasPorMesa(Mesa mesaSelecionada);
+	List<Venda> pesquisarVendasNaoFinalizadasPorMesa(Mesa mesaSelecionada);
 
-	List<Venda> pesquisarVendas();
+	List<Venda> pesquisarVendasNaoFinalizadas();
 
 	List<Venda> pesquisarVendasPorData(Date data);
 
@@ -26,6 +26,8 @@ public interface VendaService {
 	List<Venda> pesquisarVendasFinalizadasPrazo();
 
 	List<Venda> pesquisarVendasPrazoMes(Date data);
+
+	List<Mesa> consultarMesasNaoUsadas();
 
 
 

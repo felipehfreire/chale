@@ -43,12 +43,13 @@ public class VendaController implements Serializable {
 	private ClienteService clienteService;
 	
 	private List<Mesa> mesas;
+	private List<Mesa> mesasNaoUsadas;
 	private List<Venda> vendas;
 	private List<Produto> produtosInseridos;
 	private List<Produto> produtosSelect;
 	private Date dataAtual;
 	private boolean aVista;
-	//Jhonatan
+	
 	private VendaProduto vendaProduto;
 	private Produto produtoSelecionado;
 	private Mesa mesaSelecionada;
@@ -62,6 +63,7 @@ public class VendaController implements Serializable {
 		limpar();
 		PreencherMesas();
 		PreencherProdutos();
+		pesquisar();
 	}
 	
 	public void reRenderProduto() {
@@ -120,6 +122,7 @@ public class VendaController implements Serializable {
 
 	private void PreencherMesas() {
 		mesas = vendaService.consultarTodasMesas();
+		mesasNaoUsadas = vendaService.consultarMesasNaoUsadas();
 	}
 	
 	private void PreencherProdutos() {
@@ -129,9 +132,9 @@ public class VendaController implements Serializable {
 	public void pesquisar() {
 		
 		if(mesaSelecionada != null && mesaSelecionada.getNumeroMesa() != null){
-			vendas = vendaService.pesquisarVendasPorMesa(mesaSelecionada);
+			vendas = vendaService.pesquisarVendasNaoFinalizadasPorMesa(mesaSelecionada);
 		}else{
-			vendas = vendaService.pesquisarVendas();
+			vendas = vendaService.pesquisarVendasNaoFinalizadas();
 		}
 		
 	}
@@ -342,5 +345,13 @@ public class VendaController implements Serializable {
 		this.clientes = clientes;
 	}
 
+	public List<Mesa> getMesasNaoUsadas() {
+		return mesasNaoUsadas;
+	}
+
+	public void setMesasNaoUsadas(List<Mesa> mesasNaoUsadas) {
+		this.mesasNaoUsadas = mesasNaoUsadas;
+	}
+	
 	
 }

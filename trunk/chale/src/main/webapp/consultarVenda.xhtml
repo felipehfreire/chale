@@ -97,7 +97,7 @@
 								<div class="col-lg-9">
 									<h:selectOneMenu id="selectMesa" value="#{vendaController.venda.mesa}" converter="simpleEntityConverter" styleClass="form-control">
 										<f:selectItem itemLabel="Selecione" />
-										<f:selectItems value="#{vendaController.mesas}" var="item" itemLabel="#{item.numeroMesa}" itemValue="#{item}" />
+										<f:selectItems value="#{vendaController.mesasNaoUsadas}" var="item" itemLabel="#{item.numeroMesa}" itemValue="#{item}" />
 									</h:selectOneMenu>
 								</div>
 							</div>
