@@ -10,12 +10,12 @@ public class VendaDAO extends GenericDAO<Venda> {
 
 	private static final long serialVersionUID = 2127025132325017019L;
 
-	public List<Venda> pesquisarVendas() {
-		return executeQueryListResult(Venda.QUERY_CONSULTAR_TODAS_VENDAS);
+	public List<Venda> pesquisarVendasNaoFinalizadas() {
+		return executeQueryListResult(Venda.QUERY_CONSULTAR_VENDAS_NAO_FINALIZADAS);
 	}
 
-	public List<Venda> pesquisarVendasPorMesa(Mesa mesaSelecionada) {
-		return executeQueryListResult(Venda.CONSULTAR_VENDAS_POR_MESA, mesaSelecionada);
+	public List<Venda> pesquisarVendasNaoFinalizadasPorMesa(Mesa mesaSelecionada) {
+		return executeQueryListResult(Venda.CONSULTAR_VENDAS_NAO_FINALIZADAS_POR_MESA, mesaSelecionada);
 	}
 
 	public List<Venda> pesquisarVendasPorData(Date data) {

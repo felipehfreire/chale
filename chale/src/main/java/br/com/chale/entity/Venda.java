@@ -28,9 +28,9 @@ import javax.persistence.Transient;
 	
 	@NamedQuery(name=Venda.QUERY_CONSULTAR_TODAS_VENDAS, 
 		query="select p from Venda p "),
-	@NamedQuery(name=Venda.CONSULTAR_VENDAS_POR_MESA, 
+	@NamedQuery(name=Venda.CONSULTAR_VENDAS_NAO_FINALIZADAS_POR_MESA, 
 		query="select p from Venda p " +
-			" where p.mesa = ?1"),
+			" where p.mesa = ?1 and finalizada = false"),
 	@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_POR_DATA, 
 		query="select p from Venda p "
 			+ " where p.finalizada = true "
@@ -47,6 +47,10 @@ import javax.persistence.Transient;
 			+ " and pago = false "
 			+ " and YEAR(p.dataVenda) = YEAR(?1) "
 			+ " and Month(p.dataVenda) = Month(?1) "),
+			
+	@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_NAO_FINALIZADAS, 
+			query="select p from Venda p " +
+					" where finalizada = false")
 	
 })
 public class Venda implements BaseEntity, Serializable {
@@ -54,10 +58,11 @@ public class Venda implements BaseEntity, Serializable {
 	private static final long serialVersionUID = -5412811770343143282L;
 
 	public static final String QUERY_CONSULTAR_TODAS_VENDAS = "venda.queryConsultarTodasVendas";
-	public static final String CONSULTAR_VENDAS_POR_MESA = "venda.consultarVendasPorMesa";
+	public static final String CONSULTAR_VENDAS_NAO_FINALIZADAS_POR_MESA = "venda.consultarVendasNaoFinalizadasPorMesa";
 	public static final String QUERY_CONSULTAR_VENDAS_POR_DATA = "venda.consultarVendasPorData";
 	public static final String QUERY_CONSULTAR_VENDAS_PRAZO = "venda.consultarVendasPrazo";
 	public static final String QUERY_CONSULTAR_VENDAS_PRAZO_POR_MES = "venda.consultarVendasPrazoMes";
+	public static final String QUERY_CONSULTAR_VENDAS_NAO_FINALIZADAS = "venda.consultarVendasNaoFinalizadas";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)

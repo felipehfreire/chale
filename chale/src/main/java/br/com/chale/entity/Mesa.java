@@ -16,6 +16,7 @@ import javax.persistence.Table;
 @NamedQueries({
 
 	@NamedQuery(name=Mesa.CONSULTAR_TODAS_MESAS, query="Select m from Mesa m"),
+	@NamedQuery(name=Mesa.CONSULTAR_MESAS_NAO_USADAS, query="select m from Mesa m where usada = false")
 	
 })
 public class Mesa implements BaseEntity, Serializable {
@@ -23,6 +24,7 @@ public class Mesa implements BaseEntity, Serializable {
 	private static final long serialVersionUID = 5226396022428686688L;
 
 	public static final String CONSULTAR_TODAS_MESAS = "mesa.consultarTodasMesas";
+	public static final String CONSULTAR_MESAS_NAO_USADAS = "mesa.consultarMesasNaoUsadas";
 	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
