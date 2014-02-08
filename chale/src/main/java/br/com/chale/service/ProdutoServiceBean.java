@@ -47,6 +47,13 @@ public class ProdutoServiceBean implements ProdutoService, Serializable {
 	public List<Produto> pesquisarProdutosEstoqueMin() {
 		return produtoDAO.pesquisarProdutosEstoqueMin();
 	}
+
+	@Override
+	public void excluir(Produto produto) {
+		produtoDAO.excluir(produto);
+		
+	}
+	
 	
 	
 	

@@ -72,6 +72,11 @@ public class ProdutoController implements Serializable {
 		 return "/index.jsf?faces-redirect=true";  
 	}
 	
+	public void excluir(Produto produto) {
+		produtoService.excluir(produto);
+		pesquisar();
+	}
+	
 	public void limpar() {
 		termo = "";
 		listagem = new ArrayList<Produto>();
