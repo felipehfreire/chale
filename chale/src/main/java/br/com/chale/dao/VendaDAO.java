@@ -30,6 +30,14 @@ public class VendaDAO extends GenericDAO<Venda> {
 		return executeQueryListResult(Venda.QUERY_CONSULTAR_VENDAS_PRAZO_POR_MES, data);
 	}
 
+	public List<Venda> pesquisarVendasPorCliente(Long id) {
+		return executeQueryListResult(Venda.QUERY_CONSULTAR_VENDAS_POR_CLIENTE, id);
+	}
+
+	public List<Venda> pesquisarVendasPorProduto(Long id) {
+		return executeQueryListResult(Venda.QUERY_CONSULTAR_VENDAS_POR_PRODUTO, id);
+	}
+
 
 	
 

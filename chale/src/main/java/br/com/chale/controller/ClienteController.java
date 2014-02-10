@@ -15,6 +15,7 @@ import javax.inject.Named;
 
 import br.com.chale.entity.Cliente;
 import br.com.chale.service.ClienteService;
+import br.com.chale.service.VendaService;
 import br.com.chale.util.ConversationUtil;
 
 @Named
@@ -25,6 +26,9 @@ public class ClienteController implements Serializable {
 	
 	@Inject
 	private ClienteService clienteService;
+	
+	@Inject 
+	private VendaService vendaService;
 	
 	@Inject
 	private Conversation conversation;
@@ -74,8 +78,14 @@ public class ClienteController implements Serializable {
 	}
 	
 	public void excluir(Cliente cliente) {
-		clienteService.excluir(cliente);
-		pesquisar();
+		if (vendaService.pesquisarVendasPorCliente(cliente.getId()).isEmpty()) {
+			clienteService.excluir(cliente);
+			pesquisar();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Excluido com sucesso!"));
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Não é possível excluir clientes que possuem alguma venda!"));
+		}
+		
 	}
 	
 	public void limpar() {

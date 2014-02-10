@@ -15,6 +15,7 @@ import javax.inject.Named;
 
 import br.com.chale.entity.Produto;
 import br.com.chale.service.ProdutoService;
+import br.com.chale.service.VendaService;
 import br.com.chale.util.ConversationUtil;
 
 @Named
@@ -25,6 +26,9 @@ public class ProdutoController implements Serializable {
 	
 	@Inject
 	private ProdutoService produtoService;
+	
+	@Inject
+	private VendaService vendaService;
 	
 	@Inject
 	private Conversation conversation;
@@ -73,8 +77,14 @@ public class ProdutoController implements Serializable {
 	}
 	
 	public void excluir(Produto produto) {
-		produtoService.excluir(produto);
-		pesquisar();
+		if (vendaService.pesquisarVendasPorProduto(produto.getId()).isEmpty()) {
+			produtoService.excluir(produto);
+			pesquisar();
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Excluido com sucesso!"));
+		} else {
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Não é possível excluir produtos que possuem alguma venda!"));
+		}
+		
 	}
 	
 	public void limpar() {

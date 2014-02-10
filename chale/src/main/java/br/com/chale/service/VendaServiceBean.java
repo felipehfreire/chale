@@ -72,7 +72,16 @@ public class VendaServiceBean implements VendaService, Serializable {
 	public List<Mesa> consultarMesasNaoUsadas() {
 		return mesaDAO.consultarMesasNaoUsadas();
 	}
-	
+
+	@Override
+	public List<Venda> pesquisarVendasPorCliente(Long id) {
+		return vendaDAO.pesquisarVendasPorCliente(id);
+	}
+
+	@Override
+	public List<Venda> pesquisarVendasPorProduto(Long id) {
+		return vendaDAO.pesquisarVendasPorProduto(id);
+	}
 	
 
 	
