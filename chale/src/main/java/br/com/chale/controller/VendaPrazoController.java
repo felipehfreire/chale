@@ -45,11 +45,6 @@ public class VendaPrazoController implements Serializable {
 	
 	public void pesquisar() {
 		vendasFinalizadasAprazo = vendaService.pesquisarVendasFinalizadasPrazo();
-		if(vendasFinalizadasAprazo== null || vendasFinalizadasAprazo.isEmpty()){
-			FacesMessage msg = new FacesMessage("ERRO:", "Não existem vendas á prazo pendentes para recebimento !!");
-	        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
-	        FacesContext.getCurrentInstance().addMessage(null, msg);
-		}
 	}
 
 	 public void receberVenda() {
