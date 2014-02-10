@@ -11,6 +11,7 @@ import javax.persistence.Basic;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -50,7 +51,16 @@ import javax.persistence.Transient;
 			
 	@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_NAO_FINALIZADAS, 
 			query="select p from Venda p " +
-					" where finalizada = false")
+					" where finalizada = false"),
+	
+	@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_POR_CLIENTE,
+			query="select v from Venda v"
+					+ " where v.cliente.id = ?1"),
+					
+	@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_POR_PRODUTO,
+			query="select v from Venda v"
+					+ " inner join v.vendaProdutos vp"
+					+ " where vp.produto.id = ?1")
 	
 })
 public class Venda implements BaseEntity, Serializable {
@@ -63,6 +73,8 @@ public class Venda implements BaseEntity, Serializable {
 	public static final String QUERY_CONSULTAR_VENDAS_PRAZO = "venda.consultarVendasPrazo";
 	public static final String QUERY_CONSULTAR_VENDAS_PRAZO_POR_MES = "venda.consultarVendasPrazoMes";
 	public static final String QUERY_CONSULTAR_VENDAS_NAO_FINALIZADAS = "venda.consultarVendasNaoFinalizadas";
+	public static final String QUERY_CONSULTAR_VENDAS_POR_CLIENTE = "venda.consultarVendasPorCliente";
+	public static final String QUERY_CONSULTAR_VENDAS_POR_PRODUTO = "venda.consultarVendasPorProduto";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -86,7 +98,7 @@ public class Venda implements BaseEntity, Serializable {
 	@Column(name="ind_pago")
 	private Boolean pago = false;
 	
-	@OneToMany(mappedBy="venda", orphanRemoval=true, cascade = CascadeType.ALL)
+	@OneToMany(mappedBy="venda", orphanRemoval=true, cascade = CascadeType.ALL, fetch=FetchType.EAGER)
 	private List<VendaProduto> vendaProdutos;
 	
 	@OneToOne(cascade=CascadeType.MERGE)

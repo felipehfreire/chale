@@ -10,11 +10,17 @@
 	<ui:composition template="template.xhtml">
 	
 	<ui:define name="content">
+		
+		<ul class="page-breadcrumb breadcrumb">
+			<li><a href="index.jsf">Página inicial</a></li>
+			<li><a href="#">Consultar Vendas a prazo</a></li>
+		</ul>
+	
 		<h:form id="submitForm" class="bs-example form-horizontal">
 			<div class="page-header"></div>
 			<div class="row container-center">
 				<div class="col-lg-7 div-center">
-				<p:fieldset legend="Vendas finalizadas à prazo ">
+				
 					<div class="well">
 					
 						<div class="well">    
@@ -50,7 +56,7 @@
 							</p:dataTable>
 			          	</div>
 		             </div>
-		             </p:fieldset>
+		             
 	             </div>
              </div>
 		</h:form>

@@ -29,6 +29,10 @@ public interface VendaService {
 
 	List<Mesa> consultarMesasNaoUsadas();
 
+	List<Venda> pesquisarVendasPorCliente(Long id);
+
+	List<Venda> pesquisarVendasPorProduto(Long id);
+
 
 
 }
