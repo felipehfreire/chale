@@ -44,6 +44,7 @@
 										rendered="#{vendaController.venda.vendaPrazo}"	converter="simpleEntityConverter">
 										<f:selectItem itemLabel="Selecione" />
 										<f:selectItems value="#{vendaController.clientes}" var="cliente" itemLabel="#{cliente.nome}" itemValue="#{cliente}" />
+										<f:ajax render="clienteGroup"/>
 									</h:selectOneMenu>
 								</div>
 							</p:outputLabel>
