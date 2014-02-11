@@ -1,6 +1,9 @@
 package br.com.chale.entity;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import javax.persistence.Basic;
 import javax.persistence.Column;
@@ -37,6 +40,8 @@ public class VendaProduto implements Serializable{
 	@Column(name="num_quantidade")
 	@Basic(optional=false)
 	private Long quantidade;
+	
+	private Double precoQtdProd;
 
 	public Long getId() {
 		return id;
@@ -64,6 +69,23 @@ public class VendaProduto implements Serializable{
 
 	public void setQuantidade(Long quantidade) {
 		this.quantidade = quantidade;
+	}
+
+	public Double getPrecoQtdProd() {
+		if(getProduto()!= null){
+			precoQtdProd = getQuantidade()*getProduto().getPreco();
+		}
+		return precoQtdProd;
+	}
+	
+	public String getPrecoQtdProdFormatado() {
+		 DecimalFormatSymbols dfs = new DecimalFormatSymbols(new Locale ("pt", "BR"));
+		 DecimalFormat df1 = new DecimalFormat("#,##0.00", dfs);
+		 return "R$ " + df1.format(getPrecoQtdProd());
+	}
+
+	public void setPrecoQtdProd(Double precoQtdProd) {
+		this.precoQtdProd = precoQtdProd;
 	}
 
 	@Override
