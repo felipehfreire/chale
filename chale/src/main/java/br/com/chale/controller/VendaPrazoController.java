@@ -44,6 +44,7 @@ public class VendaPrazoController implements Serializable {
 	}
 	
 	public void pesquisar() {
+		ConversationUtil.iniciarConversacao(conversation);
 		vendasFinalizadasAprazo = vendaService.pesquisarVendasFinalizadasPrazo();
 	}
 
