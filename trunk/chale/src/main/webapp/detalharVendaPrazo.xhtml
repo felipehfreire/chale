@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="template.xhtml">
+
+	<ui:define name="content">
+		
+		<ul class="page-breadcrumb breadcrumb">
+			<li><a href="c.jsf">Página inicial</a></li>
+			<li><a href="consultarVendaAPrazo.jsf">Consultar Venda a Prazo</a></li>
+			<li><a href="#">Detalhar</a></li>
+		</ul>
+		
+		<h:form id="submitForm" class="bs-example form-horizontal">
+			
+			<div class="row container-center">
+				<div class="col-lg-6 div-center">
+					<div class="well">
+						<div id="dialog-form" title="Detalhes">
+			<h:form>
+				<div class="row container-center">
+					<div class="col-lg-6 div-center">
+						<div>
+							<div class="form-group">
+								<p:outputPanel id="produtosVendaPrazo">
+									<p:dataList  value="#{vendaPrazoController.vendaSelecionada.vendaProdutos}" var="vendProd" itemType="disc">  
+										<b>Prod.:</b> #{vendProd.produto.descricao}   --   <b>Qtd:</b>  #{vendProd.quantidade}   --   <b>Preço:</b> #{vendProd.produto.preco}
+									</p:dataList>  
+								</p:outputPanel>			
+							</div>
+							<div class="form-group">
+								<b>Cliente: </b>
+								<h:outputText
+									value="#{vendaPrazoController.vendaSelecionada.cliente.nome}"
+									style="text-align:right" />
+								<b>Tel: </b>
+								<h:outputText
+									value="#{vendaPrazoController.vendaSelecionada.cliente.telefone}"
+									style="text-align:right" />
+							</div>
+							<div class="form-group">
+								<b>Vlr total: </b>
+								<h:outputText
+									value="#{vendaPrazoController.vendaSelecionada.precoTotalFormatado}"
+									style="text-align:right" />
+							</div>
+
+							<br/>
+							<br/>
+							<div class="form-group" style="text-align: center;">
+								<h:commandButton action="#{vendaPrazoController.receberVenda}" value="Receber" ajax="false"  class="btn btn-success"/>
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+</ui:composition>
+</html>

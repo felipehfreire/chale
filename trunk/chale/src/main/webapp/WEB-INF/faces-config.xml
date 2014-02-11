@@ -14,5 +14,15 @@
                     <redirect></redirect>
           </navigation-case>
 	</navigation-rule>
+	
+	<navigation-rule>
+     	<from-view-id>consultarVendaAPrazo.xhtml</from-view-id>
+			<navigation-case>
+               <from-outcome>detalhar</from-outcome>
+                    <to-view-id>detalharVendaPrazo.xhtml</to-view-id>
+                    <redirect></redirect>
+          </navigation-case>
+    </navigation-rule>
+          
 
 </faces-config>
