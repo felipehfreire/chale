@@ -30,15 +30,17 @@
 			          	<div class="well">
 			          		<p:dataTable value="#{vendaPrazoController.vendasFinalizadasAprazo}" var="venda"  sortMode="multiple" rows="10"  paginator="true">
 			
+								<p:column sortBy="#{venda.cliente.nome}" headerText="Cliente">
+									<h:outputText value="#{venda.cliente.nome}/ #{venda.cliente.telefone}"/>
+								</p:column> 
+								
+			
 								<p:column sortBy="#{venda.mesa.numeroMesa}" headerText="Data da Venda">
 									<h:outputText value="#{venda.dataVenda}">
 										<f:convertDateTime pattern="dd/MM/yyyy"/>  
 									</h:outputText>
 								</p:column>
 								
-								<p:column sortBy="#{venda.id}" headerText="Número da venda">
-									<h:outputText value="#{venda.id}"/>
-								</p:column>
 								
 								<p:column headerText="Total">
 									<h:outputText value="#{venda.precoTotalFormatado}"/>
@@ -46,10 +48,10 @@
 								
 								<p:column headerText="Ações">
 								
-									<p:commandLink value="Detalhar" id="detal" ajax="true"   styleClass="openModal btn btn-success">
-											<f:setPropertyActionListener value="#{venda}" target="#{vendaPrazoController.vendaSelecionada}" />
-									</p:commandLink>
-									<p:tooltip for="detal" value="Deletar" showEffect="fade" hideEffect="fade" />
+									<h:commandButton id="detal" class="btn btn-success" ajax="false" value="Detalhar" action="#{vendaPrazoController.detalhar}">
+										<f:setPropertyActionListener value="#{venda}" target="#{vendaPrazoController.vendaSelecionada}" />
+                    				</h:commandButton>
+                    				<p:tooltip for="detal" value="Deletar" showEffect="fade" hideEffect="fade" />
 								
 								</p:column>
 							
@@ -61,69 +63,6 @@
              </div>
 		</h:form>
 		
-		
-		<script>
-			$(function() {
-				$("#dialog-form")
-						.dialog(
-								{
-									autoOpen : false,
-									height : 250,
-									width : 600,
-									modal : true,
-									close : function() {
-										$(this).dialog("close");
-									}
-								});
-
-				$(".openModal").click(function() {
-					$("#dialog-form").dialog("open");
-					return false;
-				});
-				
-			});
-		</script>
-
-		<div id="dialog-form" title="Detalhes">
-			<h:form>
-				<div class="row container-center">
-					<div class="col-lg-6 div-center">
-						<div>
-							<div class="form-group">
-								<p:outputPanel id="produtosVendaPrazo">
-									<p:dataList  value="#{vendaPrazoController.vendaSelecionada.vendaProdutos}" var="vendProd" itemType="disc">  
-										<b>Prod.:</b> #{vendProd.produto.descricao}   --   <b>Qtd:</b>  #{vendProd.quantidade}   --   <b>Preço:</b> #{vendProd.produto.preco}
-									</p:dataList>  
-								</p:outputPanel>			
-							</div>
-							<div class="form-group">
-								<b>Cliente: </b>
-								<h:outputText
-									value="#{vendaPrazoController.vendaSelecionada.cliente.nome}"
-									style="text-align:right" />
-								<b>Tel: </b>
-								<h:outputText
-									value="#{vendaPrazoController.vendaSelecionada.cliente.telefone}"
-									style="text-align:right" />
-							</div>
-							<div class="form-group">
-								<b>Vlr total: </b>
-								<h:outputText
-									value="#{vendaPrazoController.vendaSelecionada.precoTotalFormatado}"
-									style="text-align:right" />
-							</div>
-
-							<br/>
-							<br/>
-							<div class="form-group" style="text-align: center;">
-								<h:commandButton action="#{vendaPrazoController.receberVenda}" value="Receber" ajax="false"  class="btn btn-success"/>
-							</div>
-						</div>
-					</div>
-				</div>
-			</h:form>
-		</div>
-
 	</ui:define>
 	</ui:composition>	
 </html>

@@ -64,6 +64,11 @@ public class VendaPrazoController implements Serializable {
 		vendasFinalizadasAprazo= new ArrayList<Venda>();
 		vendaSelecionada = new Venda();
 	}
+	
+	public String detalhar() {
+		
+		return "detalhar";
+	}
 
 	public List<Venda> getVendasFinalizadasAprazo() {
 		return vendasFinalizadasAprazo;
