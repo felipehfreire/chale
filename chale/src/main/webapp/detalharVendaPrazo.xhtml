@@ -11,7 +11,7 @@
 	<ui:define name="content">
 		
 		<ul class="page-breadcrumb breadcrumb">
-			<li><a href="c.jsf">Página inicial</a></li>
+			<li><a href="index.jsf">Página inicial</a></li>
 			<li><a href="consultarVendaAPrazo.jsf">Consultar Venda a Prazo</a></li>
 			<li><a href="#">Detalhar</a></li>
 		</ul>
@@ -29,7 +29,7 @@
 							<div class="form-group">
 								<p:outputPanel id="produtosVendaPrazo">
 									<p:dataList  value="#{vendaPrazoController.vendaSelecionada.vendaProdutos}" var="vendProd" itemType="disc">  
-										<b>Prod.:</b> #{vendProd.produto.descricao}   --   <b>Qtd:</b>  #{vendProd.quantidade}   --   <b>Preço:</b> #{vendProd.produto.preco}
+										<b>Prod.:</b> #{vendProd.produto.descricao}   --   <b>Qtd:</b>  #{vendProd.quantidade}   --   <b>Preço:</b> #{vendProd.produto.preco}  --   <b>Total:</b> #{vendProd.precoQtdProdFormatado}
 									</p:dataList>  
 								</p:outputPanel>			
 							</div>
