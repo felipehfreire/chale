@@ -1,5 +1,6 @@
 package br.com.chale.dao;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -36,6 +37,11 @@ public class VendaDAO extends GenericDAO<Venda> {
 
 	public List<Venda> pesquisarVendasPorProduto(Long id) {
 		return executeQueryListResult(Venda.QUERY_CONSULTAR_VENDAS_POR_PRODUTO, id);
+	}
+
+	public List<Venda> pesquisarVendasFinalizadasPrazoPorPeriodo(
+			Date dataInicial, Date dataFinal) {
+		return executeQueryListResult(Venda.QUERY_CONSULTAR_VENDAS_PRAZO_PERIODO, dataInicial, dataFinal);
 	}
 
 

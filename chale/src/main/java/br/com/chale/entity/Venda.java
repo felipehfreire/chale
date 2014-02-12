@@ -60,7 +60,13 @@ import javax.persistence.Transient;
 	@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_POR_PRODUTO,
 			query="select v from Venda v"
 					+ " inner join v.vendaProdutos vp"
-					+ " where vp.produto.id = ?1")
+					+ " where vp.produto.id = ?1"),
+	
+	@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_PRAZO_PERIODO, 
+	query="select p from Venda p "
+		+ " where p.finalizada = true "
+		+ " and pago = false "
+		+ " and  p.dataVenda BETWEEN ?1 and ?2"),
 	
 })
 public class Venda implements BaseEntity, Serializable {
@@ -75,6 +81,7 @@ public class Venda implements BaseEntity, Serializable {
 	public static final String QUERY_CONSULTAR_VENDAS_NAO_FINALIZADAS = "venda.consultarVendasNaoFinalizadas";
 	public static final String QUERY_CONSULTAR_VENDAS_POR_CLIENTE = "venda.consultarVendasPorCliente";
 	public static final String QUERY_CONSULTAR_VENDAS_POR_PRODUTO = "venda.consultarVendasPorProduto";
+	public static final String QUERY_CONSULTAR_VENDAS_PRAZO_PERIODO = "venda.onsultarVendasPrazoPeriodo";
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
