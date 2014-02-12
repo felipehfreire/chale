@@ -33,6 +33,9 @@ public interface VendaService {
 
 	List<Venda> pesquisarVendasPorProduto(Long id);
 
+	List<Venda> pesquisarVendasFinalizadasPrazoPorPeriodo(Date dataInicial,
+			Date dataFinal);
+
 
 
 }
