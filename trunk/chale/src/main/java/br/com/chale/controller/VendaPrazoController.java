@@ -13,7 +13,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
-import javax.swing.text.StyledEditorKit.BoldAction;
 
 import br.com.chale.entity.Venda;
 import br.com.chale.service.VendaService;

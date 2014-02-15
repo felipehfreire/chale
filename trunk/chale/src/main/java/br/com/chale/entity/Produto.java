@@ -1,6 +1,9 @@
 package br.com.chale.entity;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
+import java.util.Locale;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -99,6 +102,12 @@ public class Produto implements BaseEntity,Serializable {
 
 	public void setQtdMinEstoque(Long qtdMinEstoque) {
 		this.qtdMinEstoque = qtdMinEstoque;
+	}
+	
+	public String getPrecoFormatado() {
+		 DecimalFormatSymbols dfs = new DecimalFormatSymbols(new Locale ("pt", "BR"));
+		 DecimalFormat df1 = new DecimalFormat("#,##0.00", dfs);
+		 return "R$ " + df1.format(getPreco());
 	}
 
 	@Override
