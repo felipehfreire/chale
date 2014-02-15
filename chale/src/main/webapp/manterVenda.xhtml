@@ -67,6 +67,14 @@
 								<p:column sortBy="#{vendProd.quantidade}" headerText="Quantidade">
 									<h:outputText value="#{vendProd.quantidade}" />
 								</p:column>
+								
+								<p:column headerText="Preço Unitário">
+									<h:outputText value="#{vendProd.produto.precoFormatado}" />
+								</p:column>
+								
+								<p:column headerText="Preço total">
+									<h:outputText value="#{vendProd.precoQtdProdFormatado}" />
+								</p:column>
 
 								<p:column headerText="Ações">
 									<h:commandLink action="#{vendaController.adicionar}" id="adicionar1" immediate="true">
