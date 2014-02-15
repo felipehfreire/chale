@@ -41,8 +41,6 @@ public class VendaProduto implements Serializable{
 	@Basic(optional=false)
 	private Long quantidade;
 	
-	private Double precoQtdProd;
-
 	public Long getId() {
 		return id;
 	}
@@ -72,20 +70,17 @@ public class VendaProduto implements Serializable{
 	}
 
 	public Double getPrecoQtdProd() {
+		Double preco = null;
 		if(getProduto()!= null){
-			precoQtdProd = getQuantidade()*getProduto().getPreco();
+			preco = getQuantidade()*getProduto().getPreco();
 		}
-		return precoQtdProd;
+		return preco;
 	}
 	
 	public String getPrecoQtdProdFormatado() {
 		 DecimalFormatSymbols dfs = new DecimalFormatSymbols(new Locale ("pt", "BR"));
 		 DecimalFormat df1 = new DecimalFormat("#,##0.00", dfs);
 		 return "R$ " + df1.format(getPrecoQtdProd());
-	}
-
-	public void setPrecoQtdProd(Double precoQtdProd) {
-		this.precoQtdProd = precoQtdProd;
 	}
 
 	@Override
