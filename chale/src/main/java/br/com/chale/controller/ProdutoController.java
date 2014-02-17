@@ -48,6 +48,12 @@ public class ProdutoController implements Serializable {
 	public void pesquisar() {
 		ConversationUtil.iniciarConversacao(conversation);
 		listagem = produtoService.pesquisar(termo);
+		
+		if(termo != null && !termo.isEmpty()){
+			if(listagem == null || listagem.isEmpty()){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "", "Não foram encontrados registros com o nome informado!"));
+			}
+		}
 	}
 	
 	public String novo() {
@@ -82,7 +88,7 @@ public class ProdutoController implements Serializable {
 			pesquisar();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Excluido com sucesso!"));
 		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Não é possível excluir produtos que possuem alguma venda!"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "", "Não é possível excluir produtos que possuem alguma venda!"));
 		}
 		
 	}

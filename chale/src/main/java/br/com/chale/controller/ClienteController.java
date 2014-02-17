@@ -61,9 +61,14 @@ public class ClienteController implements Serializable {
 	public void pesquisar(){
 		ConversationUtil.iniciarConversacao(conversation);
 		pessoas= clienteService.pesquisar(termo);
+		if(termo != null && !termo.isEmpty()){
+			if(pessoas == null || pessoas.isEmpty()){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "", "Não foram encontrados registros com o nome informado!"));
+			}
+		}
 	}
 	
-	public String editar() {
+	public String editar() {	
 		return "/manterCliente.jsf?faces-redirect=true";
 	}
 	
@@ -81,9 +86,9 @@ public class ClienteController implements Serializable {
 		if (vendaService.pesquisarVendasPorCliente(cliente.getId()).isEmpty()) {
 			clienteService.excluir(cliente);
 			pesquisar();
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Excluido com sucesso!"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "", "Registro Excluido com sucesso!"));
 		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Não é possível excluir clientes que possuem alguma venda!"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "", "Não é possível excluir clientes que possuem vendas pendentes!"));
 		}
 		
 	}
