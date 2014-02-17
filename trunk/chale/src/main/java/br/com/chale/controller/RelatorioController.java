@@ -76,6 +76,10 @@ public class RelatorioController implements Serializable {
 			mensagem+=descProdQtd+retornaPontos(descProdQtd, preco)+preco+"\n";
 			totalPedido+=vendProd.getProduto().getPreco()*vendProd.getQuantidade();
 		}
+		
+		if(p.getVendaPrazo()== true ){
+			mensagem +=p.getCliente().getNome()+ retornaEspacoBranco(p.getCliente().getNome(), p.getCliente().getTelefone())+p.getCliente().getTelefone()+"\n\n";
+		}
 		mensagem +=retornaEspacoBranco("","Total: " + dcmFmt.format(totalPedido) )+"Total: " + dcmFmt.format(totalPedido) +"\n\n";
 		System.out.println(mensagem);
 		try {
@@ -195,6 +199,7 @@ public class RelatorioController implements Serializable {
 			for (Venda venda : vendasFinalizadasAprazo) {
 				mensagem += venda.getCliente().getNome()+retornaPontos(venda.getCliente().getNome(), "Total: "+venda.getPrecoTotalFormatado())+"Total: "+venda.getPrecoTotalFormatado()+"\n";
 				totalGeral += Double.valueOf(venda.getPrecoTotal());
+				mensagem +=venda.getCliente().getNome()+ retornaEspacoBranco(venda.getCliente().getNome(), venda.getCliente().getTelefone())+venda.getCliente().getTelefone()+"\n";
 			}
 			
 			mensagem+= "\n"+retornaEspacoBranco("","Total: "+"R$ "+totalGeral) + "Total: "+"R$ "+dcmFmt.format(totalGeral);

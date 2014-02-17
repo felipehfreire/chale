@@ -54,15 +54,22 @@ public class VendaPrazoController implements Serializable {
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", "A data final deve ser maior que a data inicial!"));
 			}
 			
+			if(vendasFinalizadasAprazo != null && vendasFinalizadasAprazo.isEmpty()){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "", "Não foram encontrados registros com as datas informadas!"));
+			}
+			
 		}else{
 			vendasFinalizadasAprazo = vendaService.pesquisarVendasFinalizadasPrazo();
 		}
+		
+		
+			
 	}
 	
-	public void pesquisarTodos() {
-		ConversationUtil.iniciarConversacao(conversation);
-		vendasFinalizadasAprazo = vendaService.pesquisarVendasFinalizadasPrazo();
-	}
+//	public void pesquisarTodos() {
+//		ConversationUtil.iniciarConversacao(conversation);
+//		vendasFinalizadasAprazo = vendaService.pesquisarVendasFinalizadasPrazo();
+//	}
 	
 	public void pesquisarPorPerido() {
 		ConversationUtil.iniciarConversacao(conversation);
@@ -75,7 +82,7 @@ public class VendaPrazoController implements Serializable {
 		 vendaSelecionada.setDataPagamento(new Date());
 		 vendaService.atualizar(vendaSelecionada);
 		 relatorioController.impressaoPedidoFinalizado(vendaSelecionada);
-		 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "", "Venda alterada com sucesso!"));
+		 FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Venda recebida com sucesso!"));
 		 
 	 }
 	 

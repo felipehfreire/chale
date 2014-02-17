@@ -14,14 +14,14 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.chale.entity.Cliente;
 import br.com.chale.entity.Mesa;
+import br.com.chale.entity.Produto;
 import br.com.chale.entity.Venda;
 import br.com.chale.entity.VendaProduto;
-import br.com.chale.entity.Cliente;
-import br.com.chale.entity.Produto;
 import br.com.chale.service.ClienteService;
-import br.com.chale.service.VendaService;
 import br.com.chale.service.ProdutoService;
+import br.com.chale.service.VendaService;
 import br.com.chale.util.ConversationUtil;
 
 @Named
@@ -135,6 +135,12 @@ public class VendaController implements Serializable {
 			vendas = vendaService.pesquisarVendasNaoFinalizadasPorMesa(mesaSelecionada);
 		}else{
 			vendas = vendaService.pesquisarVendasNaoFinalizadas();
+		}
+		
+		if(mesaSelecionada !=null && mesaSelecionada.getId()!= null){	
+			if(vendas != null && vendas.isEmpty()){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "", "Não foram encontrados registros para mesa informada!"));
+			}
 		}
 		
 	}
