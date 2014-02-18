@@ -82,7 +82,7 @@ public class VendaController implements Serializable {
 		} else if (verificaExistenciaProdutoNoPedido()) {
 			//quando clicar no add e o produto já estiver na lista, só atualizar os valores
 			vendaProduto.setProduto(getProdutoSelecionado());
-			adicionar();
+			adicionar(vendaProduto.getQuantidade());
 			
 		} else {
 			//TODO o cara pode mudar de mesa
@@ -137,11 +137,6 @@ public class VendaController implements Serializable {
 			vendas = vendaService.pesquisarVendasNaoFinalizadas();
 		}
 		
-		if(mesaSelecionada !=null && mesaSelecionada.getId()!= null){	
-			if(vendas != null && vendas.isEmpty()){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "", "Não foram encontrados registros para mesa informada!"));
-			}
-		}
 		
 	}
 
@@ -155,14 +150,14 @@ public class VendaController implements Serializable {
 	/**
 	 * Adiciona mais um "pedido" do produto selecionado
 	 */
-	public void adicionar() {
+	public void adicionar(Long quantidade) {
 		if (!vendaProduto.getProduto().getQtdEstoque().equals(0L)) {
-			vendaProduto.getProduto().setQtdEstoque(vendaProduto.getProduto().getQtdEstoque() - 1);
+			vendaProduto.getProduto().setQtdEstoque(vendaProduto.getProduto().getQtdEstoque() - quantidade);
 			produtoService.atualizar(vendaProduto.getProduto());
 			
 			for (VendaProduto vendProd : venda.getVendaProdutos()) {
 				if (vendProd.getProduto().equals(vendaProduto.getProduto())) {
-					vendProd.setQuantidade(vendProd.getQuantidade() + 1);
+					vendProd.setQuantidade(vendProd.getQuantidade() + quantidade);
 				}
 			}
 			vendaService.atualizar(venda);
