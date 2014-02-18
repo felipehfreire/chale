@@ -77,7 +77,7 @@
 								</p:column>
 
 								<p:column headerText="Ações">
-									<h:commandLink action="#{vendaController.adicionar}" id="adicionar1" immediate="true">
+									<h:commandLink action="#{vendaController.adicionar(1)}" id="adicionar1" immediate="true">
 										<f:setPropertyActionListener value="#{vendProd}" target="#{vendaController.vendaProduto}" />
 										<p:graphicImage library="theme" name="img/plus.png" width="30" height="30" />
 									</h:commandLink>
