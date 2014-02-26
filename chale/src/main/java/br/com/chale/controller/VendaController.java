@@ -76,7 +76,8 @@ public class VendaController implements Serializable {
 	}
 	
 	public void add() {
-		if (getProdutoSelecionado().getQtdEstoque().equals(0L) || getProdutoSelecionado().getQtdEstoque() < vendaProduto.getQuantidade()) {
+		
+		if (!getProdutoSelecionado().getTipoServico()  && (getProdutoSelecionado().getQtdEstoque().equals(0L) || getProdutoSelecionado().getQtdEstoque() < vendaProduto.getQuantidade())) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Quantidade insuficiente em estoque!"));
 			
 		} else if (verificaExistenciaProdutoNoPedido()) {
@@ -86,7 +87,10 @@ public class VendaController implements Serializable {
 			
 		} else {
 			//TODO o cara pode mudar de mesa
-			getProdutoSelecionado().setQtdEstoque(getProdutoSelecionado().getQtdEstoque() - vendaProduto.getQuantidade());
+			if (!getProdutoSelecionado().getTipoServico()) {
+				getProdutoSelecionado().setQtdEstoque(getProdutoSelecionado().getQtdEstoque() - vendaProduto.getQuantidade());
+			}
+			
 			produtoService.atualizar(getProdutoSelecionado());
 			vendaProduto.setProduto(getProdutoSelecionado());
 			vendaProduto.setVenda(venda);
@@ -151,7 +155,7 @@ public class VendaController implements Serializable {
 	 * Adiciona mais um "pedido" do produto selecionado
 	 */
 	public void adicionar(Long quantidade) {
-		if (!vendaProduto.getProduto().getQtdEstoque().equals(0L)) {
+		if (!vendaProduto.getProduto().getQtdEstoque().equals(0L) && !vendaProduto.getProduto().getTipoServico()) {
 			vendaProduto.getProduto().setQtdEstoque(vendaProduto.getProduto().getQtdEstoque() - quantidade);
 			produtoService.atualizar(vendaProduto.getProduto());
 			
@@ -171,7 +175,7 @@ public class VendaController implements Serializable {
 	
 	
 	public void subtrair() {
-		if (!vendaProduto.getProduto().getQtdEstoque().equals(0L)) {
+		if (!vendaProduto.getProduto().getQtdEstoque().equals(0L)  && !vendaProduto.getProduto().getTipoServico()) {
 			vendaProduto.getProduto().setQtdEstoque(vendaProduto.getProduto().getQtdEstoque() + 1);
 			produtoService.atualizar(vendaProduto.getProduto());
 			
@@ -190,8 +194,11 @@ public class VendaController implements Serializable {
 	}
 	
 	public void deletar() {
-		vendaProduto.getProduto().setQtdEstoque(vendaProduto.getProduto().getQtdEstoque() + vendaProduto.getQuantidade());
-		produtoService.atualizar(vendaProduto.getProduto());
+		if (!vendaProduto.getProduto().getTipoServico()) {
+			vendaProduto.getProduto().setQtdEstoque(vendaProduto.getProduto().getQtdEstoque() + vendaProduto.getQuantidade());
+			produtoService.atualizar(vendaProduto.getProduto());
+		}
+		
 		venda.getVendaProdutos().remove(vendaProduto);
 		venda = vendaService.atualizar(venda);
 		limparAdd();
