@@ -20,7 +20,7 @@ import javax.persistence.Table;
 @NamedQueries({
 	
 	@NamedQuery(name=Produto.QUERY_CONSULTAR_POR_NOME, query="select p from Produto p where descricao like '%' || Upper(?1) || '%' or ?1 is null"),
-	@NamedQuery(name=Produto.QUERY_CONSULTAR_TODOS, query="select p from Produto p "),
+	@NamedQuery(name=Produto.QUERY_CONSULTAR_TODOS, query="select p from Produto p order by p.descricao"),
 	@NamedQuery(name=Produto.QUERY_CONSULTAR_PRODS_QTD_MIN, query="select p from Produto p  where p.qtdMinEstoque >= p.qtdEstoque "),
 	
 })
