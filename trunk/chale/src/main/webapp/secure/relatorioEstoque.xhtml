@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
+
+<ui:composition template="../template.xhtml">
+
+	<ui:define name="content">
+	
+	<ul class="page-breadcrumb breadcrumb">
+			<li><a href="i../ndex.jsf">Página inicial</a></li>
+			<li><a href="#">Relatório Estoque total</a></li>
+		</ul>
+		
+		<h:form id="submitForm" class="bs-example form-horizontal">
+			
+				<div class="row container-center">
+					<div class="col-lg-6 div-center">
+						<div class="well">
+							<p:dataTable value="#{relatorioEstoqueController.produtos}" var="prod"  sortMode="multiple" rows="10"  paginator="true">
+							 <f:facet name="header">
+            					Relatório de estoque
+        					</f:facet>
+								<p:column sortBy="#{prod.id}" headerText="Cód." width="15%">
+									<h:outputText value="#{prod.id}"/>
+								</p:column>
+								<p:column sortBy="#{prod.descricao}" headerText="Produto" width="70%">
+									<h:outputText value="#{prod.descricao}"/>
+								</p:column>
+								<p:column  headerText="Qtd. estoque" width="15%">
+									<h:outputText value="#{prod.qtdEstoque}"/>
+								</p:column>
+							</p:dataTable>					
+						
+							<br/>
+							<div class="form-group">
+								<div class="col-lg-7 col-lg-offset-2">
+									<h:commandButton value="Imprimir" class="btn btn-success" action="#{relatorioEstoqueController.relatorioEstoque}" 
+								 		ajax="false" />
+								</div>
+							</div>
+					</div>
+				</div>
+			</div>
+		</h:form>
+	</ui:define>
+	
+</ui:composition>
+</html>
