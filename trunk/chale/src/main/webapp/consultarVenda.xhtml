@@ -35,8 +35,13 @@
 			          	</div>   
 			          
 			          	<div class="well">
+			          	
+			          	
 			          		<p:dataTable value="#{vendaController.vendas}" var="venda"  sortMode="multiple" rows="10"  paginator="true">
 			
+								<p:column >
+            						<p:rowToggler />
+        						</p:column>
 								<p:column sortBy="#{venda.mesa.numeroMesa}" headerText="Número da mesa">
 									<h:outputText value="#{venda.mesa.numeroMesa}"/>
 								</p:column>
@@ -60,6 +65,34 @@
                         					target="#{vendaController.venda}" />
                     				</h:commandButton>
 								</p:column>
+								
+								<p:rowExpansion>
+ 										
+									<p:dataTable id="vProd" var="vProd" value="#{venda.vendaProdutos}"  >
+										<p:column>
+											
+												<h:outputText value="#{vProd.produto.id}" />
+											
+										</p:column>
+										<p:column>
+											
+													<h:outputText value="#{vProd.produto.descricao}" />
+											
+										</p:column>
+										<p:column>
+											
+													<h:outputText value="#{vProd.quantidade}" />
+											
+										</p:column>
+										<p:column>
+											
+													<h:outputText value="#{vProd.precoQtdProd}" />
+											
+										</p:column>
+										
+									</p:dataTable>
+                					
+								</p:rowExpansion>
 							
 							</p:dataTable>
 			          	</div>
