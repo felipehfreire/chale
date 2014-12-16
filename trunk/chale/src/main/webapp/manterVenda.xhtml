@@ -18,11 +18,31 @@
 			<div class="row container-center">
 				<div class="col-lg-6 div-center">
 					<div class="well">
-						<div class="div-center">
-							<div class="form-group">
-								<h:outputLabel value="Mesa: #{vendaController.venda.mesa.numeroMesa}" class="col-lg-2 control-label" style="width: 100%; text-align: center;" />
+						<h:panelGroup id="pnMesa"  styleClass="col-lg-10"  rendered="#{vendaController.venda.mesa!=null }">
+							<div class="div-center">
+								<div class="form-group" >
+									<h:outputLabel value="Mesa: #{vendaController.venda.mesa.numeroMesa}" class="col-lg-2 control-label" style="width: 100%; text-align: center;" />
+								</div>
 							</div>
-						</div>
+							<div class="col-lg-10">
+								<div class="form-group" >
+									<button id="altMes" class="btn btn-primary altMesClien">Alterar mesa/cliente</button>
+								</div>
+							</div>
+							
+						</h:panelGroup>
+						
+						<h:panelGroup id="pnCliente"   rendered="#{vendaController.venda.cliente!=null }">
+							<div class="div-center">
+								<div class="form-group" >
+									<h:outputLabel value="Cliente: #{vendaController.venda.cliente.nome}" class="col-lg-2 control-label" style="width: 100%; text-align: center;" />
+									<button id="altClien" class="btn btn-primary altMesClien">Alterar mesa/cliente</button>
+								</div>
+							</div>
+						</h:panelGroup>
+						
+						
+						
 
 						<div class="form-group">
 							<h:outputLabel value="Cód. Produto:" class="col-lg-2 control-label" for="codProd" />
@@ -105,6 +125,77 @@
 				</div>
 			</div>
 		</h:form>
+		
+		<script>
+			$(function() {
+				$("#dialog-form")
+						.dialog(
+								{
+									autoOpen : false,
+									height : 240,
+									width : 430,
+									modal : true,
+									close : function() {
+										$(this).dialog("close");
+									}
+								});
+
+				$(".altMesClien").button().click(function() {
+					$("#dialog-form").dialog("open");
+					return false;
+				});
+				
+				$(".submitButton").click(function(){
+					if ((($('.selectMesa').val() == 'Selecione')  &amp;&amp; ($('.selectClient').val() == 'Selecione'))) {
+						alert('Selecione uma mesa ou um cliente!');
+						return false;
+					}
+			    }); 
+				
+			});
+			
+			
+		</script>
+
+		<div id="dialog-form" title="Selecione uma mesa ou um cliente">
+			<h:form id="formModal">
+				<div class="row container-center">
+					<div class="col-lg-6 div-center">
+						<div>
+							<div class="form-group">
+								<h:outputLabel for="selectMesa" value="Mesa: " class="col-lg-4 control-label" style="margin-top: 5px;"/>
+								<div class="col-lg-9">
+									<h:selectOneMenu id="selectMesa" value="#{vendaController.venda.mesa}" converter="simpleEntityConverter" styleClass="form-control selectMesa"
+										>
+										<f:selectItem itemLabel="Selecione" />
+										<f:selectItems value="#{vendaController.mesasNaoUsadas}" var="item" itemLabel="#{item.numeroMesa}" itemValue="#{item}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							
+							<p:spacer width="5px"  height="1px"/>
+							<div class="form-group">
+								<h:outputLabel for="selectClient" value="Cliente: " class="col-lg-4 control-label" style="margin-top: 5px;"/>
+								<div class="col-lg-9">
+									<h:selectOneMenu id="selectClient" value="#{vendaController.venda.cliente}" converter="simpleEntityConverter" styleClass="form-control selectClient"
+										>
+										<f:selectItem itemLabel="Selecione" />
+										<f:selectItems value="#{vendaController.clientes}" var="client" itemLabel="#{client.nome}" itemValue="#{client}" />
+									</h:selectOneMenu>
+								</div>
+							</div>
+							<br/>
+							<br/>
+							<br/>
+							<div class="form-group" style="text-align: center;">
+								<h:commandButton action="#{vendaController.alterarMesaCliente}" value="OK" ajax="false" class="btn btn-primary submitButton" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+		
 	</ui:define>
 </ui:composition>
 </html>
