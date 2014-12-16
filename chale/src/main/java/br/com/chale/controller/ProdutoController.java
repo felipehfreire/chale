@@ -36,11 +36,15 @@ public class ProdutoController implements Serializable {
 	private String termo;
 	private List<Produto> listagem;
 	private Produto produto;
+	private boolean mesmoEstoque;
+	private List<Produto> produtosSelect;
+	private Produto produtoSelecionado;
 	
 	@PostConstruct
 	public void iniciar() {
 		ConversationUtil.terminarConversacao(conversation);
 		limpar();
+		preencherProdutos();
 		pesquisar();
 	}
 	
@@ -68,6 +72,10 @@ public class ProdutoController implements Serializable {
 	
 	public void salvar() {
 		if (produto.getId() == null) {
+			if(mesmoEstoque){
+				produto.setProdutoVinculado(produtoSelecionado);
+			}
+			
 			produtoService.persistir(produto);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Inserido com sucesso!"));
 		} else {
@@ -96,7 +104,14 @@ public class ProdutoController implements Serializable {
 	public void limpar() {
 		termo = "";
 		listagem = new ArrayList<Produto>();
+		produtosSelect = new ArrayList<Produto>();
 		produto = new Produto();
+		produtoSelecionado = new Produto();
+		
+	}
+	
+	private void preencherProdutos() {
+		produtosSelect = produtoService.pesquisarTodos();
 	}
 	
 	public String getTermo() {
@@ -123,4 +138,46 @@ public class ProdutoController implements Serializable {
 		this.produto = produto;
 	}
 
+
+	public boolean isMesmoEstoque() {
+		return mesmoEstoque;
+	}
+
+
+	public void setMesmoEstoque(boolean mesmoEstoque) {
+		this.mesmoEstoque = mesmoEstoque;
+	}
+
+
+	public VendaService getVendaService() {
+		return vendaService;
+	}
+
+
+	public void setVendaService(VendaService vendaService) {
+		this.vendaService = vendaService;
+	}
+
+
+	public List<Produto> getProdutosSelect() {
+		return produtosSelect;
+	}
+
+
+	public void setProdutosSelect(List<Produto> produtosSelect) {
+		this.produtosSelect = produtosSelect;
+	}
+
+
+	public Produto getProdutoSelecionado() {
+		return produtoSelecionado;
+	}
+
+
+	public void setProdutoSelecionado(Produto produtoSelecionado) {
+		this.produtoSelecionado = produtoSelecionado;
+	}
+	
+	
+	
 }

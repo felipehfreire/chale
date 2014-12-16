@@ -56,15 +56,19 @@ public class VendaController implements Serializable {
 	private Long idProd;
 	private Venda venda;
 	private List<Cliente> clientes;
+	
 
 	@PostConstruct
 	public void iniciar() {
 		ConversationUtil.terminarConversacao(conversation);
 		limpar();
-		PreencherMesas();
-		PreencherProdutos();
+		preencherMesas();
+		preencherProdutos();
+		preencherClientes();
 		pesquisar();
 	}
+	
+	
 	
 	public void reRenderProduto() {
 		produtoSelecionado = produtoService.getById(idProd);
@@ -124,12 +128,16 @@ public class VendaController implements Serializable {
 		idProd = null;
 	}
 
-	private void PreencherMesas() {
+	private void preencherMesas() {
 		mesas = vendaService.consultarTodasMesas();
 		mesasNaoUsadas = vendaService.consultarMesasNaoUsadas();
 	}
 	
-	private void PreencherProdutos() {
+	private void preencherClientes() {
+		clientes= clienteService.pesquisarTodos(); 
+	}
+	
+	private void preencherProdutos() {
 		produtosSelect = produtoService.pesquisarTodos();
 	}
 	
@@ -228,6 +236,8 @@ public class VendaController implements Serializable {
 			 venda.setPago(true);
 		 }
 		 venda = vendaService.atualizar(venda);
+		 RelatorioController rc = new RelatorioController();
+		 rc.impressaoPedidoFinalizado(venda);
 		 FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_INFO, "", "Pedido finalizado com sucesso!"));
 		 ConversationUtil.terminarConversacao(conversation);
 		 return "/consultarVenda.jsf?faces-redirect=true";
