@@ -15,7 +15,7 @@
 			<property name="javax.persistence.jdbc.driver" value="com.mysql.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"	value="jdbc:mysql://localhost:3306/chale" />
 			<property name="javax.persistence.jdbc.user" value="root" />
-			<property name="javax.persistence.jdbc.password" value="" />
+			<property name="javax.persistence.jdbc.password" value="root" />
 
 			<!--hibernate properties-->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect" />

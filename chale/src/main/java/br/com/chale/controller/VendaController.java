@@ -56,6 +56,8 @@ public class VendaController implements Serializable {
 	private Long idProd;
 	private Venda venda;
 	private List<Cliente> clientes;
+	private Cliente clienteSelecionadao;
+	
 	
 
 	@PostConstruct
@@ -154,8 +156,25 @@ public class VendaController implements Serializable {
 
 	public String novo() {
 		Mesa mesa = venda.getMesa();
-		mesa.setUsada(true);
-		vendaService.atualizarMesa(mesa);
+		Cliente cliente = venda.getCliente();
+		if(mesa!= null){
+			mesa.setUsada(true);
+			vendaService.atualizarMesa(mesa);
+		}else if(cliente != null){
+			vendaService.atualizarCliente(cliente);
+		}
+		return "/manterVenda.jsf?faces-redirect=true";
+	}
+	
+	public String alterarMesaCliente() {
+		Mesa mesa = venda.getMesa();
+		Cliente cliente = venda.getCliente();
+		if(mesa!= null){
+			mesa.setUsada(true);
+			vendaService.atualizarMesa(mesa);
+		}else if(cliente != null){
+			vendaService.atualizarCliente(cliente);
+		}
 		return "/manterVenda.jsf?faces-redirect=true";
 	}
 	
@@ -370,6 +389,17 @@ public class VendaController implements Serializable {
 	public void setMesasNaoUsadas(List<Mesa> mesasNaoUsadas) {
 		this.mesasNaoUsadas = mesasNaoUsadas;
 	}
-	
+
+
+
+	public Cliente getClienteSelecionadao() {
+		return clienteSelecionadao;
+	}
+
+
+
+	public void setClienteSelecionadao(Cliente clienteSelecionadao) {
+		this.clienteSelecionadao = clienteSelecionadao;
+	}
 	
 }

@@ -3,6 +3,7 @@ package br.com.chale.service;
 import java.util.Date;
 import java.util.List;
 
+import br.com.chale.entity.Cliente;
 import br.com.chale.entity.Mesa;
 import br.com.chale.entity.Venda;
 
@@ -35,6 +36,8 @@ public interface VendaService {
 
 	List<Venda> pesquisarVendasFinalizadasPrazoPorPeriodo(Date dataInicial,
 			Date dataFinal);
+
+	void atualizarCliente(Cliente cliente);
 
 
 

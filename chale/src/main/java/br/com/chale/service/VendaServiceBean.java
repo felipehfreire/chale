@@ -6,8 +6,10 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import br.com.chale.dao.ClienteDAO;
 import br.com.chale.dao.MesaDAO;
 import br.com.chale.dao.VendaDAO;
+import br.com.chale.entity.Cliente;
 import br.com.chale.entity.Mesa;
 import br.com.chale.entity.Venda;
 
@@ -20,6 +22,9 @@ public class VendaServiceBean implements VendaService, Serializable {
 	
 	@Inject
 	private VendaDAO vendaDAO;
+	
+	@Inject
+	private ClienteDAO clienteDAO;
 	
 	@SuppressWarnings("unchecked")
 	@Override
@@ -87,6 +92,11 @@ public class VendaServiceBean implements VendaService, Serializable {
 	public List<Venda> pesquisarVendasFinalizadasPrazoPorPeriodo(
 			Date dataInicial, Date dataFinal) {
 		return vendaDAO.pesquisarVendasFinalizadasPrazoPorPeriodo(dataInicial, dataFinal);
+	}
+
+	@Override
+	public void atualizarCliente(Cliente cliente) {
+		clienteDAO.update(cliente);
 	}
 	
 
