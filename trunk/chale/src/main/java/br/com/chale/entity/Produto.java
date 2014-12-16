@@ -10,8 +10,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 
@@ -51,6 +53,10 @@ public class Produto implements BaseEntity,Serializable {
 
 	@Column(name = "ind_qtd_min_estoque", nullable=true)
 	private Long qtdMinEstoque;
+	
+	@OneToOne
+	@JoinColumn(name="cod_produto_vinc",nullable=true)
+	private Produto produtoVinculado;
 	
 	public String toString() {
 		return getDescricao().toString();
@@ -108,6 +114,14 @@ public class Produto implements BaseEntity,Serializable {
 		 DecimalFormatSymbols dfs = new DecimalFormatSymbols(new Locale ("pt", "BR"));
 		 DecimalFormat df1 = new DecimalFormat("#,##0.00", dfs);
 		 return "R$ " + df1.format(getPreco());
+	}
+	
+	public Produto getProdutoVinculado() {
+		return produtoVinculado;
+	}
+
+	public void setProdutoVinculado(Produto produtoVinculado) {
+		this.produtoVinculado = produtoVinculado;
 	}
 
 	@Override

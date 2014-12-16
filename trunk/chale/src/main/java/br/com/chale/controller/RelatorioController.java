@@ -61,10 +61,11 @@ public class RelatorioController implements Serializable {
 	
 	public void impressaoPedidoFinalizado(Venda p){
 		DecimalFormat dcmFmt = new DecimalFormat("0.00");
-		String cabecalho ="            Pousada Vale dos ventos \n\n"; 
+		String cabecalho ="            Pousada Vale dos ventos \n"+
+		"                 tel: (35)9979-1492(tim)\n\n"; 
 		String mesa="Mesa:"+ p.getMesa()+retornaEspacoBranco("Mesa:"+ p.getMesa(), "Hora:"+new SimpleDateFormat("HH:mm").format(new Date()))+"Hora:"+new SimpleDateFormat("HH:mm").format(new Date())+"\n";
 		
-		String cabecalhoVenda ="Itens"+retornaEspacoBranco("Itens", "Qtd/preço")+"Qtd/preço\n";
+		String cabecalhoVenda ="Itens"+retornaEspacoBranco("Itens", "Qtd/preço(R$)/total(R$)")+"Qtd/preço(R$)/total(R$)\n";
 		String mensagem = cabecalho+ mesa+cabecalhoVenda;
 		Double totalPedido = 0D;
 		String descProdQtd="";
@@ -72,7 +73,7 @@ public class RelatorioController implements Serializable {
 		for (VendaProduto vendProd : p.getVendaProdutos()) {
 			
 			descProdQtd= vendProd.getProduto().getDescricao();
-			preco = "("+vendProd.getQuantidade()+"Un.)"+"R$"+(dcmFmt.format( vendProd.getProduto().getPreco()));
+			preco =vendProd.getQuantidade()+"x"+" "+(dcmFmt.format( vendProd.getProduto().getPreco()))+"= "+(dcmFmt.format(vendProd.getPrecoQtdProd()));
 			mensagem+=descProdQtd+retornaPontos(descProdQtd, preco)+preco+"\n";
 			totalPedido+=vendProd.getProduto().getPreco()*vendProd.getQuantidade();
 		}
@@ -80,11 +81,12 @@ public class RelatorioController implements Serializable {
 		if(p.getVendaPrazo()== true ){
 			mensagem +=p.getCliente().getNome()+ retornaEspacoBranco(p.getCliente().getNome(), p.getCliente().getTelefone())+p.getCliente().getTelefone()+"\n\n";
 		}
-		mensagem +=retornaEspacoBranco("","Total: " + dcmFmt.format(totalPedido) )+"Total: " + dcmFmt.format(totalPedido) +"\n\n";
+		mensagem +="\n"+retornaEspacoBranco("","Total: " + dcmFmt.format(totalPedido) )+"Total: " + dcmFmt.format(totalPedido) +"\n\n";
 		System.out.println(mensagem);
 		try {
 			ImpressaoTXTUtil impressao = new ImpressaoTXTUtil();
 			impressao.escreveImpressao(mensagem);
+			System.out.println(mensagem);
 		} catch (IOException | PrintException e) {
 			e.printStackTrace();
 			FacesMessage msg = new FacesMessage("ERRO:", "Não foi posível Não foi possível realizar a impressão !!");
