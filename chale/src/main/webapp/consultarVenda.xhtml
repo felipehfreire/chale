@@ -104,6 +104,18 @@
 		
 		
 		<script>
+		function alteraMesa(t){
+			if(t.value!= 'Selecione'){
+				$(".selectClient option:first").attr('selected','selected');
+			}
+		}
+		function alteraCliente(t){
+			
+			if(t.value!= 'Selecione'){
+				$(".selectMesa option:first").attr('selected','selected');
+			}
+		}
+		
 			$(function() {
 				$("#dialog-form")
 						.dialog(
@@ -123,7 +135,7 @@
 				});
 				
 				$(".submitButton").click(function(){
-					if ((($('.selectMesa').val() == 'Selecione')  &amp;&amp; ($('.selectClient').val() == 'Selecione'))) {
+					if ((($('selectMesa').val() == 'Selecione')  &amp;&amp; ($('.selectClient').val() == 'Selecione'))) {
 						alert('Selecione uma mesa ou um cliente!');
 						return false;
 					}
@@ -142,7 +154,7 @@
 							<div class="form-group">
 								<h:outputLabel for="selectMesa" value="Mesa: " class="col-lg-3 control-label" style="margin-top: 5px;"/>
 								<div class="col-lg-9">
-									<h:selectOneMenu id="selectMesa" value="#{vendaController.mes}" converter="simpleEntityConverter" styleClass="form-control selectMesa"
+									<h:selectOneMenu id="selectMesa" value="#{vendaController.venda.mesa}" converter="simpleEntityConverter" onchange="alteraMesa(this)" styleClass="form-control selectMesa"
 										>
 										<f:selectItem itemLabel="Selecione" />
 										<f:selectItems value="#{vendaController.mesasNaoUsadas}" var="item" itemLabel="#{item.numeroMesa}" itemValue="#{item}" />
@@ -154,7 +166,7 @@
 							<div class="form-group">
 								<h:outputLabel for="selectClient" value="Cliente: " class="col-lg-3 control-label" style="margin-top: 5px;"/>
 								<div class="col-lg-9">
-									<h:selectOneMenu id="selectClient" value="#{vendaController.venda.cliente}" converter="simpleEntityConverter" styleClass="form-control selectClient"
+									<h:selectOneMenu id="selectClient" value="#{vendaController.venda.cliente}" converter="simpleEntityConverter" onchange="alteraCliente(this)"  styleClass="form-control selectClient"
 										>
 										<f:selectItem itemLabel="Selecione" />
 										<f:selectItems value="#{vendaController.clientes}" var="client" itemLabel="#{client.nome}" itemValue="#{client}" />
