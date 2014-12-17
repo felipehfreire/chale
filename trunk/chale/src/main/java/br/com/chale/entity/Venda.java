@@ -113,7 +113,7 @@ public class Venda implements BaseEntity, Serializable {
 	private Cliente cliente;
 
 	@OneToOne
-	@JoinColumn(name="cod_mesa",nullable=false)
+	@JoinColumn(name="cod_mesa",nullable=true)
 	private Mesa mesa;
 	
 	@Transient

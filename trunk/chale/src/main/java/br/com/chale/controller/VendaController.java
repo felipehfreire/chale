@@ -56,7 +56,7 @@ public class VendaController implements Serializable {
 	private Long idProd;
 	private Venda venda;
 	private List<Cliente> clientes;
-	private Cliente clienteSelecionadao;
+	private Cliente clienteSelecionado;
 	
 	
 
@@ -166,15 +166,41 @@ public class VendaController implements Serializable {
 		return "/manterVenda.jsf?faces-redirect=true";
 	}
 	
-	public String alterarMesaCliente() {
-		Mesa mesa = venda.getMesa();
-		Cliente cliente = venda.getCliente();
-		if(mesa!= null){
-			mesa.setUsada(true);
-			vendaService.atualizarMesa(mesa);
-		}else if(cliente != null){
-			vendaService.atualizarCliente(cliente);
+	public String alterarMesaCliente() {//TODO TESAR
+		Mesa mesaAntiga = venda.getMesa();
+		Cliente clienteAntigo = venda.getCliente();
+
+		if(mesaAntiga != null && mesaSelecionada !=null){//esta mudando de mesa
+			mesaAntiga.setUsada(false);
+			mesaSelecionada.setUsada(true);
+			venda.setMesa(mesaSelecionada);
+			vendaService.atualizarMesa(mesaSelecionada);
+			vendaService.atualizar(venda);
+			vendaService.atualizarMesa(mesaAntiga);
+			
+		}else if(mesaAntiga != null && clienteSelecionado!= null){//esta passando a venda para o cliente 
+			mesaAntiga.setUsada(false);
+			if(venda.getMesa() != null){//exita mesa
+				venda.setMesa(null);
+			}
+			venda.setCliente(clienteSelecionado);
+			vendaService.atualizar(venda);
+			mesaAntiga.setUsada(false);
+			vendaService.atualizarMesa(mesaAntiga);
+			
+		}else if(clienteAntigo != null && clienteSelecionado != null){//esta a venda para outro cliente
+			venda.setCliente(clienteSelecionado);
+			vendaService.atualizar(venda);
+		}else if(clienteAntigo != null && mesaSelecionada !=null) {//esta mudando de um cliente para uma mesa
+			venda.setCliente(null);
+			mesaSelecionada.setUsada(true);
+			venda.setMesa(mesaSelecionada);
+			vendaService.atualizar(venda);
+			vendaService.atualizarMesa(mesaSelecionada);
 		}
+		
+		mesasNaoUsadas = vendaService.consultarMesasNaoUsadas();
+		
 		return "/manterVenda.jsf?faces-redirect=true";
 	}
 	
@@ -391,15 +417,14 @@ public class VendaController implements Serializable {
 	}
 
 
-
-	public Cliente getClienteSelecionadao() {
-		return clienteSelecionadao;
+	public Cliente getClienteSelecionado() {
+		return clienteSelecionado;
 	}
 
 
 
-	public void setClienteSelecionadao(Cliente clienteSelecionadao) {
-		this.clienteSelecionadao = clienteSelecionadao;
+	public void setClienteSelecionado(Cliente clienteSelecionado) {
+		this.clienteSelecionado = clienteSelecionado;
 	}
-	
+
 }
