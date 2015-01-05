@@ -68,6 +68,22 @@
 					
 				<h:commandButton value="Efetuar Login" styleClass="btn btn-warning" 
 					 rendered="#{!loginController.loggedIn}" ajax="true" icon="ui-icon-extlink" action="#{loginController.efetuarLogin}" />	
+           
+           		<p:spacer width="10px" />
+           			<p:themeSwitcher id="advanced" style="width:165px" effect="fade" var="t" value="#{themeSwitcherViewController.themeSW}" onchange="#{themeSwitcherViewController.saveTheme}">
+            			<f:selectItem itemLabel="Choose Theme" itemValue="" />
+            			<f:selectItems value="#{themeSwitcherViewController.themes}" var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"/>
+ 
+			            	<p:column>
+	                			<h:outputText styleClass="ui-theme ui-theme-" style="display-block" />
+            				</p:column>
+ 
+				            <p:column>
+                 				#{t.name}
+            				</p:column>
+            				<p:ajax   event="change" listener="#{themeSwitcherViewController.saveTheme}" />
+        				</p:themeSwitcher>
+        		
            	</h:form>  
         </f:facet>
 	</p:menubar>

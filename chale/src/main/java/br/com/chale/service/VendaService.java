@@ -39,6 +39,9 @@ public interface VendaService {
 
 	void atualizarCliente(Cliente cliente);
 
+	List<Venda> pesquisarVendasNaoFinalizadasPorCliente(
+			Cliente clienteSelecionado);
+
 
 
 }

@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import br.com.chale.entity.Cliente;
 import br.com.chale.entity.Mesa;
 import br.com.chale.entity.Venda;
 
@@ -42,6 +43,11 @@ public class VendaDAO extends GenericDAO<Venda> {
 	public List<Venda> pesquisarVendasFinalizadasPrazoPorPeriodo(
 			Date dataInicial, Date dataFinal) {
 		return executeQueryListResult(Venda.QUERY_CONSULTAR_VENDAS_PRAZO_PERIODO, dataInicial, dataFinal);
+	}
+
+	public List<Venda> pesquisarVendasNaoFinalizadasPorCliente(
+			Cliente clienteSelecionado) {
+		return executeQueryListResult(Venda.CONSULTAR_VENDAS_NAO_FINALIZADAS_POR_CLIENTE, clienteSelecionado);
 	}
 
 

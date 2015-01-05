@@ -98,6 +98,12 @@ public class VendaServiceBean implements VendaService, Serializable {
 	public void atualizarCliente(Cliente cliente) {
 		clienteDAO.update(cliente);
 	}
+
+	@Override
+	public List<Venda> pesquisarVendasNaoFinalizadasPorCliente(
+			Cliente clienteSelecionado) {
+		return vendaDAO.pesquisarVendasNaoFinalizadasPorCliente(clienteSelecionado);
+	}
 	
 
 	

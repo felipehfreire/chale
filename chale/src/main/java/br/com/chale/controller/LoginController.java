@@ -42,7 +42,7 @@ public class LoginController implements Serializable {
 			loggedIn = true;
 			return "index.jsf?faces-redirect=true"; 
 		}else{
-			FacesMessage msg = new FacesMessage("ERRO ao logar:", "Usu·rio ou Senha incorretos!");
+			FacesMessage msg = new FacesMessage("ERRO ao logar:", "Usu√°rio ou Senha incorretos!");
 	        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
 	        FacesContext.getCurrentInstance().addMessage(null, msg);
 	        loggedIn = false;
