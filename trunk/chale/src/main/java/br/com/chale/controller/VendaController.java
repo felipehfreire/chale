@@ -53,10 +53,12 @@ public class VendaController implements Serializable {
 	private VendaProduto vendaProduto;
 	private Produto produtoSelecionado;
 	private Mesa mesaSelecionada;
+	private Mesa mesaSelecionadaPesquisa;
 	private Long idProd;
 	private Venda venda;
 	private List<Cliente> clientes;
 	private Cliente clienteSelecionado;
+	private Cliente  clienteSelecionadoPesquisa;
 	
 	
 
@@ -145,8 +147,10 @@ public class VendaController implements Serializable {
 	
 	public void pesquisar() {
 		
-		if(mesaSelecionada != null && mesaSelecionada.getNumeroMesa() != null){
+		if((mesaSelecionada!= null && mesaSelecionada.getNumeroMesa() != null) ){
 			vendas = vendaService.pesquisarVendasNaoFinalizadasPorMesa(mesaSelecionada);
+		}else if ((clienteSelecionado!= null && clienteSelecionado.getId() != null) ){
+			vendas = vendaService.pesquisarVendasNaoFinalizadasPorCliente(clienteSelecionado);
 		}else{
 			vendas = vendaService.pesquisarVendasNaoFinalizadas();
 		}
@@ -297,15 +301,15 @@ public class VendaController implements Serializable {
 		ConversationUtil.iniciarConversacao(conversation);
 		venda = new Venda();
 		venda.setVendaProdutos(new ArrayList<VendaProduto>());
-		
 		mesaSelecionada = new Mesa();
 		vendas = new ArrayList<Venda>();
-		
 		vendaProduto = new VendaProduto();
 		vendaProduto.setVenda(venda);
 		dataAtual =new Date();
 		produtoSelecionado = new Produto();
 		produtosInseridos = new ArrayList<Produto>();
+		clienteSelecionadoPesquisa= new Cliente();
+		mesaSelecionadaPesquisa = new Mesa();
 	}
 	
 	public void atualizarSelect(Produto p){
@@ -427,4 +431,28 @@ public class VendaController implements Serializable {
 		this.clienteSelecionado = clienteSelecionado;
 	}
 
+
+
+	public Cliente getClienteSelecionadoNovo() {
+		return clienteSelecionadoPesquisa;
+	}
+
+
+
+	public void setClienteSelecionadoNovo(Cliente clienteSelecionadoNovo) {
+		this.clienteSelecionadoPesquisa = clienteSelecionadoNovo;
+	}
+
+
+
+	public Mesa getMesaSelecionadaNovo() {
+		return mesaSelecionadaPesquisa;
+	}
+
+
+
+	public void setMesaSelecionadaNovo(Mesa mesaSelecionadaNovo) {
+		this.mesaSelecionadaPesquisa = mesaSelecionadaNovo;
+	}
+	
 }

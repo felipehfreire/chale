@@ -20,17 +20,26 @@
 				<div class="col-lg-7 div-center">
 					<div class="well">
 						<div class="form-group">
-							<h:outputLabel value="Mesa: " class="col-lg-4 control-label" for="mesa" />
-							<div class="col-lg-4">
-								<h:selectOneMenu id="mesa" label="mesas" value="#{vendaController.mesaSelecionada}" converter="simpleEntityConverter" styleClass="form-control">
+							<h:outputLabel value="Mesa: " class="col-lg-2 control-label" for="mesa" />
+							<div class="col-lg-3">
+								<h:selectOneMenu id="mesa" label="mesas" value="#{vendaController.mesaSelecionada}" onchange="alteraMesa(this)" converter="simpleEntityConverter" styleClass="form-control selectMesa">
 									<f:selectItem itemValue="" itemLabel="Selecione uma Mesa" />
 									<f:selectItems value="#{vendaController.mesas}" var="mesa" itemLabel="#{mesa.numeroMesa}" itemValue="#{mesa}" />
+								</h:selectOneMenu>
+							</div>
+							<h:outputLabel value="ou " class="col-lg-1 control-label"  />
+							<h:outputLabel value="Cliente: " class="col-lg-2 control-label" for="cliente" />
+							<div class="col-lg-3">
+								<h:selectOneMenu id="cliente" label="clientes" value="#{vendaController.clienteSelecionado}" onchange="alteraCliente(this)" converter="simpleEntityConverter" styleClass="form-control selectClient">
+									<f:selectItem itemValue="" itemLabel="Selecione um Cliente" />
+									<f:selectItems value="#{vendaController.clientes}" var="cli" itemLabel="#{cli.nome}" itemValue="#{cli}" />
 								</h:selectOneMenu>
 							</div>
 						</div>
 						<div class="well">    
 			             	<h:commandButton value="Pesquisar" action="#{vendaController.pesquisar}" class="btn btn-success" ajax="false"/>
 			             	<button id="new" class="btn btn-primary">Novo</button>
+			             	<button id="juntarVenda" class="btn btn-primary">Juntar Mesas</button>
 			             	
 			          	</div>   
 			          
@@ -42,9 +51,19 @@
 								<p:column >
             						<p:rowToggler />
         						</p:column>
-								<p:column sortBy="#{venda.mesa.numeroMesa}" headerText="Número da mesa">
-									<h:outputText value="#{venda.mesa.numeroMesa}"/>
-								</p:column>
+        						
+        						<h:panelGroup id="pnVenda" styleClass="col-lg-12"  rendered="#{venda.mesa ==null }">
+									<p:column sortBy="#{venda.mesa.numeroMesa}" headerText="Número da mesa"  >
+										<h:outputText value="#{venda.mesa.numeroMesa}"/>
+									</p:column>
+								</h:panelGroup>
+								
+								
+								<h:panelGroup id="pnCliente" styleClass="col-lg-12"  rendered="#{venda.cliente==null }">
+									<p:column sortBy="#{venda.cliente.nome}" headerText="Cliente"   >
+										<h:outputText value="#{venda.cliente.nome}"/>
+									</p:column>
+								</h:panelGroup>
 								
 								<p:column sortBy="#{venda.id}" headerText="Número da venda">
 									<h:outputText value="#{venda.id}"/>
@@ -105,14 +124,26 @@
 		
 		<script>
 		function alteraMesa(t){
-			if(t.value!= 'Selecione'){
+			if(t.value!= 'Selecione uma Mesa'){
 				$(".selectClient option:first").attr('selected','selected');
 			}
 		}
 		function alteraCliente(t){
-			
 			if(t.value!= 'Selecione'){
 				$(".selectMesa option:first").attr('selected','selected');
+			}
+		}
+		
+		function alteraMesaNovo(t){
+			if(t.value!= 'Selecione'){
+				alert("dss");
+				$(".selectClientNovo option:first").attr('selected','selected');
+			}
+		}
+		function alteraClienteNovo(t){
+			if(t.value!= 'Selecione'){
+				alert("dssw2");
+				$(".selectMesaNovo option:first").attr('selected','selected');
 			}
 		}
 		
@@ -135,13 +166,15 @@
 				});
 				
 				$(".submitButton").click(function(){
-					if ((($('selectMesa').val() == 'Selecione')  &amp;&amp; ($('.selectClient').val() == 'Selecione'))) {
+					if ((($('.selectMesa').val() == 'Selecione')  &amp;&amp; ($('.selectClient').val() == 'Selecione'))) {
 						alert('Selecione uma mesa ou um cliente!');
 						return false;
 					}
 			    }); 
 				
 			});
+			
+			
 			
 			
 		</script>
@@ -154,7 +187,7 @@
 							<div class="form-group">
 								<h:outputLabel for="selectMesa" value="Mesa: " class="col-lg-3 control-label" style="margin-top: 5px;"/>
 								<div class="col-lg-9">
-									<h:selectOneMenu id="selectMesa" value="#{vendaController.venda.mesa}" converter="simpleEntityConverter" onchange="alteraMesa(this)" styleClass="form-control selectMesa"
+									<h:selectOneMenu id="selectMesaNovo" value="#{vendaController.venda.mesa}" converter="simpleEntityConverter" onchange="alteraMesaNovo(this)" styleClass="form-control selectMesaNovo"
 										>
 										<f:selectItem itemLabel="Selecione" />
 										<f:selectItems value="#{vendaController.mesasNaoUsadas}" var="item" itemLabel="#{item.numeroMesa}" itemValue="#{item}" />
@@ -166,7 +199,7 @@
 							<div class="form-group">
 								<h:outputLabel for="selectClient" value="Cliente: " class="col-lg-3 control-label" style="margin-top: 5px;"/>
 								<div class="col-lg-9">
-									<h:selectOneMenu id="selectClient" value="#{vendaController.venda.cliente}" converter="simpleEntityConverter" onchange="alteraCliente(this)"  styleClass="form-control selectClient"
+									<h:selectOneMenu id="selectClientNovo" value="#{vendaController.venda.cliente}" converter="simpleEntityConverter" onchange="alteraClienteNovo(this)"  styleClass="form-control selectClientNovo"
 										>
 										<f:selectItem itemLabel="Selecione" />
 										<f:selectItems value="#{vendaController.clientes}" var="client" itemLabel="#{client.nome}" itemValue="#{client}" />
