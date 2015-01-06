@@ -1,6 +1,5 @@
 package br.com.chale.dao;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 

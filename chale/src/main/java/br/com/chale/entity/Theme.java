@@ -1,5 +1,7 @@
 package br.com.chale.entity;
 
+import java.io.Serializable;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,19 +15,20 @@ import javax.persistence.Table;
 @Table(name="theme")
 @NamedQueries({
 
-	@NamedQuery(name=Theme.CONSULTAR_TODOS, query="Select t from Theme t")
-	
+	@NamedQuery(name=Theme.QUERY_GET_THEME, query="Select t from Theme t "),
 	
 })
-public class Theme {
+public class Theme implements BaseEntity,Serializable {
 	
-	public static final String CONSULTAR_TODOS = "theme.consultarTodosThemes";
+	private static final long serialVersionUID = 496120606054060046L;
+
+	public static final String QUERY_GET_THEME = "theme.getTheme";
 	
 
 		@Id
 		@GeneratedValue(strategy=GenerationType.AUTO)
 		@Column(name="cod_theme", nullable=false)
-	 	private int id;
+	 	private Long id;
      
 		@Column(name="txt_desplay_name", length= 100, nullable=false)
 	    private String displayName;
@@ -35,21 +38,21 @@ public class Theme {
 	     
 	    public Theme() {}
 	 
-	    public Theme(int id, String displayName, String name) {
+	    public Theme(Long id, String displayName, String name) {
 	        this.id = id;
 	        this.displayName = displayName;
 	        this.name = name;
 	    }
 	 
-	    public int getId() {
-	        return id;
-	    }
-	 
-	    public void setId(int id) {
-	        this.id = id;
-	    }
-	 
-	    public String getDisplayName() {
+	    public Long getId() {
+			return id;
+		}
+
+		public void setId(Long id) {
+			this.id = id;
+		}
+
+		public String getDisplayName() {
 	        return displayName;
 	    }
 	 
