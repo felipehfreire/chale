@@ -37,8 +37,8 @@
 </h:head>
 
 <h:body>
-	
 	<p:menubar styleClass="navbar2 navbar-default2">
+    
 		<p:submenu label="Vendas/Produtos">
 			<p:menuitem value="Produtos" url="/secure/consultarProduto.jsf?faces-redirect=true" rendered="#{loginController.loggedIn}" />
 			<p:menuitem value="Vendas" url="/consultarVenda.jsf?faces-redirect=true" />
@@ -69,30 +69,33 @@
 				<h:commandButton value="Efetuar Login" styleClass="btn btn-warning" 
 					 rendered="#{!loginController.loggedIn}" ajax="true" icon="ui-icon-extlink" action="#{loginController.efetuarLogin}" />	
            
+           		<p:clock pattern="HH:mm:ss  dd/MM/yyyy"/>
            		
-           			        		
            	</h:form>  
         </f:facet>
 	</p:menubar>
 	
-
-	<h:panelGrid id="pnhora" width="80%">
+	<p:spacer height="5px"/>
+	
+	<h:panelGrid id="test2343dsds">	
 		<p:themeSwitcher id="advanced" style="width:165px" effect="fade" var="t" value="#{themeSwitcherViewController.themeSelecionado}"  >
-	            			<f:selectItem itemLabel="Choose Theme" itemValue="" />
-	            			<f:selectItems value="#{themeSwitcherViewController.themes}" var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"/>
-	 
-				            	<p:column>
-		                			<h:outputText styleClass="ui-theme ui-theme-" style="display-block" />
-	            				</p:column>
-	 
-					            <p:column>
-	                 				#{t.name}
-	            				</p:column>
-	            				<p:ajax   event="change" listener="#{themeSwitcherViewController.saveTheme}" />
-	        				</p:themeSwitcher>
-	        				
-		<p:clock pattern="HH:mm:ss dd.MM.yyyy"/>
+		<f:selectItem itemLabel="Choose Theme" itemValue="" />
+    	<f:selectItems value="#{themeSwitcherViewController.themes}" var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"/>
+      			
+   		<p:column>
+     		<h:outputText styleClass="ui-theme ui-theme-" style="display-block" />
+		</p:column>
+
+  		<p:column>
+			#{t.name}
+		</p:column>
+		<p:ajax   event="change" listener="#{themeSwitcherViewController.saveTheme}" />
+	</p:themeSwitcher>
+	<p:clock pattern="HH:mm:ss  dd/MM/yyyy"/>
 	</h:panelGrid>
+   	
+   	<p:separator />
+
 
 	<h:panelGrid id="test2343" width="80%">
 		<p:messages id="messages" showDetail="true" autoUpdate="true"
