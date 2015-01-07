@@ -39,4 +39,9 @@ public class ClienteServiceBean implements ClienteService, Serializable {
 	public void excluir(Cliente cliente) {
 		clenteDAO.remover(cliente);
 	}
+
+	@Override
+	public List<Cliente> popularAutoCompleteCliente(String nomeCod) {
+		return clenteDAO.popularAutoCompleteCliente(nomeCod);
+	}
 }

@@ -136,13 +136,11 @@
 		
 		function alteraMesaNovo(t){
 			if(t.value!= 'Selecione'){
-				alert("dss");
 				$(".selectClientNovo option:first").attr('selected','selected');
 			}
 		}
 		function alteraClienteNovo(t){
 			if(t.value!= 'Selecione'){
-				alert("dssw2");
 				$(".selectMesaNovo option:first").attr('selected','selected');
 			}
 		}
@@ -166,7 +164,7 @@
 				});
 				
 				$(".submitButton").click(function(){
-					if ((($('.selectMesa').val() == 'Selecione')  &amp;&amp; ($('.selectClient').val() == 'Selecione'))) {
+					if ((($('.selectMesaNovo').val() == 'Selecione')  &amp;&amp; ($('.selectClientNovo').val() == 'Selecione'))) {
 						alert('Selecione uma mesa ou um cliente!');
 						return false;
 					}

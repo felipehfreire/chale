@@ -107,6 +107,7 @@ public class ProdutoController implements Serializable {
 		produtosSelect = new ArrayList<Produto>();
 		produto = new Produto();
 		produtoSelecionado = new Produto();
+		mesmoEstoque = false;
 		
 	}
 	

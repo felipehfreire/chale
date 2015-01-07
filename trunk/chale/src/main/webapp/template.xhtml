@@ -37,6 +37,7 @@
 </h:head>
 
 <h:body>
+
 	<p:menubar styleClass="navbar2 navbar-default2">
     
 		<p:submenu label="Vendas/Produtos">
@@ -69,33 +70,40 @@
 				<h:commandButton value="Efetuar Login" styleClass="btn btn-warning" 
 					 rendered="#{!loginController.loggedIn}" ajax="true" icon="ui-icon-extlink" action="#{loginController.efetuarLogin}" />	
            
-           		<p:clock pattern="HH:mm:ss  dd/MM/yyyy"/>
            		
            	</h:form>  
         </f:facet>
 	</p:menubar>
 	
-	<p:spacer height="5px"/>
+	<p:spacer height="2px"/>
+	<p:tabMenu activeIndex="#{param.i}">
 	
-	<h:panelGrid id="test2343dsds">	
-		<p:themeSwitcher id="advanced" style="width:165px" effect="fade" var="t" value="#{themeSwitcherViewController.themeSelecionado}"  >
-		<f:selectItem itemLabel="Choose Theme" itemValue="" />
-    	<f:selectItems value="#{themeSwitcherViewController.themes}" var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"/>
+		<p:menuitem  >
+			<h:panelGrid id="test2343dsds2121">	
+				<p:themeSwitcher id="advanced2" style="width:165px" effect="fade" var="t" value="#{themeSwitcherViewController.themeSelecionado}"  >
+					<f:selectItem itemLabel="Choose Theme" itemValue="" />
+    				<f:selectItems value="#{themeSwitcherViewController.themes}" var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"/>
       			
-   		<p:column>
-     		<h:outputText styleClass="ui-theme ui-theme-" style="display-block" />
-		</p:column>
+			   		<p:column>
+			     		<h:outputText styleClass="ui-theme ui-theme-" style="display-block" />
+					</p:column>
 
-  		<p:column>
-			#{t.name}
-		</p:column>
-		<p:ajax   event="change" listener="#{themeSwitcherViewController.saveTheme}" />
-	</p:themeSwitcher>
-	<p:clock pattern="HH:mm:ss  dd/MM/yyyy"/>
-	</h:panelGrid>
-   	
+			  		<p:column>
+						#{t.name}
+					</p:column>
+					
+					<p:ajax   event="change" listener="#{themeSwitcherViewController.saveTheme}" />
+				</p:themeSwitcher>
+	
+			</h:panelGrid>
+		
+		</p:menuitem>
+		<p:menuitem  >
+			<p:clock pattern="HH:mm:ss  dd/MM/yyyy"/>
+		</p:menuitem>
+	</p:tabMenu>
+	
    	<p:separator />
-
 
 	<h:panelGrid id="test2343" width="80%">
 		<p:messages id="messages" showDetail="true" autoUpdate="true"

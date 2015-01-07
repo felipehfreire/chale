@@ -24,5 +24,9 @@ public class ClienteDAO extends GenericDAO<Cliente> {
 		manager.getTransaction().commit();
 	}
 
+	public List<Cliente> popularAutoCompleteCliente(String nomeCod) {
+		return executeQueryListResult(Cliente.QUERY_CONSULTAR_POR_COD_NOME, nomeCod);
+	}
+
 
 }

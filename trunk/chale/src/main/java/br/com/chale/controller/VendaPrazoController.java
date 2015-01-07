@@ -14,7 +14,9 @@ import javax.faces.context.FacesContext;
 import javax.inject.Inject;
 import javax.inject.Named;
 
+import br.com.chale.entity.Cliente;
 import br.com.chale.entity.Venda;
+import br.com.chale.service.ClienteService;
 import br.com.chale.service.VendaService;
 import br.com.chale.util.ConversationUtil;
 
@@ -32,11 +34,16 @@ public class VendaPrazoController implements Serializable {
 	
 	@Inject
 	private RelatorioController relatorioController;
+	
+	@Inject
+	private ClienteService clienteService;
+	
 
 	private List<Venda> vendasFinalizadasAprazo;
 	private Venda vendaSelecionada;
 	private Date dataInicial;
 	private Date dataFinal;
+	private Cliente cliente;
 	
 	@PostConstruct
 	public void iniciar() {
@@ -44,7 +51,7 @@ public class VendaPrazoController implements Serializable {
 		limpar();
 		pesquisar();
 	}
-	
+	//TODO fazer filtro por cliente
 	public void pesquisar(){
 		ConversationUtil.iniciarConversacao(conversation);
 		if(dataInicial != null && dataFinal != null ){
@@ -62,14 +69,11 @@ public class VendaPrazoController implements Serializable {
 			vendasFinalizadasAprazo = vendaService.pesquisarVendasFinalizadasPrazo();
 		}
 		
-		
-			
 	}
 	
-//	public void pesquisarTodos() {
-//		ConversationUtil.iniciarConversacao(conversation);
-//		vendasFinalizadasAprazo = vendaService.pesquisarVendasFinalizadasPrazo();
-//	}
+	public List<Cliente> popularAutoCompleteCliente(String nomeCod) {
+		return clienteService.popularAutoCompleteCliente(nomeCod);
+	}
 	
 	public void pesquisarPorPerido() {
 		ConversationUtil.iniciarConversacao(conversation);
@@ -94,8 +98,6 @@ public class VendaPrazoController implements Serializable {
 		return "/consultarVendaAPrazo.jsf?faces-redirect=true";
 	}
 	
-	
-
 	public void limpar() {
 		vendasFinalizadasAprazo= new ArrayList<Venda>();
 		vendaSelecionada = new Venda();
@@ -114,8 +116,6 @@ public class VendaPrazoController implements Serializable {
 		}
 		
 		return retorno;
-		
-		 
 	}
 
 	public List<Venda> getVendasFinalizadasAprazo() {
@@ -156,6 +156,14 @@ public class VendaPrazoController implements Serializable {
 
 	public void setDataFinal(Date dataFinal) {
 		this.dataFinal = dataFinal;
+	}
+
+	public Cliente getCliente() {
+		return cliente;
+	}
+
+	public void setCliente(Cliente cliente) {
+		this.cliente = cliente;
 	}
 
 }
