@@ -276,9 +276,12 @@ public class VendaController implements Serializable {
 					 "Não é possível finalizar o pedido sem ao menos selecionar um produto!"));
 		 }
 
-		 Mesa mesa = venda.getMesa();
-		 mesa.setUsada(false);
-		 vendaService.atualizarMesa(mesa);
+		 if(venda.getMesa() != null){
+			 Mesa mesa = venda.getMesa();
+			 mesa.setUsada(false);
+			 vendaService.atualizarMesa(mesa);
+		 }
+		
 
 		 venda.setFinalizada(true);
 		 if (!venda.getVendaPrazo()) {

@@ -43,11 +43,16 @@
 						
 						<div class="form-group">
 							<h:outputLabel value="Serviço" class="col-lg-2 control-label" for="servico" />
-							<div class="col-lg-2" style="margin-top: 6px">
+							<div class="col-lg-2" style="margin-top: 6px" >
 								<h:selectBooleanCheckbox name="servico" id="servico" value="#{produtoController.produto.tipoServico}" >
 									<f:ajax render="estoque"/>
 								</h:selectBooleanCheckbox>
+								 <p:tooltip id="toolTipservico" for="servico" value="Produtos do tipo serviço não incluidos nos 10%!"
+               						showEffect="clip" hideEffect="explode" />
 							</div>
+						
+							
+							
 						</div>
 						
 						<h:panelGroup id="estoque" >
@@ -69,8 +74,33 @@
 										<p:message for="qtdEstoqueMin" styleClass="error" />
 									</div>
 								</div>
+								
+								
+								<div class="form-group">
+									<h:outputLabel value="Dividir Estoque" class="col-lg-2 control-label" for="dvdEstq" />
+									<div class="col-lg-2" style="margin-top: 6px" >
+										<h:selectBooleanCheckbox name="dvdEstq" id="dvdEstq" value="#{produtoController.mesmoEstoque}" >
+											<f:ajax render="pnProdDivdEstq"/>
+										</h:selectBooleanCheckbox>
+										<p:tooltip id="toolTipdvdEstq" for="dvdEstq" value="Produtos que compartilham do mesmo estoque!"
+               								showEffect="clip" hideEffect="explode" />
+									</div>
+								</div>
+								
+								<h:panelGroup id="pnProdDivdEstq" >
+									<h:panelGroup id="pnProdDivdEstq2"  rendered="#{produtoController.mesmoEstoque}">
+										<h:outputLabel value="Produto Vinculado:" class="col-lg-2 control-label"  />
+										inserir a lista de produtos aqui 
+										</h:panelGroup>
+								</h:panelGroup>
 							</h:panelGroup>
 						</h:panelGroup>
+						
+						
+						
+						
+						
+						
 								
 						<div class="form-group">
 							<div class="col-lg-7 col-lg-offset-2">

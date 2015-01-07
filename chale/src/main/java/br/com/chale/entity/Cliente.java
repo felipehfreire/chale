@@ -11,11 +11,14 @@ import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
 import javax.persistence.Table;
 
+
+
 @Entity
 @Table(name="cliente")
 @NamedQueries({
 	@NamedQuery(name=Cliente.QUERY_CONSULTAR_TODOS, query="select p from Cliente p "),
 	@NamedQuery(name=Cliente.QUERY_CONSULTAR_POR_NOME, query="select p from Cliente p where nome like '%' || Upper(?1) || '%' or ?1 is null"),
+	@NamedQuery(name=Cliente.QUERY_CONSULTAR_POR_COD_NOME, query="select c from Cliente c where upper(c.nome) like '%' || Upper(?1) || '%'or c.id = ?1  or ?1 is null "),
 })
 public class Cliente implements BaseEntity, Serializable {
 	
@@ -23,6 +26,7 @@ public class Cliente implements BaseEntity, Serializable {
 
 	public static final String QUERY_CONSULTAR_TODOS = "cliente.consultarTodos";
 	public static final String QUERY_CONSULTAR_POR_NOME= "cliente.consultarClientePorNome";
+	public static final String QUERY_CONSULTAR_POR_COD_NOME= "cliente.consultarClientePorcodNome";
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="cod_cliente", nullable=false)

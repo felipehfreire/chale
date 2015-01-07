@@ -22,6 +22,19 @@
 				<div class="col-lg-7 div-center">
 				
 					<div class="well">
+						<div class="well">
+					
+						<div class="form-group">
+							<h:outputLabel value="Cliente:" class="col-lg-2 control-label" for="cliente" />
+							<div class="col-lg-10">
+            					<p:autoComplete queryDelay="500" minQueryLength="1" id="cliente" converter="simpleEntityConverter"
+                    				value="#{vendaPrazoController.cliente}" effect="blind" forceSelection="true"
+                    				completeMethod="#{vendaPrazoController.popularAutoCompleteCliente}" placeholder="Insira o nome ou código do cliente!"
+                    				requiredMessage="Insira o nome do cliente!" var="item" itemLabel="#{item.id}-#{item.nome}" itemValue="#{item}"
+                    				size="80"/>  
+								<p:message for="cliente" styleClass="error" />
+							</div>
+						</div>
 					
 			             	
 		             	<div class="form-group">
@@ -36,7 +49,7 @@
 			            		<p:calendar  value="#{vendaPrazoController.dataFinal}" id="popupButtonDate2"  showButtonPanel="true"/>
 				     		</div>
 			     		</div>
-				     		
+				     	</div>
 				     	<div class="well">
 				     		<h:commandButton value="Pesquisar" action="#{vendaPrazoController.pesquisar}" class="btn btn-success" ajax="false"/>
 				     	</div>
