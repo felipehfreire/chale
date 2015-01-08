@@ -89,9 +89,9 @@ public class VendaServiceBean implements VendaService, Serializable {
 	}
 
 	@Override
-	public List<Venda> pesquisarVendasFinalizadasPrazoPorPeriodo(
-			Date dataInicial, Date dataFinal) {
-		return vendaDAO.pesquisarVendasFinalizadasPrazoPorPeriodo(dataInicial, dataFinal);
+	public List<Venda> pesquisarVendasFinalizadasPrazoPorPeriodoCliente(
+			Date dataInicial, Date dataFinal, Cliente cliente) {
+		return vendaDAO.pesquisarVendasFinalizadasPrazoPorPeriodoCliente(dataInicial, dataFinal, cliente);
 	}
 
 	@Override
@@ -103,6 +103,18 @@ public class VendaServiceBean implements VendaService, Serializable {
 	public List<Venda> pesquisarVendasNaoFinalizadasPorCliente(
 			Cliente clienteSelecionado) {
 		return vendaDAO.pesquisarVendasNaoFinalizadasPorCliente(clienteSelecionado);
+	}
+
+	@Override
+	public List<Venda> pesquisarVendasFinalizadasPrazoPorCliente(Cliente cliente) {
+		
+		return vendaDAO.pesquisarVendasFinalizadasPrazoPorCliente(cliente);
+	}
+
+	@Override
+	public List<Venda> pesquisarVendasFinalizadasPrazoPorPeriodo(
+			Date dataInicial, Date dataFinal) {
+		return vendaDAO.pesquisarVendasFinalizadasPrazoPorPeriodo(dataInicial, dataFinal);
 	}
 	
 

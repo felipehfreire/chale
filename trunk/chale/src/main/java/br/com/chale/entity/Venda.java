@@ -67,9 +67,22 @@ import javax.persistence.Transient;
 		+ " where p.finalizada = true "
 		+ " and pago = false "
 		+ " and  p.dataVenda BETWEEN ?1 and ?2"),
+		
 	@NamedQuery(name=Venda.CONSULTAR_VENDAS_NAO_FINALIZADAS_POR_CLIENTE, 
 		query="select p from Venda p " +
 			" where p.cliente= ?1 and finalizada = false"),
+			
+	@NamedQuery(name=Venda.QUERY_CONSULTAR_VENDAS_PRAZO_PERIODO_CLIENTE, 
+		query="select p from Venda p "
+			+ " where p.finalizada = true "
+			+ " and pago = false "
+			+ " and  p.dataVenda BETWEEN ?1 and ?2  and p.cliente = ?3"),
+			
+	@NamedQuery(name=Venda.CONSULTAR_VENDAS_FINALIZADAS_PRAZO_POR_CLIENTE, 
+		query="select p from Venda p "
+			+ " where p.finalizada = true "
+			+ " and pago = false "
+			+ " and p.cliente = ?1"),
 	
 })
 public class Venda implements BaseEntity, Serializable {
@@ -85,7 +98,9 @@ public class Venda implements BaseEntity, Serializable {
 	public static final String QUERY_CONSULTAR_VENDAS_POR_CLIENTE = "venda.consultarVendasPorCliente";
 	public static final String QUERY_CONSULTAR_VENDAS_POR_PRODUTO = "venda.consultarVendasPorProduto";
 	public static final String QUERY_CONSULTAR_VENDAS_PRAZO_PERIODO = "venda.onsultarVendasPrazoPeriodo";
+	public static final String QUERY_CONSULTAR_VENDAS_PRAZO_PERIODO_CLIENTE = "venda.consultarVendasPrazoPeriodoCliente";
 	public static final String CONSULTAR_VENDAS_NAO_FINALIZADAS_POR_CLIENTE = "venda.consultarVendasPrazoCliente";
+	public static final String CONSULTAR_VENDAS_FINALIZADAS_PRAZO_POR_CLIENTE = "venda.consultarVendaPrazoPorCliente";
 	
 
 	@Id
