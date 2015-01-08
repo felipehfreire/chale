@@ -30,7 +30,7 @@
             					<p:autoComplete queryDelay="500" minQueryLength="1" id="cliente" converter="simpleEntityConverter"
                     				value="#{vendaPrazoController.cliente}" effect="blind" forceSelection="true"
                     				completeMethod="#{vendaPrazoController.popularAutoCompleteCliente}" placeholder="Insira o nome ou código do cliente!"
-                    				requiredMessage="Insira o nome do cliente!" var="item" itemLabel="#{item.id}-#{item.nome}" itemValue="#{item}"
+                    				requiredMessage="Insira o nome do cliente!" var="item" itemLabel="#{item.id}#{item.nome}" itemValue="#{item}"
                     				size="80"/>  
 								<p:message for="cliente" styleClass="error" />
 							</div>
@@ -49,9 +49,9 @@
 			            		<p:calendar  value="#{vendaPrazoController.dataFinal}" id="popupButtonDate2"  showButtonPanel="true"/>
 				     		</div>
 			     		</div>
-				     	</div>
-				     	<div class="well">
+				     	<p:separator />
 				     		<h:commandButton value="Pesquisar" action="#{vendaPrazoController.pesquisar}" class="btn btn-success" ajax="false"/>
+				     		
 				     	</div>
 			          	<div class="well">
 			          		<p:dataTable value="#{vendaPrazoController.vendasFinalizadasAprazo}" var="venda"  sortMode="multiple" rows="10"  paginator="true">
@@ -85,8 +85,15 @@
 			          	</div>
 			          	
 			          	<br/>
+			          	
 						<h:commandButton value="Voltar"	action="#{vendaPrazoController.voltar}" 
-											class="btn btn-defaut" ajax="false" immediate="true" />
+							class="btn btn-defaut" ajax="false" immediate="true" />
+						<p:spacer width="5px;"/>
+						<h:panelGroup rendered="#{vendaPrazoController.renderBtnSomar}">
+						<h:commandButton value="Somar notas"	action="#{vendaPrazoController.voltar}" 
+								class="btn btn-primary" ajax="false" immediate="true" />
+						</h:panelGroup>					
+							
 		             </div>
 		             
 	             </div>

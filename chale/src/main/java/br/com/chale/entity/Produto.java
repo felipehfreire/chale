@@ -50,6 +50,9 @@ public class Produto implements BaseEntity,Serializable {
 
 	@Column(name = "ind_servico")
 	private Boolean tipoServico;
+	
+	@Column(name = "ind_comida")
+	private Boolean tipocomida;
 
 	@Column(name = "ind_qtd_min_estoque", nullable=true)
 	private Long qtdMinEstoque;
@@ -122,6 +125,14 @@ public class Produto implements BaseEntity,Serializable {
 
 	public void setProdutoVinculado(Produto produtoVinculado) {
 		this.produtoVinculado = produtoVinculado;
+	}
+
+	public Boolean getTipocomida() {
+		return tipocomida;
+	}
+
+	public void setTipocomida(Boolean tipocomida) {
+		this.tipocomida = tipocomida;
 	}
 
 	@Override

@@ -50,13 +50,20 @@
 								 <p:tooltip id="toolTipservico" for="servico" value="Produtos do tipo serviço não incluidos nos 10%!"
                						showEffect="clip" hideEffect="explode" />
 							</div>
-						
+							<h:outputLabel value="tipo Comida" class="col-lg-2 control-label" for="tpComida" />
+							<div class="col-lg-2" style="margin-top: 6px" >
+								<h:selectBooleanCheckbox name="tpComida" id="tpComida" value="#{produtoController.produto.tipocomida}" >
+									<f:ajax render="estoque"/>
+								</h:selectBooleanCheckbox>
+								 <p:tooltip id="toolTipComida" for="tpComida" value="Produtos sem estoque, porém inclusos nos 10%!"
+               						showEffect="clip" hideEffect="explode" />
+							</div>
 							
 							
 						</div>
 						
 						<h:panelGroup id="estoque" >
-							<h:panelGroup id="estoque2"  rendered="#{!produtoController.produto.tipoServico}">
+							<h:panelGroup id="estoque2"  rendered="#{!produtoController.produto.tipoServico and !produtoController.produto.tipocomida}">
 								<div class="form-group">
 									<h:outputLabel value="Quantidade em Estoque" class="col-lg-2 control-label" for="qtdEstoque" />
 									<div class="col-lg-2">

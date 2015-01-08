@@ -39,6 +39,11 @@ public class VendaDAO extends GenericDAO<Venda> {
 		return executeQueryListResult(Venda.QUERY_CONSULTAR_VENDAS_POR_PRODUTO, id);
 	}
 
+	public List<Venda> pesquisarVendasFinalizadasPrazoPorPeriodoCliente(
+			Date dataInicial, Date dataFinal, Cliente cliente) {
+		return executeQueryListResult(Venda.QUERY_CONSULTAR_VENDAS_PRAZO_PERIODO_CLIENTE, dataInicial, dataFinal, cliente);
+	}
+	
 	public List<Venda> pesquisarVendasFinalizadasPrazoPorPeriodo(
 			Date dataInicial, Date dataFinal) {
 		return executeQueryListResult(Venda.QUERY_CONSULTAR_VENDAS_PRAZO_PERIODO, dataInicial, dataFinal);
@@ -47,6 +52,10 @@ public class VendaDAO extends GenericDAO<Venda> {
 	public List<Venda> pesquisarVendasNaoFinalizadasPorCliente(
 			Cliente clienteSelecionado) {
 		return executeQueryListResult(Venda.CONSULTAR_VENDAS_NAO_FINALIZADAS_POR_CLIENTE, clienteSelecionado);
+	}
+
+	public List<Venda> pesquisarVendasFinalizadasPrazoPorCliente(Cliente cliente) {
+		return executeQueryListResult(Venda.CONSULTAR_VENDAS_FINALIZADAS_PRAZO_POR_CLIENTE, cliente);
 	}
 
 

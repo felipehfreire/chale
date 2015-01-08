@@ -43,6 +43,7 @@ public class ThemeSwitcherViewController implements Serializable{
     }
    
     public void saveTheme() {
+    	System.out.println(themeSelecionado.getName());
     	//TODO fazer pegar o atributo da tela para salvar
     	//TODO verificar o entityConverter para  THEME
     	//TODO deletar o que ja estiver BD e salvar o NOVO Theme

@@ -34,14 +34,18 @@ public interface VendaService {
 
 	List<Venda> pesquisarVendasPorProduto(Long id);
 
-	List<Venda> pesquisarVendasFinalizadasPrazoPorPeriodo(Date dataInicial,
-			Date dataFinal);
+	List<Venda> pesquisarVendasFinalizadasPrazoPorPeriodoCliente(Date dataInicial,
+			Date dataFinal, Cliente cliente);
 
 	void atualizarCliente(Cliente cliente);
 
 	List<Venda> pesquisarVendasNaoFinalizadasPorCliente(
 			Cliente clienteSelecionado);
 
+	List<Venda> pesquisarVendasFinalizadasPrazoPorCliente(Cliente cliente);
+
+	List<Venda> pesquisarVendasFinalizadasPrazoPorPeriodo(Date dataInicial,
+			Date dataFinal);
 
 
 }

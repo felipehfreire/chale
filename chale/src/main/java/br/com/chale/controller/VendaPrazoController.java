@@ -37,13 +37,13 @@ public class VendaPrazoController implements Serializable {
 	
 	@Inject
 	private ClienteService clienteService;
-	
 
 	private List<Venda> vendasFinalizadasAprazo;
 	private Venda vendaSelecionada;
 	private Date dataInicial;
 	private Date dataFinal;
 	private Cliente cliente;
+	private boolean renderBtnSomar;;
 	
 	@PostConstruct
 	public void iniciar() {
@@ -51,22 +51,29 @@ public class VendaPrazoController implements Serializable {
 		limpar();
 		pesquisar();
 	}
-	//TODO fazer filtro por cliente
+	
 	public void pesquisar(){
 		ConversationUtil.iniciarConversacao(conversation);
-		if(dataInicial != null && dataFinal != null ){
+		
+		if(cliente != null){
+			if(dataInicial != null && dataFinal != null){
+				if(validaDatas(dataInicial,dataFinal)){
+					vendasFinalizadasAprazo = vendaService.pesquisarVendasFinalizadasPrazoPorPeriodoCliente(dataInicial, dataFinal, cliente);
+					setRenderBtnSomar(true);
+				}
+				
+			}else{
+				vendasFinalizadasAprazo = vendaService.pesquisarVendasFinalizadasPrazoPorCliente(cliente);
+				setRenderBtnSomar(true);
+			}
+		}else if(dataInicial != null && dataFinal != null){
 			if(validaDatas(dataInicial,dataFinal)){
 				vendasFinalizadasAprazo = vendaService.pesquisarVendasFinalizadasPrazoPorPeriodo(dataInicial, dataFinal);
-			}else{
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "", "A data final deve ser maior que a data inicial!"));
+				setRenderBtnSomar(false);
 			}
-			
-			if(vendasFinalizadasAprazo != null && vendasFinalizadasAprazo.isEmpty()){
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_FATAL, "", "Não foram encontrados registros com as datas informadas!"));
-			}
-			
 		}else{
 			vendasFinalizadasAprazo = vendaService.pesquisarVendasFinalizadasPrazo();
+			setRenderBtnSomar(false);
 		}
 		
 	}
@@ -75,12 +82,6 @@ public class VendaPrazoController implements Serializable {
 		return clienteService.popularAutoCompleteCliente(nomeCod);
 	}
 	
-	public void pesquisarPorPerido() {
-		ConversationUtil.iniciarConversacao(conversation);
-		vendasFinalizadasAprazo = vendaService.pesquisarVendasFinalizadasPrazoPorPeriodo(dataInicial, dataFinal);
-		vendasFinalizadasAprazo.size();
-	}
-
 	 public void receberVenda() {
 		 vendaSelecionada.setPago(true);
 		 vendaSelecionada.setDataPagamento(new Date());
@@ -164,6 +165,12 @@ public class VendaPrazoController implements Serializable {
 
 	public void setCliente(Cliente cliente) {
 		this.cliente = cliente;
+	}
+	public boolean isRenderBtnSomar() {
+		return renderBtnSomar;
+	}
+	public void setRenderBtnSomar(boolean renderBtnSomar) {
+		this.renderBtnSomar = renderBtnSomar;
 	}
 
 }
