@@ -22,8 +22,13 @@ import javax.persistence.Table;
 @NamedQueries({
 	
 	@NamedQuery(name=Produto.QUERY_CONSULTAR_POR_NOME, query="select p from Produto p where descricao like '%' || Upper(?1) || '%' or ?1 is null"),
+	
 	@NamedQuery(name=Produto.QUERY_CONSULTAR_TODOS, query="select p from Produto p order by p.descricao"),
+	
 	@NamedQuery(name=Produto.QUERY_CONSULTAR_PRODS_QTD_MIN, query="select p from Produto p  where p.qtdMinEstoque >= p.qtdEstoque "),
+	
+	@NamedQuery(name=Produto.QUERY_POPULAR_AUTO_COMPLETE_PROD, query="select p from Produto p  where upper(p.descricao) like '%' || Upper(?1) || '%'or p.id = ?1  or ?1 is null "),
+	
 	
 })
 public class Produto implements BaseEntity,Serializable {
@@ -33,6 +38,7 @@ public class Produto implements BaseEntity,Serializable {
 	public static final String QUERY_CONSULTAR_POR_NOME = "produto.consultarPorNome";
 	public static final String QUERY_CONSULTAR_TODOS = "produto.consultarTodos";
 	public static final String QUERY_CONSULTAR_PRODS_QTD_MIN = "produto.consultarProdutosEstoqueMin";
+	public static final String QUERY_POPULAR_AUTO_COMPLETE_PROD = "produto.popularAutoCompletePro";
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
