@@ -20,4 +20,6 @@ public interface ProdutoService {
 
 	void excluir(Produto produto);
 
+	List<Produto> popularAutoCompleteProduto(String nomeCod);
+
 }

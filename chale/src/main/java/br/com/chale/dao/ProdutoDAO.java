@@ -29,4 +29,8 @@ public class ProdutoDAO extends GenericDAO<Produto> {
 		
 	}
 
+	public List<Produto> popularAutoCompleteProduto(String nomeCod) {
+		return executeQueryListResult(Produto.QUERY_POPULAR_AUTO_COMPLETE_PROD, nomeCod);
+	}
+
 }

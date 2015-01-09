@@ -53,6 +53,12 @@ public class ProdutoServiceBean implements ProdutoService, Serializable {
 		produtoDAO.excluir(produto);
 		
 	}
+
+	@Override
+	public List<Produto> popularAutoCompleteProduto(String nomeCod) {
+		
+		return produtoDAO.popularAutoCompleteProduto(nomeCod);
+	}
 	
 	
 	

@@ -29,6 +29,11 @@
 									<h:inputText class="form-control" name="nome" id="nome" value="#{produtoController.produto.descricao}"
 									required="true" requiredMessage="Insira o nome!" />
 									<p:message for="nome" styleClass="error" />
+									
+									
+									
+									
+									
 								</div>
 							</div>
 						
@@ -96,12 +101,21 @@
 								
 								<h:panelGroup id="pnProdDivdEstq" >
 									<h:panelGroup id="pnProdDivdEstq2"  rendered="#{produtoController.mesmoEstoque}">
-										<h:outputLabel value="Produto Vinculado:" class="col-lg-2 control-label"  />
-										inserir a lista de produtos aqui 
-										</h:panelGroup>
+										<div class="form-group">
+											<h:outputLabel value="Produto Vinculado" class="col-lg-2 control-label" for="prodVinc" />
+											<div class="col-lg-10">
+				            					<p:autoComplete queryDelay="500" minQueryLength="1" id="prodVinc" converter="simpleEntityConverter"
+				                    				value="#{produtoController.produtoSelecionado}" effect="blind" forceSelection="true"
+				                    				completeMethod="#{produtoController.popularAutoCompleteProduto}" placeholder="Insira o nome ou código do produto!"
+				                    				requiredMessage="Insira o nome  ou código do produto!" var="prod" itemLabel="#{prod.id}#{prod.descricao}" itemValue="#{prod}"
+				                    				size="80"/>  
+												<p:message for="prodVinc" styleClass="error" />
+											</div>
+										</div>
 								</h:panelGroup>
 							</h:panelGroup>
 						</h:panelGroup>
+					</h:panelGroup>
 						
 						
 						

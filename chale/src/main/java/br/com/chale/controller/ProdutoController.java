@@ -72,8 +72,25 @@ public class ProdutoController implements Serializable {
 	
 	public void salvar() {
 		if (produto.getId() == null) {
-			if(mesmoEstoque){
+			if( mesmoEstoque && produtoSelecionado!= null ){
+				Long qtdEstqExistente = produtoSelecionado.getQtdEstoque();
+				Long qtdMinEstqExistente = produtoSelecionado.getQtdMinEstoque();
+				if(qtdEstqExistente % 2 ==0){
+					produto.setQtdEstoque((qtdEstqExistente/2));
+					
+				}else{
+					produto.setQtdEstoque(((qtdEstqExistente-1)/2));
+					
+				}
+				if(qtdMinEstqExistente % 2 ==0){
+					produto.setQtdMinEstoque((qtdMinEstqExistente/2));
+				}else{
+					produto.setQtdMinEstoque(((qtdMinEstqExistente-1)/2));
+				}
 				produto.setProdutoVinculado(produtoSelecionado);
+				
+			}else if(!mesmoEstoque){
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Favor preencher o produto que será divido o estoque ou desmarque a opção dividir estoque!"));
 			}
 			
 			produtoService.persistir(produto);
@@ -106,13 +123,16 @@ public class ProdutoController implements Serializable {
 		listagem = new ArrayList<Produto>();
 		produtosSelect = new ArrayList<Produto>();
 		produto = new Produto();
-		produtoSelecionado = new Produto();
 		mesmoEstoque = false;
 		
 	}
 	
 	private void preencherProdutos() {
 		produtosSelect = produtoService.pesquisarTodos();
+	}
+	
+	public List<Produto> popularAutoCompleteProduto(String nomeCod){
+		return produtoService.popularAutoCompleteProduto(nomeCod);
 	}
 	
 	public String getTermo() {
