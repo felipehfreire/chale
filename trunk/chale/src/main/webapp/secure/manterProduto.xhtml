@@ -30,10 +30,6 @@
 									required="true" requiredMessage="Insira o nome!" />
 									<p:message for="nome" styleClass="error" />
 									
-									
-									
-									
-									
 								</div>
 							</div>
 						
@@ -73,7 +69,7 @@
 									<h:outputLabel value="Quantidade em Estoque" class="col-lg-2 control-label" for="qtdEstoque" />
 									<div class="col-lg-2">
 										<h:inputText class="form-control numerico" name="qtdEstoque" id="qtdEstoque" value="#{produtoController.produto.qtdEstoque}"
-											converter="javax.faces.Long"  required="true" requiredMessage="Insira a Quantidade em Estoque!" />
+											converter="javax.faces.Long"  required="true" requiredMessage="Insira a Quantidade em Estoque!"  readonly="#{produtoController.produto.dividirEstoque}"/>
 											<p:message for="qtdEstoque" styleClass="error" />
 									</div>
 								</div>
@@ -82,7 +78,7 @@
 									<h:outputLabel value="Quantidade Mínima de Estoque" class="col-lg-2 control-label" for="qtdEstoqueMin" />
 									<div class="col-lg-2">
 										<h:inputText class="form-control numerico" name="qtdEstoqueMin" id="qtdEstoqueMin" value="#{produtoController.produto.qtdMinEstoque}"
-											converter="javax.faces.Long" required="true" requiredMessage="Insira a quantidade Mínima de estoque!"/>
+											converter="javax.faces.Long" required="true" requiredMessage="Insira a quantidade Mínima de estoque!"  readonly="#{produtoController.produto.dividirEstoque}"/>
 										<p:message for="qtdEstoqueMin" styleClass="error" />
 									</div>
 								</div>
@@ -91,24 +87,28 @@
 								<div class="form-group">
 									<h:outputLabel value="Dividir Estoque" class="col-lg-2 control-label" for="dvdEstq" />
 									<div class="col-lg-2" style="margin-top: 6px" >
-										<h:selectBooleanCheckbox name="dvdEstq" id="dvdEstq" value="#{produtoController.mesmoEstoque}" >
+									<h:selectBooleanCheckbox name="dvdEstq" id="dvdEstq" value="#{produtoController.produto.dividirEstoque}"  onchange="#{produtoController.changeQtdMinAndQtdEstq()}">
 											<f:ajax render="pnProdDivdEstq"/>
+											<f:ajax render="qtdEstoqueMin"/>
+											<f:ajax render="qtdEstoque"/>
 										</h:selectBooleanCheckbox>
 										<p:tooltip id="toolTipdvdEstq" for="dvdEstq" value="Produtos que compartilham do mesmo estoque!"
                								showEffect="clip" hideEffect="explode" />
 									</div>
 								</div>
 								
-								<h:panelGroup id="pnProdDivdEstq" >
-									<h:panelGroup id="pnProdDivdEstq2"  rendered="#{produtoController.mesmoEstoque}">
+								<h:panelGroup id="pnProdDivdEstq"  >
+									<h:panelGroup id="pnProdDivdEstq2"  rendered="#{produtoController.produto.dividirEstoque}">
 										<div class="form-group">
 											<h:outputLabel value="Produto Vinculado" class="col-lg-2 control-label" for="prodVinc" />
 											<div class="col-lg-10">
 				            					<p:autoComplete queryDelay="500" minQueryLength="1" id="prodVinc" converter="simpleEntityConverter"
 				                    				value="#{produtoController.produtoSelecionado}" effect="blind" forceSelection="true"
 				                    				completeMethod="#{produtoController.popularAutoCompleteProduto}" placeholder="Insira o nome ou código do produto!"
-				                    				requiredMessage="Insira o nome  ou código do produto!" var="prod" itemLabel="#{prod.id}#{prod.descricao}" itemValue="#{prod}"
-				                    				size="80"/>  
+				                    				requiredMessage="Insira o nome  ou código do produto!" var="prod" itemLabel="#{prod.descricao}" itemValue="#{prod}"
+				                    				size="80">
+				                    				<p:ajax event="itemSelect" listener="#{produtoController.changeAtualizaQtdMinAndQtdEstq()}" />  
+				                    				</p:autoComplete>  
 												<p:message for="prodVinc" styleClass="error" />
 											</div>
 										</div>
@@ -117,12 +117,6 @@
 						</h:panelGroup>
 					</h:panelGroup>
 						
-						
-						
-						
-						
-						
-								
 						<div class="form-group">
 							<div class="col-lg-7 col-lg-offset-2">
 								<h:commandButton value="Voltar"	action="#{clienteController.voltar}" 
@@ -136,7 +130,20 @@
 				</div>
 			</div>
 		</h:form>
+		<script>
+		function mudaVlrEstoque(t){
+			if(t.checked){
+				$('#qtdEstoque').attr('checked','checked');
+	//			$('.seuCheckbox').removeAttr('checked');
+			}else{
+				//$('#qtdEstoque').attr('checked','checked');
+			}
+			
+		}
+		</script>
 	</ui:define>
 	
+	
 </ui:composition>
+
 </html>

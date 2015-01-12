@@ -72,7 +72,7 @@ public class ProdutoController implements Serializable {
 	
 	public void salvar() {
 		if (produto.getId() == null) {
-			if( mesmoEstoque && produtoSelecionado!= null ){
+			if( produto.getDividirEstoque() && produtoSelecionado!= null ){
 				Long qtdEstqExistente = produtoSelecionado.getQtdEstoque();
 				Long qtdMinEstqExistente = produtoSelecionado.getQtdMinEstoque();
 				if(qtdEstqExistente % 2 ==0){
@@ -89,14 +89,19 @@ public class ProdutoController implements Serializable {
 				}
 				produto.setProdutoVinculado(produtoSelecionado);
 				
-			}else if(!mesmoEstoque){
+				
+			}else if(produto.getDividirEstoque()){
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Favor preencher o produto que será divido o estoque ou desmarque a opção dividir estoque!"));
+			}else{
+				produtoService.persistir(produto);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Inserido com sucesso!"));
 			}
 			
-			produtoService.persistir(produto);
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Inserido com sucesso!"));
+			
 		} else {
 			produtoService.atualizar(produto);
+			produtoSelecionado.setProdutoVinculado(produto);
+			produtoService.atualizar(produtoSelecionado);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Alterado com sucesso!"));
 		}
 		ConversationUtil.terminarConversacao(conversation);
@@ -133,6 +138,31 @@ public class ProdutoController implements Serializable {
 	
 	public List<Produto> popularAutoCompleteProduto(String nomeCod){
 		return produtoService.popularAutoCompleteProduto(nomeCod);
+	}
+	
+	public void changeQtdMinAndQtdEstq(){
+		getProduto().setQtdEstoque(0L);
+		getProduto().setQtdMinEstoque(0L);
+	}
+	
+	
+	public void changeAtualizaQtdMinAndQtdEstq(){
+		if(produtoSelecionado != null){
+			Long qtdEstqExistente = produtoSelecionado.getQtdEstoque();
+			Long qtdMinEstqExistente = produtoSelecionado.getQtdMinEstoque();
+			if(qtdEstqExistente % 2 ==0){
+				produto.setQtdEstoque((qtdEstqExistente/2));
+				
+			}else{
+				produto.setQtdEstoque(((qtdEstqExistente-1)/2));
+				
+			}
+			if(qtdMinEstqExistente % 2 ==0){
+				produto.setQtdMinEstoque((qtdMinEstqExistente/2));
+			}else{
+				produto.setQtdMinEstoque(((qtdMinEstqExistente-1)/2));
+			}
+		}
 	}
 	
 	public String getTermo() {
@@ -198,7 +228,5 @@ public class ProdutoController implements Serializable {
 	public void setProdutoSelecionado(Produto produtoSelecionado) {
 		this.produtoSelecionado = produtoSelecionado;
 	}
-	
-	
 	
 }
