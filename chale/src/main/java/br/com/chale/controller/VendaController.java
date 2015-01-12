@@ -85,7 +85,7 @@ public class VendaController implements Serializable {
 	
 	public void add() {
 		
-		if (!getProdutoSelecionado().getTipoServico()  && (getProdutoSelecionado().getQtdEstoque().equals(0L) || getProdutoSelecionado().getQtdEstoque() < vendaProduto.getQuantidade())) {
+		if (!getProdutoSelecionado().getTipoServico()  && !getProdutoSelecionado().getTipocomida() && verificaSladoDivisaoEstoque()&& (getProdutoSelecionado().getQtdEstoque().equals(0L) || getProdutoSelecionado().getQtdEstoque() < vendaProduto.getQuantidade())) {
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Quantidade insuficiente em estoque!"));
 			
 		} else if (verificaExistenciaProdutoNoPedido()) {
@@ -95,8 +95,19 @@ public class VendaController implements Serializable {
 			
 		} else {
 			//TODO o cara pode mudar de mesa
-			if (!getProdutoSelecionado().getTipoServico()) {
-				getProdutoSelecionado().setQtdEstoque(getProdutoSelecionado().getQtdEstoque() - vendaProduto.getQuantidade());
+			if (!getProdutoSelecionado().getTipoServico() ||!getProdutoSelecionado().getTipocomida()) {
+			
+				
+				if(getProdutoSelecionado().getProdutoVinculado() != null){
+					if(getProdutoSelecionado().getDividirEstoque()){//se dividir estoque for true retira a quantidade add * 2
+						//atualiza o estoque do produto vezes duas vezes a quantidade por ser divisão de estoque pois compartila o estoque de outro item geralmente para porções que incluam 1/2 e 1 porção
+						getProdutoSelecionado().setQtdEstoque(getProdutoSelecionado().getQtdEstoque() - (vendaProduto.getQuantidade()*2));
+					}else{
+						//atualiza o estoque do produto normalmente
+						getProdutoSelecionado().setQtdEstoque(getProdutoSelecionado().getQtdEstoque() - vendaProduto.getQuantidade());
+					}
+				}
+				
 			}
 			
 			produtoService.atualizar(getProdutoSelecionado());
@@ -115,6 +126,17 @@ public class VendaController implements Serializable {
 		}
     }
 	
+	private boolean verificaSladoDivisaoEstoque() {
+		
+		if(getProdutoSelecionado().getQtdEstoque() < 2L || getProdutoSelecionado().getQtdEstoque() <(vendaProduto.getQuantidade()*2) ){
+			return false;
+		}else{
+			return true;
+		}
+	}
+
+
+
 	private boolean verificaExistenciaProdutoNoPedido() {
 		boolean retorno = false;
 		for (VendaProduto vendProd : venda.getVendaProdutos()) {
@@ -170,7 +192,7 @@ public class VendaController implements Serializable {
 		return "/manterVenda.jsf?faces-redirect=true";
 	}
 	
-	public String alterarMesaCliente() {//TODO TESAR
+	public String alterarMesaCliente() {
 		Mesa mesaAntiga = venda.getMesa();
 		Cliente clienteAntigo = venda.getCliente();
 
@@ -212,7 +234,8 @@ public class VendaController implements Serializable {
 	 * Adiciona mais um "pedido" do produto selecionado
 	 */
 	public void adicionar(Long quantidade) {
-		if (!vendaProduto.getProduto().getQtdEstoque().equals(0L) && !vendaProduto.getProduto().getTipoServico()) {
+		//verifica se  o estoque nao é 0  && se o produto não é do tipo serviço  && se não é do tipo comida
+		if (!vendaProduto.getProduto().getQtdEstoque().equals(0L) && !vendaProduto.getProduto().getTipoServico() && !vendaProduto.getProduto().getTipocomida()) {
 			vendaProduto.getProduto().setQtdEstoque(vendaProduto.getProduto().getQtdEstoque() - quantidade);
 			produtoService.atualizar(vendaProduto.getProduto());
 			
