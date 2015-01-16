@@ -43,6 +43,10 @@
 								<p:column sortBy="#{item.qtdEstoque}" headerText="Quantidade em Estoque" width="30%">
 									<h:outputText value="#{item.qtdEstoque}" />
 								</p:column>
+								
+								<p:column sortBy="#{item.qtdEstoque}" headerText="Quantidade minima em Estoque" width="30%">
+									<h:outputText value="#{item.qtdEstoque}" />
+								</p:column>
 
 								<p:column headerText="Ações" width="20%">
 									<h:commandLink  ajax="false" action="#{produtoController.editar}" id="editar">

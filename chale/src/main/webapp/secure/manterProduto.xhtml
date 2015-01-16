@@ -107,7 +107,7 @@
 				                    				completeMethod="#{produtoController.popularAutoCompleteProduto}" placeholder="Insira o nome ou código do produto!"
 				                    				requiredMessage="Insira o nome  ou código do produto!" var="prod" itemLabel="#{prod.descricao}" itemValue="#{prod}"
 				                    				size="80">
-				                    				<p:ajax event="itemSelect" listener="#{produtoController.changeAtualizaQtdMinAndQtdEstq()}" />  
+				                    				<p:ajax event="itemSelect" listener="#{produtoController.changeAtualizaQtdMinAndQtdEstq()}" update="estoque2" />  
 				                    				</p:autoComplete>  
 												<p:message for="prodVinc" styleClass="error" />
 											</div>
