@@ -80,9 +80,10 @@
 	
 		<p:menuitem  >
 			<h:panelGrid id="test2343dsds2121">	
-				<p:themeSwitcher id="advanced2" style="width:165px" effect="fade" var="t" value="#{themeSwitcherViewController.themeSelecionado}"  >
+				<h:form id="themeSwitcherForm">
+				<p:themeSwitcher id="advanced2" style="width:165px" effect="fade" var="t" value="#{themeSwitcherViewController.themeSelecionado}">
 					<f:selectItem itemLabel="Choose Theme" itemValue="" />
-    				<f:selectItems value="#{themeSwitcherViewController.themes}" var="theme" itemLabel="#{theme.name}" itemValue="#{theme}"/>
+    				<f:selectItems value="#{themeSwitcherViewController.themes}" />
       			
 			   		<p:column>
 			     		<h:outputText styleClass="ui-theme ui-theme-" style="display-block" />
@@ -92,8 +93,9 @@
 						#{t.name}
 					</p:column>
 					
-					<p:ajax   event="change" listener="#{themeSwitcherViewController.saveTheme}" />
+					<p:ajax listener="#{themeSwitcherViewController.saveTheme}"/>
 				</p:themeSwitcher>
+				</h:form>
 	
 			</h:panelGrid>
 		
