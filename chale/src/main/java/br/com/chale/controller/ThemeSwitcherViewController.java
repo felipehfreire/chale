@@ -1,11 +1,10 @@
 package br.com.chale.controller;
 
 import java.io.Serializable;
-import java.util.List;
 
 import javax.annotation.PostConstruct;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.SessionScoped;
+import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 
@@ -15,16 +14,17 @@ import br.com.chale.service.ThemeService;
 
 @Named
 @ManagedBean
-@SessionScoped
+@ViewScoped
 public class ThemeSwitcherViewController implements Serializable{
+	
+	
  
 	private static final long serialVersionUID = 6460720855720516107L;
 
-	private List<Theme> themes;
-    
     private Theme themeBD;
     
-    private Theme themeSelecionado;
+    private String themeSelecionado;
+    private String theme;//Só usa no web.xml
     
     private Long id;
     
@@ -33,25 +33,28 @@ public class ThemeSwitcherViewController implements Serializable{
  
     @PostConstruct
     public void init() {
-    	limpar();
-    	themeBD = themeService.getTheme();
-        themes = themeService.getThemes();
+    	themeSelecionado = "cruze";
+    	theme = "cruze";
+    	Theme th = themeService.getTheme();
+    	if (th == null) {
+    		themeSelecionado = "cruze";
+        	theme = "cruze";
+    	} else {
+    		themeSelecionado = th.getName();
+    		theme = th.getName();
+    	}
+        //
     }
     
-    public void limpar(){
-    	themeSelecionado = new Theme();
-    }
-   
     public void saveTheme() {
-    	System.out.println(themeSelecionado.getName());
+    	System.out.println(themeSelecionado);
     	//TODO fazer pegar o atributo da tela para salvar
-    	//TODO verificar o entityConverter para  THEME
     	//TODO deletar o que ja estiver BD e salvar o NOVO Theme
-    	//themeService.persistir(themeSelecionado);
+    	themeService.persistir(themeSelecionado);
     }
  
-	public List<Theme> getThemes() {
-        return themes;
+	public String[] getThemes() {
+		return themeService.getThemes();
     }
 
 	public Theme getThemeBD() {
@@ -62,12 +65,13 @@ public class ThemeSwitcherViewController implements Serializable{
 		this.themeBD = themeBD;
 	}
 
-	public Theme getThemeSelecionado() {
+	public String getThemeSelecionado() {
 		return themeSelecionado;
 	}
 
-	public void setThemeSelecionado(Theme themeSelecionado) {
+	public void setThemeSelecionado(String themeSelecionado) {
 		this.themeSelecionado = themeSelecionado;
+		this.theme = themeSelecionado;
 	}
 
 	public Long getId() {
@@ -77,5 +81,13 @@ public class ThemeSwitcherViewController implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-    
+
+	public String getTheme() {
+		return theme;
+	}
+
+	public void setTheme(String theme) {
+		this.theme = theme;
+	}
+	
 }

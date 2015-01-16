@@ -1,14 +1,12 @@
 package br.com.chale.service;
 
-import java.util.List;
-
 import br.com.chale.entity.Theme;
 
 public interface ThemeService {
 
-	List<Theme> getThemes();
+	String[] getThemes();
 	
-	void persistir(Theme theme);
+	void persistir(String theme);
 
 	void atualizar(Theme theme);
 
