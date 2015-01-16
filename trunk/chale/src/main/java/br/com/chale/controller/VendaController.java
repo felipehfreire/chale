@@ -83,6 +83,8 @@ public class VendaController implements Serializable {
 		
 	}
 	
+	//TODO Verificar os add prod quando houver divisao de estoque
+	
 	public void add() {
 		
 		if (!getProdutoSelecionado().getTipoServico()  && !getProdutoSelecionado().getTipocomida() && verificaSladoDivisaoEstoque()&& (getProdutoSelecionado().getQtdEstoque().equals(0L) || getProdutoSelecionado().getQtdEstoque() < vendaProduto.getQuantidade())) {
@@ -94,7 +96,7 @@ public class VendaController implements Serializable {
 			adicionar(vendaProduto.getQuantidade());
 			
 		} else {
-			//TODO o cara pode mudar de mesa
+			
 			if (!getProdutoSelecionado().getTipoServico() ||!getProdutoSelecionado().getTipocomida()) {
 			
 				
@@ -125,6 +127,8 @@ public class VendaController implements Serializable {
 			limparAdd();
 		}
     }
+	
+	//TODO criar metododo para subistituir o primeiro if do metodo ADD
 	
 	private boolean verificaSladoDivisaoEstoque() {
 		
@@ -451,31 +455,21 @@ public class VendaController implements Serializable {
 		return clienteSelecionado;
 	}
 
-
-
 	public void setClienteSelecionado(Cliente clienteSelecionado) {
 		this.clienteSelecionado = clienteSelecionado;
 	}
-
-
 
 	public Cliente getClienteSelecionadoNovo() {
 		return clienteSelecionadoPesquisa;
 	}
 
-
-
 	public void setClienteSelecionadoNovo(Cliente clienteSelecionadoNovo) {
 		this.clienteSelecionadoPesquisa = clienteSelecionadoNovo;
 	}
 
-
-
 	public Mesa getMesaSelecionadaNovo() {
 		return mesaSelecionadaPesquisa;
 	}
-
-
 
 	public void setMesaSelecionadaNovo(Mesa mesaSelecionadaNovo) {
 		this.mesaSelecionadaPesquisa = mesaSelecionadaNovo;

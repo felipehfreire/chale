@@ -61,7 +61,7 @@ public class Produto implements BaseEntity,Serializable {
 	private Boolean tipocomida;
 	
 	@Column(name = "ind_divd_estoque")
-	private Boolean dividirEstoque;
+	private boolean dividirEstoque;
 
 	@Column(name = "ind_qtd_min_estoque", nullable=true)
 	private Long qtdMinEstoque;
@@ -144,11 +144,11 @@ public class Produto implements BaseEntity,Serializable {
 		this.tipocomida = tipocomida;
 	}
 	
-	public Boolean getDividirEstoque() {
+	public boolean getDividirEstoque() {
 		return dividirEstoque;
 	}
 
-	public void setDividirEstoque(Boolean dividirEstoque) {
+	public void setDividirEstoque(boolean dividirEstoque) {
 		this.dividirEstoque = dividirEstoque;
 	}
 

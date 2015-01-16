@@ -71,6 +71,7 @@ public class ProdutoController implements Serializable {
 	}
 	
 	public void salvar() {
+		
 		if (produto.getId() == null) {
 			if( produto.getDividirEstoque() && produtoSelecionado!= null ){
 				Long qtdEstqExistente = produtoSelecionado.getQtdEstoque();
@@ -88,20 +89,28 @@ public class ProdutoController implements Serializable {
 					produto.setQtdMinEstoque(((qtdMinEstqExistente-1)/2));
 				}
 				produto.setProdutoVinculado(produtoSelecionado);
+				produtoSelecionado.setProdutoVinculado(produto);
 				
 				
 			}else if(produto.getDividirEstoque()){
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Favor preencher o produto que será divido o estoque ou desmarque a opção dividir estoque!"));
+			}
+			
+			if(produto.getDividirEstoque()){
+				produtoService.persistir(produto);
+				produtoService.atualizar(produtoSelecionado);
 			}else{
 				produtoService.persistir(produto);
-				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Inserido com sucesso!"));
 			}
 			
 			
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Inserido com sucesso!"));
+			
+			
+			
 		} else {
+			
 			produtoService.atualizar(produto);
-			produtoSelecionado.setProdutoVinculado(produto);
-			produtoService.atualizar(produtoSelecionado);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Alterado com sucesso!"));
 		}
 		ConversationUtil.terminarConversacao(conversation);
