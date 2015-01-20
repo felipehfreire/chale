@@ -59,8 +59,6 @@ public class VendaController implements Serializable {
 	private List<Cliente> clientes;
 	private Cliente clienteSelecionado;
 	private Cliente  clienteSelecionadoPesquisa;
-	
-	
 
 	@PostConstruct
 	public void iniciar() {
@@ -72,8 +70,6 @@ public class VendaController implements Serializable {
 		pesquisar();
 	}
 	
-	
-	
 	public void reRenderProduto() {
 		produtoSelecionado = produtoService.getById(idProd);
 	}
@@ -82,8 +78,6 @@ public class VendaController implements Serializable {
 		idProd = produtoSelecionado.getId();
 		
 	}
-	
-	//TODO Verificar os add prod quando houver divisao de estoque
 	
 	public void add() {
 		
@@ -97,19 +91,38 @@ public class VendaController implements Serializable {
 			
 		} else {
 			
-			if (!getProdutoSelecionado().getTipoServico() ||!getProdutoSelecionado().getTipocomida()) {
+			if (!getProdutoSelecionado().getTipoServico() && !getProdutoSelecionado().getTipocomida()) {
 			
 				
 				if(getProdutoSelecionado().getProdutoVinculado() != null){
-					if(getProdutoSelecionado().getDividirEstoque()){//se dividir estoque for true retira a quantidade add * 2
+					if(getProdutoSelecionado().getDividirEstoque()){//se dividir estoque for true retira a quantidade add * 2 do item vinculado
+						
 						//atualiza o estoque do produto vezes duas vezes a quantidade por ser divisão de estoque pois compartila o estoque de outro item geralmente para porções que incluam 1/2 e 1 porção
-						getProdutoSelecionado().setQtdEstoque(getProdutoSelecionado().getQtdEstoque() - (vendaProduto.getQuantidade()*2));
+						getProdutoSelecionado().setQtdEstoque(getProdutoSelecionado().getQtdEstoque() - vendaProduto.getQuantidade());
+						getProdutoSelecionado().getProdutoVinculado().setQtdEstoque(getProdutoSelecionado().getProdutoVinculado().getQtdEstoque() - (vendaProduto.getQuantidade()*2));
+						produtoService.atualizar(getProdutoSelecionado().getProdutoVinculado());
+						
+					}else if(getProdutoSelecionado().getProdutoVinculado() != null){
+						//atualiza a qauntidade do produto base do estoque
+						Long qtdEstqExistente = getProdutoSelecionado().getQtdEstoque() - vendaProduto.getQuantidade();
+						if(qtdEstqExistente % 2 ==0){
+							qtdEstqExistente=((qtdEstqExistente/2));
+							
+						}else{
+							qtdEstqExistente=(((qtdEstqExistente-1)/2));
+							
+						}
+						getProdutoSelecionado().getProdutoVinculado().setQtdEstoque(qtdEstqExistente);
+						produtoService.atualizar(getProdutoSelecionado().getProdutoVinculado());
+						getProdutoSelecionado().setQtdEstoque(getProdutoSelecionado().getQtdEstoque() - vendaProduto.getQuantidade());
+						
 					}else{
 						//atualiza o estoque do produto normalmente
 						getProdutoSelecionado().setQtdEstoque(getProdutoSelecionado().getQtdEstoque() - vendaProduto.getQuantidade());
 					}
+				}else{
+					getProdutoSelecionado().setQtdEstoque(getProdutoSelecionado().getQtdEstoque() - vendaProduto.getQuantidade());
 				}
-				
 			}
 			
 			produtoService.atualizar(getProdutoSelecionado());
@@ -127,9 +140,7 @@ public class VendaController implements Serializable {
 			limparAdd();
 		}
     }
-	
-	//TODO criar metododo para subistituir o primeiro if do metodo ADD
-	
+
 	private boolean verificaSladoDivisaoEstoque() {
 		
 		if(getProdutoSelecionado().getQtdEstoque() < 2L || getProdutoSelecionado().getQtdEstoque() <(vendaProduto.getQuantidade()*2) ){
@@ -138,8 +149,6 @@ public class VendaController implements Serializable {
 			return true;
 		}
 	}
-
-
 
 	private boolean verificaExistenciaProdutoNoPedido() {
 		boolean retorno = false;
@@ -180,7 +189,6 @@ public class VendaController implements Serializable {
 		}else{
 			vendas = vendaService.pesquisarVendasNaoFinalizadas();
 		}
-		
 		
 	}
 
@@ -238,28 +246,85 @@ public class VendaController implements Serializable {
 	 * Adiciona mais um "pedido" do produto selecionado
 	 */
 	public void adicionar(Long quantidade) {
-		//verifica se  o estoque nao é 0  && se o produto não é do tipo serviço  && se não é do tipo comida
-		if (!vendaProduto.getProduto().getQtdEstoque().equals(0L) && !vendaProduto.getProduto().getTipoServico() && !vendaProduto.getProduto().getTipocomida()) {
-			vendaProduto.getProduto().setQtdEstoque(vendaProduto.getProduto().getQtdEstoque() - quantidade);
-			produtoService.atualizar(vendaProduto.getProduto());
+		boolean valido = true;
+		if( !vendaProduto.getProduto().getTipoServico() && !vendaProduto.getProduto().getTipocomida()){
+
+			if(vendaProduto.getProduto().getDividirEstoque()){
+				if(!vendaProduto.getProduto().getQtdEstoque().equals(0L) ){
+					vendaProduto.getProduto().getProdutoVinculado().setQtdEstoque(vendaProduto.getProduto().getProdutoVinculado().getQtdEstoque() - (quantidade*2));
+					produtoService.atualizar(vendaProduto.getProduto().getProdutoVinculado());
+					
+				}else{
+					valido = false;
+				}
+			}else if(vendaProduto.getProduto().getProdutoVinculado() != null){ //atualiza o quantidade do produto  base do estoque
+				if(!vendaProduto.getProduto().getQtdEstoque().equals(0L) ){
+					Long qtdEstqExistente = vendaProduto.getProduto().getQtdEstoque() - quantidade;
+					if(qtdEstqExistente % 2 ==0){
+						qtdEstqExistente=((qtdEstqExistente/2));
+						
+					}else{
+						qtdEstqExistente=(((qtdEstqExistente-1)/2));
+						
+					}
+					vendaProduto.getProduto().getProdutoVinculado().setQtdEstoque(qtdEstqExistente);
+					produtoService.atualizar(vendaProduto.getProduto().getProdutoVinculado());
+					
+				}else{
+					valido = false;
+				}
+				
+			}else{
+				if(vendaProduto.getProduto().getQtdEstoque().equals(0L)){
+					valido = false;
+				}
+			}
+		}
+		
+		if(valido ){
+			if(!vendaProduto.getProduto().getTipoServico() && !vendaProduto.getProduto().getTipocomida()){
+				vendaProduto.getProduto().setQtdEstoque(vendaProduto.getProduto().getQtdEstoque() - quantidade);
+				produtoService.atualizar(vendaProduto.getProduto());
+			}
 			
 			for (VendaProduto vendProd : venda.getVendaProdutos()) {
 				if (vendProd.getProduto().equals(vendaProduto.getProduto())) {
-					vendProd.setQuantidade(vendProd.getQuantidade() + quantidade);
+					vendProd.setQuantidade(vendProd.getQuantidade() + quantidade );
 				}
 			}
 			vendaService.atualizar(venda);
-			
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Atualizado com sucesso!"));
-		} else {
+			
+		}else{
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Quantidade insuficiente em estoque!"));
 		}
 		limparAdd();
 	}
 	
-	
 	public void subtrair() {
-		if (!vendaProduto.getProduto().getQtdEstoque().equals(0L)  && !vendaProduto.getProduto().getTipoServico()) {
+		if ( !vendaProduto.getProduto().getTipoServico() &&  !vendaProduto.getProduto().getTipocomida() ) {
+			
+			if(vendaProduto.getProduto().getDividirEstoque()){
+				
+				//seta mais dois no saldo do produto base do estoque
+				vendaProduto.getProduto().getProdutoVinculado().setQtdEstoque(vendaProduto.getProduto().getProdutoVinculado().getQtdEstoque() +2);
+				produtoService.atualizar(vendaProduto.getProduto().getProdutoVinculado());
+				
+			}else if(vendaProduto.getProduto().getProdutoVinculado() != null){
+				//se ele for o base retira um
+				Long qtdEstqExistente = vendaProduto.getProduto().getQtdEstoque() +1;
+				if(qtdEstqExistente % 2 ==0){
+					qtdEstqExistente=((qtdEstqExistente/2));
+					
+				}else{
+					qtdEstqExistente=(((qtdEstqExistente-1)/2));
+					
+				}
+				vendaProduto.getProduto().getProdutoVinculado().setQtdEstoque(qtdEstqExistente);
+				produtoService.atualizar(vendaProduto.getProduto().getProdutoVinculado());
+				
+			}
+			
 			vendaProduto.getProduto().setQtdEstoque(vendaProduto.getProduto().getQtdEstoque() + 1);
 			produtoService.atualizar(vendaProduto.getProduto());
 			
@@ -272,19 +337,48 @@ public class VendaController implements Serializable {
 			
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Atualizado com sucesso!"));
 		} else {
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "", "Quantidade insuficiente em estoque!"));
+
+			for (VendaProduto vendProd : venda.getVendaProdutos()) {
+				if (vendProd.equals(vendaProduto)) {
+					vendProd.setQuantidade(vendProd.getQuantidade() - 1);
+				}
+			}
+			venda = vendaService.atualizar(venda);
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Atualizado com sucesso!"));
 		}
 		limparAdd();
 	}
 	
 	public void deletar() {
-		if (!vendaProduto.getProduto().getTipoServico()) {
+		if (!vendaProduto.getProduto().getTipoServico() && !vendaProduto.getProduto().getTipocomida()) {
+			
+			if(vendaProduto.getProduto().getDividirEstoque()){
+				
+				//seta a quantidade x2 no saldo do produto base do estoque
+				vendaProduto.getProduto().getProdutoVinculado().setQtdEstoque(vendaProduto.getProduto().getProdutoVinculado().getQtdEstoque() +(vendaProduto.getQuantidade()*2));
+				produtoService.atualizar(vendaProduto.getProduto().getProdutoVinculado());
+				
+			}else if(vendaProduto.getProduto().getProdutoVinculado() != null){
+				//se ele for o base retira um
+				Long qtdEstqExistente = vendaProduto.getProduto().getQtdEstoque() +vendaProduto.getQuantidade();
+				if(qtdEstqExistente % 2 ==0){
+					qtdEstqExistente=((qtdEstqExistente/2));
+					
+				}else{
+					qtdEstqExistente=(((qtdEstqExistente-1)/2));
+					
+				}
+				vendaProduto.getProduto().getProdutoVinculado().setQtdEstoque(qtdEstqExistente);
+				produtoService.atualizar(vendaProduto.getProduto().getProdutoVinculado());
+			}
+			
 			vendaProduto.getProduto().setQtdEstoque(vendaProduto.getProduto().getQtdEstoque() + vendaProduto.getQuantidade());
 			produtoService.atualizar(vendaProduto.getProduto());
 		}
 		
 		venda.getVendaProdutos().remove(vendaProduto);
 		venda = vendaService.atualizar(venda);
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Deletado com sucesso!"));
 		limparAdd();
 	}
 
@@ -308,7 +402,6 @@ public class VendaController implements Serializable {
 			 mesa.setUsada(false);
 			 vendaService.atualizarMesa(mesa);
 		 }
-		
 
 		 venda.setFinalizada(true);
 		 if (!venda.getVendaPrazo()) {
