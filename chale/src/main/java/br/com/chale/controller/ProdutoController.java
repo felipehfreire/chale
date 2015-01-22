@@ -110,6 +110,25 @@ public class ProdutoController implements Serializable {
 			
 		} else {
 			
+			if(produto.getProdutoVinculado()!=null){
+				//atualiza as duas quantidades do dividir estoque
+				Long qtdEstqExistente = produto.getQtdEstoque();
+				Long qtdMinEstqExistente = produto.getQtdMinEstoque();
+				if(qtdEstqExistente % 2 ==0){
+					produto.getProdutoVinculado().setQtdEstoque((qtdEstqExistente/2));
+					
+				}else{
+					produto.getProdutoVinculado().setQtdEstoque(((qtdEstqExistente-1)/2));
+					
+				}
+				if(qtdMinEstqExistente % 2 ==0){
+					produto.getProdutoVinculado().setQtdMinEstoque((qtdMinEstqExistente/2));
+				}else{
+					produto.getProdutoVinculado().setQtdMinEstoque(((qtdMinEstqExistente-1)/2));
+				}
+				produtoService.atualizar(produto.getProdutoVinculado());	
+			}
+			
 			produtoService.atualizar(produto);
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Registro Alterado com sucesso!"));
 		}
