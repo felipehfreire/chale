@@ -21,6 +21,7 @@ import javax.print.PrintException;
 
 import org.primefaces.event.SelectEvent;
 
+import br.com.chale.entity.Cliente;
 import br.com.chale.entity.Produto;
 import br.com.chale.entity.Venda;
 import br.com.chale.entity.VendaProduto;
@@ -35,6 +36,9 @@ import br.com.chale.util.ImpressaoTXTUtil;
 public class RelatorioController implements Serializable {
 	
 	private static final long serialVersionUID = 2847517553472907222L;
+	
+	static String cabecalho ="            Pousada Vale dos ventos \n"+
+			"                 tel: (35)9979-1492(tim)\n\n";
 	
 	@Inject
 	private VendaService pedidoService;
@@ -225,6 +229,54 @@ public class RelatorioController implements Serializable {
 		}
 	}
 	
+	public void somarNotas(List<Venda> vendas, Cliente c){
+		//ConversationUtil.iniciarConversacao(conversation);
+		SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy");
+		DecimalFormat dcmFmt = new DecimalFormat("0.00");
+		
+		String cabecalho ="            Pousada Vale dos ventos \n"+
+				"                 tel: (35)9979-1492(tim)\n\n";
+		
+		Double totalVenda = 0D;
+		Double totalGeral = 0D;
+		String descProd="";
+		String precoQtdTotal="";
+		String mensagem= "";
+		mensagem = cabecalho;
+		mensagem += c.getNome()+ " - "+ c.getTelefone()+"\n\n"; 
+		
+		for (Venda venda : vendas) {
+			mensagem += sdf.format(venda.getDataVenda())+ "\n";
+			mensagem+="Item             Qtd.  preco(R$)     total(R$)"+"\n";
+			
+			for (VendaProduto vp: venda.getVendaProdutos()){
+				descProd= vp.getProduto().getDescricao();
+				precoQtdTotal =vp.getQuantidade()+"x"+" "+(dcmFmt.format( vp.getProduto().getPreco()))+"= "+(dcmFmt.format(vp.getPrecoQtdProd()));
+				mensagem+=descProd+retornaPontos(descProd, precoQtdTotal)+precoQtdTotal+"\n";
+			}
+			
+			mensagem+= venda.getPrecoTotalFormatado() +"\n";
+			mensagem += retornaEspacoBranco("", "Total: "+venda.getPrecoTotalFormatado())+"Total: "+venda.getPrecoTotalFormatado()+"\n\n";
+			totalGeral += Double.valueOf(venda.getPrecoTotal());
+			
+		}
+		
+		mensagem += retornaEspacoBranco("", "Total geral: "+"R$"+dcmFmt.format(totalGeral))+"Total geral: "+"R$"+dcmFmt.format(totalGeral)+"\n";
+		mensagem += "\n\n\n\n\n\n\n\n";
+		
+		System.out.println(mensagem);
+		
+		try {
+			ImpressaoTXTUtil impressao = new ImpressaoTXTUtil();
+			impressao.escreveImpressao(mensagem);
+		} catch (IOException | PrintException e) {
+			e.printStackTrace();
+			FacesMessage msg = new FacesMessage("ERRO:", "Não foi possível realizar a impressão !!");
+	        msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+	}
+	
 	private String retornaPontos(String descProdQtd, String preco) {
 		int palavraSomada = descProdQtd.length()+preco.length();
 		int loop = 47-palavraSomada;
@@ -244,6 +296,10 @@ public class RelatorioController implements Serializable {
 			espacos+=" ";
 		}
 		return espacos;
+	}
+	
+	public void montarSomaVendas(List<Venda> vendas){
+		
 	}
 
 

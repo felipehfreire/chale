@@ -55,7 +55,7 @@ public class RelatorioEstoqueController implements Serializable {
 		produtos =  produtoService.pesquisarTodos();
 	}
 
-
+	
 	public void relatorioEstoque(){
 		
 		ConversationUtil.iniciarConversacao(conversation);
@@ -125,6 +125,19 @@ public class RelatorioEstoqueController implements Serializable {
 	
 	public void limpar() {
 		 produtos = new ArrayList<Produto>();
+	}
+	
+	public void somarNotas(){
+		ConversationUtil.iniciarConversacao(conversation);
+		SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy");
+		DecimalFormat dcmFmt = new DecimalFormat("0.00");
+		
+		Double totalPedido = 0D;
+		Double totalGeral = 0D;
+		String descProdQtd="";
+		String preco="";
+		String mensagem= "";
+		
 	}
 
 

@@ -30,7 +30,7 @@
             					<p:autoComplete queryDelay="500" minQueryLength="1" id="cliente" converter="simpleEntityConverter"
                     				value="#{vendaPrazoController.cliente}" effect="blind" forceSelection="true"
                     				completeMethod="#{vendaPrazoController.popularAutoCompleteCliente}" placeholder="Insira o nome ou código do cliente!"
-                    				requiredMessage="Insira o nome do cliente!" var="item" itemLabel="#{item.id}#{item.nome}" itemValue="#{item}"
+                    				requiredMessage="Insira o nome do cliente!" var="item" itemLabel="#{item.nome}" itemValue="#{item}"
                     				size="80"/>  
 								<p:message for="cliente" styleClass="error" />
 							</div>
@@ -82,7 +82,7 @@
 								</p:column>
 							
 							</p:dataTable>
-			          	</div>
+			          	</div>and
 			          	
 			          	<br/>
 			          	
@@ -90,11 +90,16 @@
 							class="btn btn-defaut" ajax="false" immediate="true" />
 						<p:spacer width="5px;"/>
 						<h:panelGroup rendered="#{vendaPrazoController.renderBtnSomar}">
-						<h:commandButton value="Somar notas"	action="#{vendaPrazoController.voltar}" 
+							<h:commandButton value="Somar notas"
+								action="#{vendaPrazoController.somarNotas}"
 								class="btn btn-primary" ajax="false" immediate="true" />
-						</h:panelGroup>					
-							
-		             </div>
+							<p:spacer width="5px;" />
+							<h:commandButton value="Receber notas"
+								action="#{vendaPrazoController.realizarPagamentoNotas}"
+								class="btn btn-primary" ajax="false" immediate="true" />
+						</h:panelGroup>
+
+					</div>
 		             
 	             </div>
              </div>

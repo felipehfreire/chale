@@ -59,12 +59,17 @@ public class VendaPrazoController implements Serializable {
 			if(dataInicial != null && dataFinal != null){
 				if(validaDatas(dataInicial,dataFinal)){
 					vendasFinalizadasAprazo = vendaService.pesquisarVendasFinalizadasPrazoPorPeriodoCliente(dataInicial, dataFinal, cliente);
-					setRenderBtnSomar(true);
+					if(vendasFinalizadasAprazo.size() >0){
+						setRenderBtnSomar(true);
+					}
 				}
 				
 			}else{
 				vendasFinalizadasAprazo = vendaService.pesquisarVendasFinalizadasPrazoPorCliente(cliente);
-				setRenderBtnSomar(true);
+				if(vendasFinalizadasAprazo.size() >0){
+					setRenderBtnSomar(true);
+				}
+				
 			}
 		}else if(dataInicial != null && dataFinal != null){
 			if(validaDatas(dataInicial,dataFinal)){
@@ -118,7 +123,24 @@ public class VendaPrazoController implements Serializable {
 		
 		return retorno;
 	}
-
+	
+	public void somarNotas(){
+		
+		RelatorioController rc = new RelatorioController();
+		rc.somarNotas(vendasFinalizadasAprazo, cliente);
+		
+	}
+	
+	
+	public void realizarPagamentoNotas(){
+		for(Venda v : vendasFinalizadasAprazo){
+			 v.setPago(true);
+			 v.setDataPagamento(new Date());
+			 vendaService.atualizar(v);
+		}
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "", "Pagamento das vendas realizado com sucesso!"));
+	}
+	
 	public List<Venda> getVendasFinalizadasAprazo() {
 		return vendasFinalizadasAprazo;
 	}
@@ -130,7 +152,7 @@ public class VendaPrazoController implements Serializable {
 	public VendaService getVendaService() {
 		return vendaService;
 	}
-
+	
 	public void setVendaService(VendaService vendaService) {
 		this.vendaService = vendaService;
 	}
