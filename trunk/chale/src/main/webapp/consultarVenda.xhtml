@@ -6,144 +6,175 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:pt="http://xmlns.jcp.org/jsf/passthrough">
-	
-	<ui:composition template="template.xhtml">
-	
+
+<ui:composition template="template.xhtml">
+
 	<ui:define name="content">
-		<ul class="page-breadcrumb breadcrumb">
+		<ul
+			class=" page-breadcrumb breadcrumb ui-tabmenu ui-widget ui-widget-content ui-corner-all">
 			<li><a href="index.jsf">Página inicial</a></li>
 			<li><a href="#">Consultar Vendas</a></li>
 		</ul>
 		<h:form id="submitForm" class="bs-example form-horizontal">
-			
+
 			<div class="row container-center">
 				<div class="col-lg-7 div-center">
 					<div class="well">
 						<div class="form-group">
-							<h:outputLabel value="Mesa: " class="col-lg-2 control-label" for="mesa" />
+							<h:outputLabel value="Mesa: " class="col-lg-2 control-label"
+								for="mesa" />
 							<div class="col-lg-3">
-								<h:selectOneMenu id="mesa" label="mesas" value="#{vendaController.mesaSelecionada}" onchange="alteraMesa(this)" converter="simpleEntityConverter" styleClass="form-control selectMesa">
+								<h:selectOneMenu id="mesa" label="mesas"
+									value="#{vendaController.mesaSelecionada}"
+									onchange="alteraMesa(this)" converter="simpleEntityConverter"
+									styleClass="form-control selectMesa">
 									<f:selectItem itemValue="" itemLabel="Selecione uma Mesa" />
-									<f:selectItems value="#{vendaController.mesas}" var="mesa" itemLabel="#{mesa.numeroMesa}" itemValue="#{mesa}" />
+									<f:selectItems value="#{vendaController.mesas}" var="mesa"
+										itemLabel="#{mesa.numeroMesa}" itemValue="#{mesa}" />
 								</h:selectOneMenu>
 							</div>
-							<h:outputLabel value="ou " class="col-lg-1 control-label"  />
-							<h:outputLabel value="Cliente: " class="col-lg-2 control-label" for="cliente" />
+							<h:outputLabel value="ou " class="col-lg-1 control-label" />
+							<h:outputLabel value="Cliente: " class="col-lg-2 control-label"
+								for="cliente" />
 							<div class="col-lg-3">
-								<h:selectOneMenu id="cliente" label="clientes" value="#{vendaController.clienteSelecionado}" onchange="alteraCliente(this)" converter="simpleEntityConverter" styleClass="form-control selectClient">
+								<h:selectOneMenu id="cliente" label="clientes"
+									value="#{vendaController.clienteSelecionado}"
+									onchange="alteraCliente(this)"
+									converter="simpleEntityConverter"
+									styleClass="form-control selectClient">
 									<f:selectItem itemValue="" itemLabel="Selecione um Cliente" />
-									<f:selectItems value="#{vendaController.clientes}" var="cli" itemLabel="#{cli.nome}" itemValue="#{cli}" />
+									<f:selectItems value="#{vendaController.clientes}" var="cli"
+										itemLabel="#{cli.nome}" itemValue="#{cli}" />
 								</h:selectOneMenu>
 							</div>
 						</div>
-						<div class="well">    
-			             	<h:commandButton value="Pesquisar" action="#{vendaController.pesquisar}" class="btn btn-success" ajax="false"/>
-			             	<button id="new" class="btn btn-primary">Novo</button>
-			             	<button id="juntarVenda" class="btn btn-primary">Juntar Mesas</button>
-			             	
-			          	</div>   
-			          
-			          	<div class="well">
-			          	
-			          	
-			          		<p:dataTable value="#{vendaController.vendas}" var="venda"  sortMode="multiple" rows="10"  paginator="true">
-			
-								<p:column >
-            						<p:rowToggler />
-        						</p:column>
-        						
-        						<h:panelGroup id="pnVenda" styleClass="col-lg-12"  rendered="#{venda.mesa ==null }">
-									<p:column sortBy="#{venda.mesa.numeroMesa}" headerText="Número da mesa"  >
-										<h:outputText value="#{venda.mesa.numeroMesa}"/>
-									</p:column>
-								</h:panelGroup>
-								
-								
-								<h:panelGroup id="pnCliente" styleClass="col-lg-12"  rendered="#{venda.cliente==null }">
-									<p:column sortBy="#{venda.cliente.nome}" headerText="Cliente"   >
-										<h:outputText value="#{venda.cliente.nome}"/>
-									</p:column>
-								</h:panelGroup>
-								
+						<div class="well">
+							<h:commandButton value="Pesquisar"
+								action="#{vendaController.pesquisar}" class="btn btn-success"
+								ajax="false" />
+							<button id="new" class="btn btn-primary">Novo</button>
+							<button id="juntarVenda" class="btn btn-primary">Juntar
+								Mesas</button>
+
+						</div>
+
+						<div class="well">
+
+							<p:dataTable widgetVar="carsTable" id="checkboxDT" var="venda"
+								value="#{vendaController.vendas}"
+								selection="#{vendaController.vendasSelecionadas}"
+								rowKey="#{venda.id}" style="margin-bottom:0" paginator="true">
+
+								<p:column selectionMode="multiple"
+									style="width:16px;text-align:center" />
+
+								<p:column>
+									<p:rowToggler />
+								</p:column>
+
+
+								<p:column sortBy="#{venda.mesa.numeroMesa}"
+									headerText="Número da mesa">
+									<h:outputText value="#{venda.mesa.numeroMesa}" />
+								</p:column>
+
+
+
+
+								<p:column sortBy="#{venda.cliente.nome}" headerText="Cliente">
+									<h:outputText value="#{venda.cliente.nome}" />
+								</p:column>
+
+
 								<p:column sortBy="#{venda.id}" headerText="Número da venda">
-									<h:outputText value="#{venda.id}"/>
+									<h:outputText value="#{venda.id}" />
 								</p:column>
-								
+
 								<p:column headerText="Total">
-									<h:outputText value="#{venda.precoTotalFormatado}"/>
+									<h:outputText value="#{venda.precoTotalFormatado}" />
 								</p:column>
-								
+
 								<p:column headerText="Ações">
-									<h:commandButton class="btn btn-primary" ajax="false" value="Editar" action="#{vendaController.editar}">
+									<h:commandButton class="btn btn-primary" ajax="false"
+										value="Editar" action="#{vendaController.editar}">
 										<f:setPropertyActionListener value="#{venda}"
-                        					target="#{vendaController.venda}" />
-                    				</h:commandButton>
-                    				<p:spacer width="5px"/>
-                    				<h:commandButton class="btn btn-success" ajax="false" value="Finalizar" action="#{vendaController.preparaFinalizar}">
+											target="#{vendaController.venda}" />
+									</h:commandButton>
+									<p:spacer width="5px" />
+									<h:commandButton class="btn btn-success" ajax="false"
+										value="Finalizar" action="#{vendaController.preparaFinalizar}">
 										<f:setPropertyActionListener value="#{venda}"
-                        					target="#{vendaController.venda}" />
-                    				</h:commandButton>
+											target="#{vendaController.venda}" />
+									</h:commandButton>
 								</p:column>
-								
+
 								<p:rowExpansion>
- 										
-									<p:dataTable id="vProd" var="vProd" value="#{venda.vendaProdutos}"  >
+
+									<p:dataTable id="vProd" var="vProd"
+										value="#{venda.vendaProdutos}">
 										<p:column>
-											
-												<h:outputText value="#{vProd.produto.id}" />
-											
+
+											<h:outputText value="#{vProd.produto.id}" />
+
 										</p:column>
 										<p:column>
-											
-													<h:outputText value="#{vProd.produto.descricao}" />
-											
+
+											<h:outputText value="#{vProd.produto.descricao}" />
+
 										</p:column>
 										<p:column>
-											
-													<h:outputText value="#{vProd.quantidade}" />
-											
+
+											<h:outputText value="#{vProd.quantidade}" />
+
 										</p:column>
 										<p:column>
-											
-													<h:outputText value="#{vProd.precoQtdProd}" />
-											
+
+											<h:outputText value="#{vProd.precoQtdProd}" />
+
 										</p:column>
-										
+
+
 									</p:dataTable>
-                					
+
 								</p:rowExpansion>
-							
+								<f:facet name="footer">
+
+								
+										
+										<p:commandButton process="checkboxDT"  icon="ui-icon-search" value="View" oncomplete="PF('confirmation').show()" />
+
+								</f:facet>
 							</p:dataTable>
-			          	</div>
-			          
-		             </div>
-	             </div>
-             </div>
+						</div>
+
+					</div>
+				</div>
+			</div>
 		</h:form>
-		
-		
+
+
 		<script>
-		function alteraMesa(t){
-			if(t.value!= 'Selecione uma Mesa'){
-				$(".selectClient option:first").attr('selected','selected');
+			function alteraMesa(t){
+				if(t.value!= 'Selecione uma Mesa'){
+					$(".selectClient option:first").attr('selected','selected');
+				}
 			}
-		}
-		function alteraCliente(t){
-			if(t.value!= 'Selecione'){
-				$(".selectMesa option:first").attr('selected','selected');
+			function alteraCliente(t){
+				if(t.value!= 'Selecione'){
+					$(".selectMesa option:first").attr('selected','selected');
+				}
 			}
-		}
-		
-		function alteraMesaNovo(t){
-			if(t.value!= 'Selecione'){
-				$(".selectClientNovo option:first").attr('selected','selected');
+			
+			function alteraMesaNovo(t){
+				if(t.value!= 'Selecione'){
+					$(".selectClientNovo option:first").attr('selected','selected');
+				}
 			}
-		}
-		function alteraClienteNovo(t){
-			if(t.value!= 'Selecione'){
-				$(".selectMesaNovo option:first").attr('selected','selected');
+			function alteraClienteNovo(t){
+				if(t.value!= 'Selecione'){
+					$(".selectMesaNovo option:first").attr('selected','selected');
+				}
 			}
-		}
 		
 			$(function() {
 				$("#dialog-form")
@@ -172,6 +203,23 @@
 				
 			});
 			
+			$(function() {
+				$("#dialog-formJuntarVendas")
+						.dialog(
+								{
+									autoOpen : false,
+									height : 150,
+									width : 350,
+									modal : true
+								});
+
+				$("#end").button().click(function() {
+					$("#dialog-formJuntarVendas").dialog("open");
+					return false;
+				});
+			});
+		
+			
 			
 			
 			
@@ -183,32 +231,41 @@
 					<div class="col-lg-6 div-center">
 						<div>
 							<div class="form-group">
-								<h:outputLabel for="selectMesa" value="Mesa: " class="col-lg-3 control-label" style="margin-top: 5px;"/>
+								<h:outputLabel for="selectMesa" value="Mesa: "
+									class="col-lg-3 control-label" style="margin-top: 5px;" />
 								<div class="col-lg-9">
-									<h:selectOneMenu id="selectMesaNovo" value="#{vendaController.venda.mesa}" converter="simpleEntityConverter" onchange="alteraMesaNovo(this)" styleClass="form-control selectMesaNovo"
-										>
+									<h:selectOneMenu id="selectMesaNovo"
+										value="#{vendaController.venda.mesa}"
+										converter="simpleEntityConverter"
+										onchange="alteraMesaNovo(this)"
+										styleClass="form-control selectMesaNovo">
 										<f:selectItem itemLabel="Selecione" />
-										<f:selectItems value="#{vendaController.mesasNaoUsadas}" var="item" itemLabel="#{item.numeroMesa}" itemValue="#{item}" />
+										<f:selectItems value="#{vendaController.mesasNaoUsadas}"
+											var="item" itemLabel="#{item.numeroMesa}" itemValue="#{item}" />
 									</h:selectOneMenu>
 								</div>
 							</div>
-							
-							<p:spacer width="5px"  height="1px"/>
+
+							<p:spacer width="5px" height="1px" />
 							<div class="form-group">
-								<h:outputLabel for="selectClient" value="Cliente: " class="col-lg-3 control-label" style="margin-top: 5px;"/>
+								<h:outputLabel for="selectClient" value="Cliente: "
+									class="col-lg-3 control-label" style="margin-top: 5px;" />
 								<div class="col-lg-9">
-									<h:selectOneMenu id="selectClientNovo" value="#{vendaController.venda.cliente}" converter="simpleEntityConverter" onchange="alteraClienteNovo(this)"  styleClass="form-control selectClientNovo"
-										>
+									<h:selectOneMenu id="selectClientNovo"
+										value="#{vendaController.venda.cliente}"
+										converter="simpleEntityConverter"
+										onchange="alteraClienteNovo(this)"
+										styleClass="form-control selectClientNovo">
 										<f:selectItem itemLabel="Selecione" />
-										<f:selectItems value="#{vendaController.clientes}" var="client" itemLabel="#{client.nome}" itemValue="#{client}" />
+										<f:selectItems value="#{vendaController.clientes}"
+											var="client" itemLabel="#{client.nome}" itemValue="#{client}" />
 									</h:selectOneMenu>
 								</div>
 							</div>
-							<br/>
-							<br/>
-							<br/>
+							<br /> <br /> <br />
 							<div class="form-group" style="text-align: center;">
-								<h:commandButton action="#{vendaController.novo}" value="OK" ajax="false" class="btn btn-primary submitButton" />
+								<h:commandButton action="#{vendaController.novo}" value="OK"
+									ajax="false" class="btn btn-primary submitButton" />
 							</div>
 						</div>
 					</div>
@@ -216,6 +273,43 @@
 			</h:form>
 		</div>
 
+		<div id="dialog-formJuntarVendas"
+			title="Deseja realmente juntar as vendas selecionadas?">
+			<h:form>
+				<div class="row container-center">
+					<div class="col-lg-6 div-center">
+						<div>
+							<div class="form-group" style="text-align: center;">
+								<h:commandButton id="btnSim1" value="Sim"
+								ajax="true"
+									action="#{vendaController.juntarVendas()}"
+									styleClass="btn btn-success" />
+									
+								<p:commandButton  icon="ui-icon-search" value="View"  action="#{vendaController.juntarVendas()}"/>
+								
+										
+								<p:spacer width="5px" />
+								
+								<h:commandButton id="btnNao" value="Não"
+									styleClass="btn btn-danger" />
+									
+							</div>
+						</div>
+					</div>
+				</div>
+			</h:form>
+		</div>
+		<p:confirmDialog   message="Deseja realmente juntar as vendas selecionadas?"  
+                showEffect="bounce" hideEffect="explode"  
+                header="Juntar Vendas!" severity="alert" widgetVar="confirmation">  
+        
+        <p:commandButton  styleClass="btn btn-success" value="Sim"  action="#{vendaController.juntarVendas()}"/>
+        
+        <p:spacer width="5px" />
+        <p:commandButton  styleClass="btn btn-danger" value="Não" onclick="confirmation.hide()" type="button" />   
+                  
+    </p:confirmDialog>  
+
 	</ui:define>
-	</ui:composition>	
+</ui:composition>
 </html>

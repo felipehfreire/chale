@@ -34,12 +34,31 @@
 	<h:outputScript library="theme" name="js/jquery.numeric.js"/>
 	
 	
+	
+	<script>
+			function aumentaFonSize(t){
+				var size =parseInt( $(".ui-widget").css('font-size'));
+				//$(".ui-widget").animate({ fontSize: (3+size) }, 1500 );
+				$(".ui-widget").css( "fontSize",(3+size));
+		
+			}
+			
+			function diminuirFonSize(t){
+				var size =parseInt($(".ui-widget").css('font-size'));
+				$(".ui-widget").css( "fontSize", (size -3));
+		
+			}
+	</script>
+	
+	
+
+	
 </h:head>
 
 <h:body>
 
-	<p:menubar styleClass="navbar2 navbar-default2">
-    
+	<p:menubar styleClass="ui-paginator ui-paginator-top ui-widget-header ui-corner-top">
+					
 		<p:submenu label="Vendas/Produtos">
 			<p:menuitem value="Produtos" url="/secure/consultarProduto.jsf?faces-redirect=true" rendered="#{loginController.loggedIn}" />
 			<p:menuitem value="Vendas" url="/consultarVenda.jsf?faces-redirect=true" />
@@ -57,55 +76,74 @@
 		</p:submenu>
 		
 		
+			
+		
+	
 		<f:facet name="options">  
-			<h:form id="loginControlForm">
-				<h:commandButton  value="Logout" action="#{loginController.logout}" 
-					rendered="#{loginController.loggedIn}" class="btn btn-success" ajax="false" icon="ui-icon-extlink" />
-				<p:spacer width="5px"/>
+				<table style="white-space:nowrap; text-overflow:ellipsis; overflow:auto;">
+					<tr>
+						<td>
+							<button  id="aumentaFonSize" class="btn btn-warning" onclick="aumentaFonSize()">A+</button>
+							<p:spacer width="5px"/>
+							
+							<button   class="btn btn-warning" onclick="diminuirFonSize()">A-</button>
+							<p:spacer width="5px"/>
+						</td>
+						
+						<td>
+							<h:form id="loginControlForm">
+								<h:commandButton  value="Logout" action="#{loginController.logout}" 
+									rendered="#{loginController.loggedIn}" class="btn btn-success" ajax="false" icon="ui-icon-extlink" />
+								<p:spacer width="5px"/>
+								
+								<h:commandButton value="Alterar Senha" styleClass="btn btn-warning" 
+									rendered="#{loginController.loggedIn}" ajax="true" icon="ui-icon-extlink" action="#{loginController.alterarSenhaNavigation}" />
+								<p:spacer width="5px"/>
+									
+								<h:commandButton value="Efetuar Login" styleClass="btn btn-warning" 
+									 rendered="#{!loginController.loggedIn}" ajax="true" icon="ui-icon-extlink" action="#{loginController.efetuarLogin}" />	
 				
-				<h:commandButton value="Alterar Senha" styleClass="btn btn-warning" 
-					rendered="#{loginController.loggedIn}" ajax="true" icon="ui-icon-extlink" action="#{loginController.alterarSenhaNavigation}" />
-				<p:spacer width="5px"/>
-					
-				<h:commandButton value="Efetuar Login" styleClass="btn btn-warning" 
-					 rendered="#{!loginController.loggedIn}" ajax="true" icon="ui-icon-extlink" action="#{loginController.efetuarLogin}" />	
-           
-           		
-           	</h:form>  
+								<p:spacer width="5px"/>
+				           	</h:form>  
+						</td>
+						
+						<td>
+							<p:menuitem >
+								<h:panelGrid id="pnThemeSwitcher">	
+									<h:form id="themeSwitcherForm">
+										<p:themeSwitcher id="advanced2" style="width:165px" effect="fade" var="t" value="#{themeSwitcherViewController.themeSelecionado}">
+											<f:selectItem itemLabel="Choose Theme" itemValue="" />
+						    				<f:selectItems value="#{themeSwitcherViewController.themes}" />
+						      			
+									   		<p:column>
+									     		<h:outputText styleClass="ui-theme ui-theme-" style="display-block" />
+											</p:column>
+						
+									  		<p:column>
+												#{t.name}
+											</p:column>
+											
+											<p:ajax listener="#{themeSwitcherViewController.saveTheme}"/>
+										</p:themeSwitcher>
+									</h:form>
+						
+								</h:panelGrid>
+							
+							</p:menuitem>
+						</td>
+						
+						<td >
+							<p:menuitem >
+								<h:panelGrid id="pnCkloc"  style="width: 200px;">	
+								<p:clock  pattern="dd/MM/yyyy HH:mm:ss"/>
+								</h:panelGrid>
+							</p:menuitem>
+						</td>
+					</tr>
+								
+				</table>
         </f:facet>
 	</p:menubar>
-	
-	<p:spacer height="2px"/>
-	<p:tabMenu activeIndex="#{param.i}">
-	
-		<p:menuitem  >
-			<h:panelGrid id="test2343dsds2121">	
-				<h:form id="themeSwitcherForm">
-				<p:themeSwitcher id="advanced2" style="width:165px" effect="fade" var="t" value="#{themeSwitcherViewController.themeSelecionado}">
-					<f:selectItem itemLabel="Choose Theme" itemValue="" />
-    				<f:selectItems value="#{themeSwitcherViewController.themes}" />
-      			
-			   		<p:column>
-			     		<h:outputText styleClass="ui-theme ui-theme-" style="display-block" />
-					</p:column>
-
-			  		<p:column>
-						#{t.name}
-					</p:column>
-					
-					<p:ajax listener="#{themeSwitcherViewController.saveTheme}"/>
-				</p:themeSwitcher>
-				</h:form>
-	
-			</h:panelGrid>
-		
-		</p:menuitem>
-		<p:menuitem style="float:right;" >
-			<p:clock pattern="HH:mm:ss  dd/MM/yyyy"/>
-		</p:menuitem>
-		
-		
-	</p:tabMenu>
 	
    	<p:separator />
 
@@ -122,9 +160,11 @@
 		<div id="footer">
 			<div class="bs-example">
 				<p class="text-muted" style="text-align: center">Desenvolvido por:</p>
-				<p class="text-info" style="text-align: center;margin:0 !important;">Eventum</p>
+				<p class="text-info" style="text-align: center;margin:0 !important;">© Eventum</p>
 				<p class="text-primary" style="text-align: center;margin:0 !important;">contato@eventumsoftwares.com</p>
-				<p:graphicImage  alt="Eventum Softwares" url="http://www.eventumsoftwares.com/" style="position: absolute; left:40%" library="theme" name="img/logo_eventum.png" width="237" height="60"/>
+				<h:outputLink value="http://www.eventumsoftwares.com/" target="_blank">
+					<p:graphicImage  alt="Eventum Softwares" url="http://www.eventumsoftwares.com/" style="position: absolute; left:40%" library="theme" name="img/logo_eventum.png" width="237" height="60"/>
+				</h:outputLink>
 			</div>
 		</div>
 	</h:body>
