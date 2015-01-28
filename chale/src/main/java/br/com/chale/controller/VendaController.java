@@ -3,6 +3,7 @@ package br.com.chale.controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -59,6 +60,7 @@ public class VendaController implements Serializable {
 	private List<Cliente> clientes;
 	private Cliente clienteSelecionado;
 	private Cliente  clienteSelecionadoPesquisa;
+	private List<Venda> vendasSelecionadas;
 
 	@PostConstruct
 	public void iniciar() {
@@ -426,6 +428,7 @@ public class VendaController implements Serializable {
 		venda.setVendaProdutos(new ArrayList<VendaProduto>());
 		mesaSelecionada = new Mesa();
 		vendas = new ArrayList<Venda>();
+		vendasSelecionadas = new ArrayList<Venda>();
 		vendaProduto = new VendaProduto();
 		vendaProduto.setVenda(venda);
 		dataAtual =new Date();
@@ -438,6 +441,42 @@ public class VendaController implements Serializable {
 	public void atualizarSelect(Produto p){
 		setProdutoSelecionado(p);
 	}
+	
+	public String juntarVendas(){
+		String novoNumVenda= "";
+		Long menorNumMesa= 999L;
+		Venda vendaNova = new Venda();
+		//buscar a venda que tem a menor mesa ou um cliente
+		for(Venda v : vendasSelecionadas){
+			if(v.getCliente() != null){
+				vendaNova = v;
+				break;
+			}else{
+				if(v.getMesa().getNumeroMesa() < menorNumMesa){
+					menorNumMesa = v.getMesa().getNumeroMesa();
+					vendaNova = v;
+				}
+				
+			}
+		}
+		
+		
+		Iterator<Venda> it = vendasSelecionadas.iterator();
+		while (it.hasNext()) {
+			Venda  vv=  it.next();
+			 if(!vendaNova.equals(vv)){
+				for (VendaProduto  vp: vv.getVendaProdutos()) {
+					//TODO pegar a lista de produtos e colocar na lista da venda nova se ja exisitr na lista adicona a quantidade se nao a produto inteiro
+					//deletar a venda que foi adicionada
+				}
+			 }
+		}
+		
+		
+		FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_INFO, "", "As vendas foram juntadas com sucesso!"+ "o novo número da venda é: "+ novoNumVenda ));
+		return "/consultarVenda.jsf?faces-redirect=true";
+	}
+
 
 	public List<Mesa> getMesas() {
 		return mesas;
@@ -566,6 +605,14 @@ public class VendaController implements Serializable {
 
 	public void setMesaSelecionadaNovo(Mesa mesaSelecionadaNovo) {
 		this.mesaSelecionadaPesquisa = mesaSelecionadaNovo;
+	}
+
+	public List<Venda> getVendasSelecionadas() {
+		return vendasSelecionadas;
+	}
+
+	public void setVendasSelecionadas(List<Venda> vendasSelecionadas) {
+		this.vendasSelecionadas = vendasSelecionadas;
 	}
 	
 }
