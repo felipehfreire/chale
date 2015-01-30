@@ -38,7 +38,6 @@
 	<script>
 			function aumentaFonSize(t){
 				var size =parseInt( $(".ui-widget").css('font-size'));
-				//$(".ui-widget").animate({ fontSize: (3+size) }, 1500 );
 				$(".ui-widget").css( "fontSize",(3+size));
 		
 			}
@@ -157,7 +156,7 @@
 	</ui:insert>
 	<h:outputScript library="theme" name="js/masks.js"/>
 
-		<div id="footer">
+		<div id="footer" class="">
 			<div class="bs-example">
 				<p class="text-muted" style="text-align: center">Desenvolvido por:</p>
 				<p class="text-info" style="text-align: center;margin:0 !important;">© Eventum</p>

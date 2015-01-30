@@ -444,32 +444,34 @@ public class VendaController implements Serializable {
 	
 	public String juntarVendas(){
 		String novoNumVenda= "";
-		Long menorNumMesa= 999L;
-		Venda vendaNova = new Venda();
+		Long menorNumMesa= 9999L;
 		//buscar a venda que tem a menor mesa ou um cliente
 		for(Venda v : vendasSelecionadas){
 			if(v.getCliente() != null){
-				vendaNova = v;
+				setVenda(v);
 				break;
 			}else{
 				if(v.getMesa().getNumeroMesa() < menorNumMesa){
 					menorNumMesa = v.getMesa().getNumeroMesa();
-					vendaNova = v;
+					venda = v;
 				}
 				
 			}
 		}
-		
+		vendasSelecionadas.remove(venda);
 		
 		Iterator<Venda> it = vendasSelecionadas.iterator();
 		while (it.hasNext()) {
 			Venda  vv=  it.next();
-			 if(!vendaNova.equals(vv)){
+			 if(!venda.equals(vv)){
 				for (VendaProduto  vp: vv.getVendaProdutos()) {
-					//TODO pegar a lista de produtos e colocar na lista da venda nova se ja exisitr na lista adicona a quantidade se nao a produto inteiro
-					//deletar a venda que foi adicionada
+					setVendaProduto(vp);
+					add();
+					
 				}
 			 }
+			 //produtoService.excluir(produto);
+			 vendaService.excluir(vv);
 		}
 		
 		

@@ -116,6 +116,12 @@ public class VendaServiceBean implements VendaService, Serializable {
 			Date dataInicial, Date dataFinal) {
 		return vendaDAO.pesquisarVendasFinalizadasPrazoPorPeriodo(dataInicial, dataFinal);
 	}
+
+	@Override
+	public void excluir(Venda vv) {
+		vendaDAO.excluir(vv);
+		
+	}
 	
 
 	

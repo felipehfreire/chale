@@ -66,12 +66,21 @@ public class RelatorioController implements Serializable {
 	public void impressaoPedidoFinalizado(Venda p){
 		DecimalFormat dcmFmt = new DecimalFormat("0.00");
 		String cabecalho ="            Pousada Vale dos ventos \n"+
-		"                 tel: (35)9979-1492(tim)\n\n"; 
-		String mesa="Mesa:"+ p.getMesa()+retornaEspacoBranco("Mesa:"+ p.getMesa(), "Hora:"+new SimpleDateFormat("HH:mm").format(new Date()))+"Hora:"+new SimpleDateFormat("HH:mm").format(new Date())+"\n";
+		"                 tel: (35)9979-1492(tim)\n\n";
 		
-		String cabecalhoVenda ="Itens"+retornaEspacoBranco("Itens", "Qtd/preço(R$)/total(R$)")+"Qtd/preço(R$)/total(R$)\n";
-		String mensagem = cabecalho+ mesa+cabecalhoVenda;
+		String mesaCliente="";
+		
+		if(p.getCliente() != null){
+			 mesaCliente="Cliente:"+ p.getCliente().getNome()+retornaEspacoBranco("Cliente:"+ p.getCliente().getNome(), "Hora:"+new SimpleDateFormat("HH:mm").format(new Date()))+"Hora:"+new SimpleDateFormat("HH:mm").format(new Date())+"\n\n";
+		}else{
+			mesaCliente="Mesa:"+ p.getMesa()+retornaEspacoBranco("Mesa:"+ p.getMesa(), "Hora:"+new SimpleDateFormat("HH:mm").format(new Date()))+"Hora:"+new SimpleDateFormat("HH:mm").format(new Date())+"\n\n";
+		}
+		
+		
+		String cabecalhoVenda ="Itens"+retornaEspacoBranco("Itens", "Qtd / preço(R$) / total(R$)")+"Qtd / preço(R$) / total(R$)\n";
+		String mensagem = cabecalho+ mesaCliente+cabecalhoVenda;
 		Double totalPedido = 0D;
+		Double totalPEdidoPorcentagem = 0D;
 		String descProdQtd="";
 		String preco="";
 		for (VendaProduto vendProd : p.getVendaProdutos()) {
@@ -80,12 +89,19 @@ public class RelatorioController implements Serializable {
 			preco =vendProd.getQuantidade()+"x"+" "+(dcmFmt.format( vendProd.getProduto().getPreco()))+"= "+(dcmFmt.format(vendProd.getPrecoQtdProd()));
 			mensagem+=descProdQtd+retornaPontos(descProdQtd, preco)+preco+"\n";
 			totalPedido+=vendProd.getProduto().getPreco()*vendProd.getQuantidade();
+			if(!vendProd.getProduto().getTipocomida() && !vendProd.getProduto().getTipoServico()){
+				totalPEdidoPorcentagem =vendProd.getProduto().getPreco()*vendProd.getQuantidade();
+			}
 		}
 		
 		if(p.getVendaPrazo()== true ){
 			mensagem +=p.getCliente().getNome()+ retornaEspacoBranco(p.getCliente().getNome(), p.getCliente().getTelefone())+p.getCliente().getTelefone()+"\n\n";
 		}
-		mensagem +="\n"+retornaEspacoBranco("","Total: " + dcmFmt.format(totalPedido) )+"Total: " + dcmFmt.format(totalPedido) +"\n\n";
+		
+		mensagem +="\n"+retornaEspacoBranco("","10% (R$): " + dcmFmt.format((totalPEdidoPorcentagem*0.1D)))+"10% (R$): " + dcmFmt.format((totalPEdidoPorcentagem*0.1D));
+		mensagem +="\n"+retornaEspacoBranco("","consumo (R$): " + dcmFmt.format(totalPedido) )+"consumo (R$): " + dcmFmt.format(totalPedido);
+		
+		mensagem +="\n"+retornaEspacoBranco("","Total (R$): " + dcmFmt.format((totalPedido+(totalPEdidoPorcentagem*0.1D))) )+"Total (R$): " + dcmFmt.format((totalPedido+(totalPEdidoPorcentagem*0.1D)))  +"\n\n";
 		System.out.println(mensagem);
 		try {
 			ImpressaoTXTUtil impressao = new ImpressaoTXTUtil();

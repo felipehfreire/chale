@@ -10,8 +10,7 @@
 <ui:composition template="template.xhtml">
 
 	<ui:define name="content">
-		<ul
-			class=" page-breadcrumb breadcrumb ui-tabmenu ui-widget ui-widget-content ui-corner-all">
+		<ul class=" page-breadcrumb breadcrumb ui-tabmenu ui-widget ui-widget-content ui-corner-all">
 			<li><a href="index.jsf">Página inicial</a></li>
 			<li><a href="#">Consultar Vendas</a></li>
 		</ul>
@@ -53,8 +52,7 @@
 								action="#{vendaController.pesquisar}" class="btn btn-success"
 								ajax="false" />
 							<button id="new" class="btn btn-primary">Novo</button>
-							<button id="juntarVenda" class="btn btn-primary">Juntar
-								Mesas</button>
+							
 
 						</div>
 
@@ -141,7 +139,7 @@
 
 								
 										
-										<p:commandButton process="checkboxDT"  icon="ui-icon-search" value="View" oncomplete="PF('confirmation').show()" />
+										<p:commandButton process="checkboxDT"  icon="ui-icon-search" value="Juntar Mesas" oncomplete="PF('confirmation').show()" />
 
 								</f:facet>
 							</p:dataTable>
@@ -181,8 +179,8 @@
 						.dialog(
 								{
 									autoOpen : false,
-									height : 240,
-									width : 430,
+									height : 260,
+									width : 500,
 									modal : true,
 									close : function() {
 										$(this).dialog("close");
@@ -225,10 +223,10 @@
 			
 		</script>
 
-		<div id="dialog-form" title="Selecione uma mesa ou um cliente">
+		<div id="dialog-form" title="Selecione uma mesa ou um cliente" >
 			<h:form id="formModal">
 				<div class="row container-center">
-					<div class="col-lg-6 div-center">
+					<div class="col-lg-8 div-center">
 						<div>
 							<div class="form-group">
 								<h:outputLabel for="selectMesa" value="Mesa: "

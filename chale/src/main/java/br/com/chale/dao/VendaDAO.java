@@ -5,6 +5,7 @@ import java.util.List;
 
 import br.com.chale.entity.Cliente;
 import br.com.chale.entity.Mesa;
+import br.com.chale.entity.Produto;
 import br.com.chale.entity.Venda;
 
 public class VendaDAO extends GenericDAO<Venda> {
@@ -56,6 +57,14 @@ public class VendaDAO extends GenericDAO<Venda> {
 
 	public List<Venda> pesquisarVendasFinalizadasPrazoPorCliente(Cliente cliente) {
 		return executeQueryListResult(Venda.CONSULTAR_VENDAS_FINALIZADAS_PRAZO_POR_CLIENTE, cliente);
+	}
+
+	public void excluir(Venda vv) {
+		manager.getTransaction().begin();
+		vv = manager.find(Venda.class, vv.getId());
+		manager.remove(vv);
+		manager.getTransaction().commit();
+		
 	}
 
 
