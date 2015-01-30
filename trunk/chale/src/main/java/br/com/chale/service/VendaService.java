@@ -47,5 +47,7 @@ public interface VendaService {
 	List<Venda> pesquisarVendasFinalizadasPrazoPorPeriodo(Date dataInicial,
 			Date dataFinal);
 
+	void excluir(Venda vv);
+
 
 }
