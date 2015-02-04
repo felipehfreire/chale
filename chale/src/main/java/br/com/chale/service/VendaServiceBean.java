@@ -118,8 +118,13 @@ public class VendaServiceBean implements VendaService, Serializable {
 	}
 
 	@Override
-	public void excluir(Venda vv) {
-		vendaDAO.excluir(vv);
+	public void excluir(Venda venda) {
+		if (venda.getMesa() != null) {
+			Mesa mesa = venda.getMesa();
+			mesa.setUsada(false);
+			mesaDAO.update(mesa);
+		}
+		vendaDAO.excluir(venda);
 		
 	}
 	

@@ -70,14 +70,10 @@
 									<p:rowToggler />
 								</p:column>
 
-
 								<p:column sortBy="#{venda.mesa.numeroMesa}"
 									headerText="Número da mesa">
 									<h:outputText value="#{venda.mesa.numeroMesa}" />
 								</p:column>
-
-
-
 
 								<p:column sortBy="#{venda.cliente.nome}" headerText="Cliente">
 									<h:outputText value="#{venda.cliente.nome}" />
@@ -110,37 +106,27 @@
 
 									<p:dataTable id="vProd" var="vProd"
 										value="#{venda.vendaProdutos}">
+										
 										<p:column>
-
 											<h:outputText value="#{vProd.produto.id}" />
-
 										</p:column>
+										
 										<p:column>
-
 											<h:outputText value="#{vProd.produto.descricao}" />
-
 										</p:column>
+										
 										<p:column>
-
 											<h:outputText value="#{vProd.quantidade}" />
-
 										</p:column>
+										
 										<p:column>
-
 											<h:outputText value="#{vProd.precoQtdProd}" />
-
 										</p:column>
-
-
 									</p:dataTable>
 
 								</p:rowExpansion>
 								<f:facet name="footer">
-
-								
-										
-										<p:commandButton process="checkboxDT"  icon="ui-icon-search" value="Juntar Mesas" oncomplete="PF('confirmation').show()" />
-
+									<p:commandButton ajax="true" id="end" value="Juntar Mesas" styleClass="btn btn-primary"/>
 								</f:facet>
 							</p:dataTable>
 						</div>
@@ -211,7 +197,7 @@
 									modal : true
 								});
 
-				$("#end").button().click(function() {
+				$("#submitForm\\:checkboxDT\\:end").click(function() {
 					$("#dialog-formJuntarVendas").dialog("open");
 					return false;
 				});
@@ -279,12 +265,10 @@
 						<div>
 							<div class="form-group" style="text-align: center;">
 								<h:commandButton id="btnSim1" value="Sim"
-								ajax="true"
-									action="#{vendaController.juntarVendas()}"
+									ajax="true"
+									action="#{vendaController.juntarVendas}"
 									styleClass="btn btn-success" />
 									
-								<p:commandButton  icon="ui-icon-search" value="View"  action="#{vendaController.juntarVendas()}"/>
-								
 										
 								<p:spacer width="5px" />
 								
@@ -297,16 +281,7 @@
 				</div>
 			</h:form>
 		</div>
-		<p:confirmDialog   message="Deseja realmente juntar as vendas selecionadas?"  
-                showEffect="bounce" hideEffect="explode"  
-                header="Juntar Vendas!" severity="alert" widgetVar="confirmation">  
-        
-        <p:commandButton  styleClass="btn btn-success" value="Sim"  action="#{vendaController.juntarVendas()}"/>
-        
-        <p:spacer width="5px" />
-        <p:commandButton  styleClass="btn btn-danger" value="Não" onclick="confirmation.hide()" type="button" />   
-                  
-    </p:confirmDialog>  
+		
 
 	</ui:define>
 </ui:composition>
