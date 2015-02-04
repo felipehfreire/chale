@@ -3,7 +3,6 @@ package br.com.chale.controller;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -183,7 +182,7 @@ public class VendaController implements Serializable {
 	}
 	
 	public void pesquisar() {
-		
+		ConversationUtil.iniciarConversacao(conversation);
 		if((mesaSelecionada!= null && mesaSelecionada.getNumeroMesa() != null) ){
 			vendas = vendaService.pesquisarVendasNaoFinalizadasPorMesa(mesaSelecionada);
 		}else if ((clienteSelecionado!= null && clienteSelecionado.getId() != null) ){
@@ -442,40 +441,58 @@ public class VendaController implements Serializable {
 		setProdutoSelecionado(p);
 	}
 	
-	public String juntarVendas(){
-		String novoNumVenda= "";
-		Long menorNumMesa= 9999L;
-		//buscar a venda que tem a menor mesa ou um cliente
-		for(Venda v : vendasSelecionadas){
-			if(v.getCliente() != null){
-				setVenda(v);
-				break;
-			}else{
-				if(v.getMesa().getNumeroMesa() < menorNumMesa){
-					menorNumMesa = v.getMesa().getNumeroMesa();
-					venda = v;
-				}
-				
+	private Mesa getMenorNumeroMesa() {
+		Mesa menor = null;
+		for (Venda v : vendasSelecionadas) {
+			if (v.getMesa() == null) {
+				continue;
+			} else if (menor == null) {
+				menor = v.getMesa();
+			} else if (menor.getNumeroMesa() > v.getMesa().getNumeroMesa()) {
+				menor = v.getMesa();
 			}
 		}
-		vendasSelecionadas.remove(venda);
-		
-		Iterator<Venda> it = vendasSelecionadas.iterator();
-		while (it.hasNext()) {
-			Venda  vv=  it.next();
-			 if(!venda.equals(vv)){
-				for (VendaProduto  vp: vv.getVendaProdutos()) {
-					setVendaProduto(vp);
-					add();
-					
-				}
-			 }
-			 //produtoService.excluir(produto);
-			 vendaService.excluir(vv);
+		return menor;
+	}
+	
+	public String juntarVendas(){
+		if (vendasSelecionadas.isEmpty()) {
+			FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"", "Nenhuma venda foi selecionada"));
+			return "/consultarVenda.jsf?faces-redirect=true";
+		}
+		Venda v = new Venda();
+		v.setVendaProdutos(new ArrayList<VendaProduto>());
+		for (Venda old : vendasSelecionadas) {
+			if (v.getCliente() == null) {
+				v.setCliente(old.getCliente());
+			}
+			if (v.getDataVenda() == null) {
+				v.setDataVenda(old.getDataVenda());
+			}
+			
+			//TODO questão do produto igual
+			for (VendaProduto vpOld : old.getVendaProdutos()) {
+				VendaProduto vendProd = new VendaProduto();
+				vendProd.setProduto(vpOld.getProduto());
+				vendProd.setQuantidade(vpOld.getQuantidade());
+				vendProd.setVenda(v);
+				v.getVendaProdutos().add(vendProd);
+			}
 		}
 		
+		v.setMesa(getMenorNumeroMesa());
 		
-		FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_INFO, "", "As vendas foram juntadas com sucesso!"+ "o novo número da venda é: "+ novoNumVenda ));
+		
+		for (Venda remover : vendasSelecionadas) {
+			vendaService.excluir(remover);
+		}
+		
+		v.getMesa().setUsada(true);
+		vendaService.atualizarMesa(v.getMesa());
+		vendaService.persistir(v);
+		pesquisar();
+		FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_INFO, "", "As vendas foram unidas com sucesso! "+ "O novo número da mesa é: " + v.getMesa().getNumeroMesa()));
 		return "/consultarVenda.jsf?faces-redirect=true";
 	}
 
