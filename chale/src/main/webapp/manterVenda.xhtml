@@ -41,22 +41,17 @@
 						
 
 						<div class="form-group">
-							<h:outputLabel value="Cód. Produto:" class="col-lg-2 control-label" for="codProd" />
-							<div class="col-lg-1">
-								<h:inputText class="form-control numerico" name="codProd" id="codProd" value="#{vendaController.idProd}" converter="javax.faces.Long">
-									<f:ajax listener="#{vendaController.reRenderProduto}" render="prods" />
-								</h:inputText>
-							</div>
-
-							<h:outputLabel value="Produto:" class="col-lg-2 control-label" for="prods" />
-							<div class="col-lg-3">
-								<h:selectOneMenu id="prods" label="prods" styleClass="form-control" value="#{vendaController.produtoSelecionado}"
-									converter="simpleEntityConverter" required="true" requiredMessage="Selecione o produto!">
-									<f:selectItem itemValue="" itemLabel="Selecione um Produto" />
-									<f:selectItems value="#{vendaController.produtosSelect}" var="prod" itemLabel="#{prod.descricao}" itemValue="#{prod}" />
-									<f:ajax listener="#{vendaController.reRenderIdProduto}" render="codProd" event="change" />
-								</h:selectOneMenu>
-								<p:message for="prods" styleClass="error" />
+							
+							<h:outputLabel value="Produto " class="col-lg-2 control-label" for="prod" />
+							<div class="col-lg-10">
+            					<p:autoComplete queryDelay="500" minQueryLength="1" id="prod" converter="simpleEntityConverter"
+                    				value="#{vendaController.produtoSelecionado}" effect="blind" forceSelection="true"
+                    				completeMethod="#{vendaController.popularAutoCompleteProduto}" placeholder="Insira o nome ou código do produto!"
+                    				requiredMessage="Insira o nome  ou código do produto!" var="prod" itemLabel="#{prod.descricao}" itemValue="#{prod}"
+                    				size="80">
+                    				  
+                    				</p:autoComplete>  
+								<p:message for="prod" styleClass="prod" />
 							</div>
 
 							<h:outputLabel value="Quantidade:" class="col-lg-2 control-label" for="qtdProd" />

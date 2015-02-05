@@ -27,15 +27,92 @@
 								<div class="col-lg-10">
 				            		<p:calendar  value="#{relatorioController.data}" id="popupButtonDate"  showButtonPanel="true"/>
 					     		</div>
+				     		</div>
+					     		
+				     		<div class="well">
+								<h:commandButton value="Pesquisar" action="#{relatorioController.pesquisarRelatorioVendaDiario}" class="btn btn-success" ajax="false" />
+								<p:spacer width="5px" />
+								<h:commandButton value="Imprimir" class="btn  btn-primary" action="#{relatorioController.relatorioVendaDiario}" ajax="false" />
 							</div>
+					     		
 							
-							<div class="form-group">
-								<div class="col-lg-7 col-lg-offset-2">
-									<h:commandButton value="Gerar relatório" class="btn btn-success" action="#{relatorioController.relatorioVendaDiario}" 
-								 		ajax="false" />
-																		
-								</div>
-							</div>
+							
+							<div class="well">
+
+							<p:dataTable  id="checkboxDT" var="venda"
+								value="#{relatorioController.pedidosFinalizados}"
+								 style="margin-bottom:0" paginator="true">
+
+								
+
+								<p:column>
+									<p:rowToggler />
+								</p:column>
+
+
+								<p:column sortBy="#{venda.mesa.numeroMesa}"
+									headerText="Número da mesa">
+									<h:outputText value="#{venda.mesa.numeroMesa}" />
+								</p:column>
+
+
+
+
+								<p:column sortBy="#{venda.cliente.nome}" headerText="Cliente">
+									<h:outputText value="#{venda.cliente.nome}" />
+								</p:column>
+
+
+								<p:column sortBy="#{venda.id}" headerText="Número da venda">
+									<h:outputText value="#{venda.id}" />
+								</p:column>
+
+								<p:column headerText="Total">
+									<h:outputText value="#{venda.precoTotalFormatado}" />
+								</p:column>
+
+								<p:column headerText="Ações">
+								
+									<h:commandLink action="#{vendaController.imprimirVEndaSemfinalizar}" id="printVendaSemFinalizar" immediate="true">
+										<f:setPropertyActionListener value="#{venda}"
+											target="#{vendaController.venda}" />
+										<p:graphicImage library="theme" name="img/printer.png" width="30" height="30" />
+									</h:commandLink>
+									<p:tooltip for="printVendaSemFinalizar" value="Imprimir venda finalizada" showEffect="fade" hideEffect="fade" />
+								</p:column>
+
+								<p:rowExpansion>
+
+									<p:dataTable id="vProd" var="vProd"
+										value="#{venda.vendaProdutos}">
+										<p:column>
+
+											<h:outputText value="#{vProd.produto.id}" />
+
+										</p:column>
+										<p:column>
+
+											<h:outputText value="#{vProd.produto.descricao}" />
+
+										</p:column>
+										<p:column>
+
+											<h:outputText value="#{vProd.quantidade}" />
+
+										</p:column>
+										<p:column>
+
+											<h:outputText value="#{vProd.precoQtdProd}" />
+
+										</p:column>
+
+
+									</p:dataTable>
+
+								</p:rowExpansion>
+								
+							</p:dataTable>
+						</div>
 					</div>
 				</div>
 			</div>

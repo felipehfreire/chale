@@ -34,21 +34,25 @@
 						</div>
 
 						<div class="well">
-							<p:dataTable value="#{produtoController.listagem}" var="item" sortMode="multiple" rows="10" paginator="true">
+							<p:dataTable value="#{produtoController.listagem}" var="item"  rows="10" paginator="true">
 
-								<p:column sortBy="#{item.descricao}" headerText="Nome" width="50%">
+								<p:column headerText="Cód." width="10%">
+									<h:outputText value="#{item.id}" />
+								</p:column>
+
+								<p:column  headerText="Nome" width="50%">
 									<h:outputText value="#{item.descricao}" />
 								</p:column>
 
-								<p:column sortBy="#{item.qtdEstoque}" headerText="Quantidade em Estoque" width="17%">
+								<p:column headerText="Qtd. em Estoque" width="12%">
 									<h:outputText value="#{item.qtdEstoque}" />
 								</p:column>
 								
-								<p:column sortBy="#{item.qtdEstoque}" headerText="Quantidade minima em Estoque" width="17%">
+								<p:column headerText="Qtd. mínima em Estoque" width="12%">
 									<h:outputText value="#{item.qtdMinEstoque}" />
 								</p:column>
 
-								<p:column headerText="Ações" width="15%">
+								<p:column headerText="Ações" width="16%">
 									<h:commandLink  ajax="false" action="#{produtoController.editar}" id="editar">
 										<f:setPropertyActionListener value="#{item}" target="#{produtoController.produto}" />
 										<p:graphicImage library="theme" name="img/edit.png" width="30" height="30"/>

@@ -77,7 +77,7 @@ public class RelatorioController implements Serializable {
 		}
 		
 		
-		String cabecalhoVenda ="Itens"+retornaEspacoBranco("Itens", "Qtd / preço(R$) / total(R$)")+"Qtd / preço(R$) / total(R$)\n";
+		String cabecalhoVenda ="Itens"+retornaEspacoBranco("Itens", "Qtd / preco(R$) / total(R$)")+"Qtd / preco(R$) / total(R$)\n";
 		String mensagem = cabecalho+ mesaCliente+cabecalhoVenda;
 		Double totalPedido = 0D;
 		Double totalPEdidoPorcentagem = 0D;
@@ -89,16 +89,20 @@ public class RelatorioController implements Serializable {
 			preco =vendProd.getQuantidade()+"x"+" "+(dcmFmt.format( vendProd.getProduto().getPreco()))+"= "+(dcmFmt.format(vendProd.getPrecoQtdProd()));
 			mensagem+=descProdQtd+retornaPontos(descProdQtd, preco)+preco+"\n";
 			totalPedido+=vendProd.getProduto().getPreco()*vendProd.getQuantidade();
-			if(!vendProd.getProduto().getTipocomida() && !vendProd.getProduto().getTipoServico()){
-				totalPEdidoPorcentagem =vendProd.getProduto().getPreco()*vendProd.getQuantidade();
+			
+			if(!vendProd.getProduto().getTipoServico() && p.getVendaPrazo()== false){
+				totalPEdidoPorcentagem +=vendProd.getProduto().getPreco()*vendProd.getQuantidade();
 			}
 		}
 		
 		if(p.getVendaPrazo()== true ){
-			mensagem +=p.getCliente().getNome()+ retornaEspacoBranco(p.getCliente().getNome(), p.getCliente().getTelefone())+p.getCliente().getTelefone()+"\n\n";
+			mensagem +="\n"+p.getCliente().getNome()+ retornaEspacoBranco(p.getCliente().getNome(), p.getCliente().getTelefone())+p.getCliente().getTelefone()+"\n\n";
 		}
 		
-		mensagem +="\n"+retornaEspacoBranco("","10% (R$): " + dcmFmt.format((totalPEdidoPorcentagem*0.1D)))+"10% (R$): " + dcmFmt.format((totalPEdidoPorcentagem*0.1D));
+		if( p.getVendaPrazo()== false){
+			mensagem +="\n"+retornaEspacoBranco("","10% (R$) opcioanl: " + dcmFmt.format((totalPEdidoPorcentagem*0.1D)))+"10% ($) opcioanl: " + dcmFmt.format((totalPEdidoPorcentagem*0.1D));
+		}
+		
 		mensagem +="\n"+retornaEspacoBranco("","consumo (R$): " + dcmFmt.format(totalPedido) )+"consumo (R$): " + dcmFmt.format(totalPedido);
 		
 		mensagem +="\n"+retornaEspacoBranco("","Total (R$): " + dcmFmt.format((totalPedido+(totalPEdidoPorcentagem*0.1D))) )+"Total (R$): " + dcmFmt.format((totalPedido+(totalPEdidoPorcentagem*0.1D)))  +"\n\n";
@@ -115,12 +119,27 @@ public class RelatorioController implements Serializable {
 		}
 	}
 	
+	public void pesquisarRelatorioVendaDiario() {
+		ConversationUtil.iniciarConversacao(conversation);
+		SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy");
+		
+		try {
+			data= sdf.parse(sdf.format(data));
+		} catch (ParseException e) {
+			e.printStackTrace();
+			FacesMessage msg = new FacesMessage("ERRO:", "Data informada é inválida!!");
+			msg.setSeverity(FacesMessage.SEVERITY_ERROR);
+	        FacesContext.getCurrentInstance().addMessage(null, msg);
+		}
+		pedidosFinalizados = pedidoService.pesquisarVendasPorData(data);
+	}
+	
 	public void relatorioVendaDiario() throws ParseException {
 		ConversationUtil.iniciarConversacao(conversation);
 		SimpleDateFormat sdf= new SimpleDateFormat("dd/MM/yyyy");
 		DecimalFormat dcmFmt = new DecimalFormat("0.00");
 		data= sdf.parse(sdf.format(data));
-		pedidosFinalizados = pedidoService.pesquisarVendasPorData(data);
+		//pedidosFinalizados = pedidoService.pesquisarVendasPorData(data);
 		
 		Double totalPedido = 0D;
 		Double totalGeral = 0D;

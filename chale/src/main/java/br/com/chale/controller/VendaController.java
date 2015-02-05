@@ -392,6 +392,11 @@ public class VendaController implements Serializable {
 		 return "finalizar";
 	 }
 	 
+	 public void imprimirVEndaSemfinalizar(){
+		 RelatorioController rc = new RelatorioController();
+		 rc.impressaoPedidoFinalizado(venda);
+	 }
+	 
 	 public String finalizar() {
 		 if (venda.getVendaProdutos().size() == 0) {
 			 FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_ERROR, "", 
@@ -431,7 +436,7 @@ public class VendaController implements Serializable {
 		vendaProduto = new VendaProduto();
 		vendaProduto.setVenda(venda);
 		dataAtual =new Date();
-		produtoSelecionado = new Produto();
+		//produtoSelecionado = new Produto();
 		produtosInseridos = new ArrayList<Produto>();
 		clienteSelecionadoPesquisa= new Cliente();
 		mesaSelecionadaPesquisa = new Mesa();
@@ -494,6 +499,10 @@ public class VendaController implements Serializable {
 		pesquisar();
 		FacesContext.getCurrentInstance().addMessage(null, new	FacesMessage(FacesMessage.SEVERITY_INFO, "", "As vendas foram unidas com sucesso! "+ "O novo número da mesa é: " + v.getMesa().getNumeroMesa()));
 		return "/consultarVenda.jsf?faces-redirect=true";
+	}
+	
+	public List<Produto> popularAutoCompleteProduto(String nomeCod){
+		return produtoService.popularAutoCompleteProduto(nomeCod);
 	}
 
 
